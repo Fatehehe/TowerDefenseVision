@@ -22,8 +22,8 @@ public struct ArcherySystem: System {
             return
         }
         
-        let isLeftFist = HandFistPoseDetector.detect(handSkeleton: leftSkeleton)
-        let isRightFist = HandFistPoseDetector.detect(handSkeleton: rightSkeleton)
+        let isLeftFist = ThumbsUpPoseDetector.detect(handSkeleton: leftSkeleton)
+        let isRightFist = ThumbsUpPoseDetector.detect(handSkeleton: rightSkeleton)
         
         for entity in context.scene.performQuery(Self.query) {
             guard var playerComp = entity.components[ArcheryPlayerComponent.self],
