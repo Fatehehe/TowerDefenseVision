@@ -1,0 +1,40 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.100.6)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def "Arrow" (
+        active = true
+        references = @TechArts/Meshs/Arrow.usdc@
+    )
+    {
+        quatf xformOp:orient = (4.3297803e-17, 4.3297803e-17, 0.70710677, 0.70710677)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "_materials"
+        {
+            over "arrow" (
+                references = @TechArts/Shader/PBR_Material.usda@</Root/DefaultMaterial>
+            )
+            {
+                asset inputs:BaseTexture = @TechArts/Textures/Bow Textures/arrow_albedo.jpeg@
+                float inputs:MetalStrenght = 0.2
+                asset inputs:MetalTexture = @TechArts/Textures/Bow Textures/arrow_metallic.jpeg@
+                asset inputs:NormalTexture = @TechArts/Textures/Bow Textures/arrow_normal.png@
+                asset inputs:RoughnessTexture = @TechArts/Textures/Bow Textures/arrow_roughness.jpeg@
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+            }
+        }
+    }
+}
+
