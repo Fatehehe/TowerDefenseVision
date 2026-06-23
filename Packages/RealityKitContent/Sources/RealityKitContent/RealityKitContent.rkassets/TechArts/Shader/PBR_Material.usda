@@ -10,7 +10,7 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["ORM_Texture", "DefaultMaterial"]
+    reorder nameChildren = ["ORM_Texture", "DefaultMaterial", "UnlitMaterial"]
     def Material "ORM_Texture"
     {
         reorder nameChildren = ["PreviewSurface", "Image2D", "ConstantImageFile", "NodeGraph"]
@@ -306,6 +306,45 @@ def Xform "Root"
             float outputs:out
             float2 ui:nodegraph:node:pos = (-305.58167, -12.415082)
             int ui:nodegraph:node:stackingOrder = 73
+        }
+    }
+
+    def Material "UnlitMaterial"
+    {
+        asset inputs:BakedTexture = @@ (
+            customData = {
+                dictionary realitykit = {
+                    float2 positionInSubgraph = (-370.71783, -11.325286)
+                    int stackingOrderInSubgraph = 5
+                }
+            }
+        )
+        token outputs:mtlx:surface.connect = </Root/UnlitMaterial/UnlitSurface.outputs:out>
+        token outputs:realitykit:vertex
+        float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (373.3162, 121.3079)
+        int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 6
+
+        def Shader "UnlitSurface"
+        {
+            uniform token info:id = "ND_realitykit_unlit_surfaceshader"
+            color3f inputs:color.connect = </Root/UnlitMaterial/Image2D.outputs:out>
+            bool inputs:hasPremultipliedAlpha
+            float inputs:opacity
+            token outputs:out
+            float2 ui:nodegraph:node:pos = (118.5885, 157.3495)
+            int ui:nodegraph:node:stackingOrder = 4
+        }
+
+        def Shader "Image2D"
+        {
+            uniform token info:id = "ND_RealityKitTexture2D_color3"
+            asset inputs:file.connect = </Root/UnlitMaterial.inputs:BakedTexture>
+            bool inputs:no_flip_v = 1
+            string inputs:u_wrap_mode
+            string inputs:v_wrap_mode
+            color3f outputs:out
+            float2 ui:nodegraph:node:pos = (-116.98362, 71.82049)
+            int ui:nodegraph:node:stackingOrder = 2
         }
     }
 }

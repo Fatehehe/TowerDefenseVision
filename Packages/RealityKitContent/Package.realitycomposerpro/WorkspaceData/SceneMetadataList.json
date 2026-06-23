@@ -66,11 +66,94 @@
       [
         "2A67D348-6E20-4430-9684-9B9A85C5E24B",
         "Root",
+        "Environment",
+        "Floor",
+        "Ground_001"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "2A67D348-6E20-4430-9684-9B9A85C5E24B",
+        "Root",
+        "Arrow"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "2A67D348-6E20-4430-9684-9B9A85C5E24B",
+        "Root",
+        "Environment",
+        "Floor",
+        "Ground"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "2A67D348-6E20-4430-9684-9B9A85C5E24B",
+        "Root",
+        "Houses",
+        "_materials",
+        "ROOFM"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "2A67D348-6E20-4430-9684-9B9A85C5E24B",
+        "Root",
         "Arrow",
         "_materials"
       ],
       {
         "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "2A67D348-6E20-4430-9684-9B9A85C5E24B",
+        "Root",
+        "Environment",
+        "Floor",
+        "_materials"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "2A67D348-6E20-4430-9684-9B9A85C5E24B",
+        "Root",
+        "Environment"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "2A67D348-6E20-4430-9684-9B9A85C5E24B",
+        "Root",
+        "Environment",
+        "Floor"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "2A67D348-6E20-4430-9684-9B9A85C5E24B",
+        "Root",
+        "Houses",
+        "_materials"
+      ],
+      {
+        "disallowsFraming" : true,
+        "isExpanded" : false,
         "isLocked" : false
       },
       [
@@ -84,7 +167,31 @@
       [
         "2A67D348-6E20-4430-9684-9B9A85C5E24B",
         "Root",
-        "Arrow"
+        "Floor",
+        "_materials"
+      ],
+      {
+        "disallowsFraming" : false,
+        "isExpanded" : false,
+        "isLocked" : false
+      },
+      [
+        "2A67D348-6E20-4430-9684-9B9A85C5E24B",
+        "Root",
+        "Environment",
+        "Tower"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "2A67D348-6E20-4430-9684-9B9A85C5E24B",
+        "Root",
+        "Environment",
+        "Floor",
+        "_materials",
+        "Ground"
       ],
       {
         "isExpanded" : true,
@@ -263,6 +370,18 @@
       }
     ]
   },
+  "A34C0C6D-0566-43A8-8AF8-ADC9DA45E3C8" : {
+    "objectMetadataList" : [
+      [
+        "A34C0C6D-0566-43A8-8AF8-ADC9DA45E3C8",
+        "ShaderTerrain"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      }
+    ]
+  },
   "AF09ED6F-1707-48FD-8720-65B998362C09" : {
     "objectMetadataList" : [
       [
@@ -327,6 +446,27 @@
         "Root",
         "Mat",
         "CellShading"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      }
+    ]
+  },
+  "B499CB33-6232-451E-A511-BBFB42E64D7D" : {
+    "objectMetadataList" : [
+      [
+        "B499CB33-6232-451E-A511-BBFB42E64D7D",
+        "Root",
+        "UnlitMaterial"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "B499CB33-6232-451E-A511-BBFB42E64D7D",
+        "Root"
       ],
       {
         "isExpanded" : true,
