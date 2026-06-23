@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		AB920CC62FE9176800EE612A /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = AB920CC52FE9176800EE612A /* RealityKitContent */; };
+		AB920CDC2FE91AC900EE612A /* ILSDesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = AB920CDB2FE91AC900EE612A /* ILSDesignSystem */; };
+		AB920CDE2FE91AC900EE612A /* ILSEngine in Frameworks */ = {isa = PBXBuildFile; productRef = AB920CDD2FE91AC900EE612A /* ILSEngine */; };
+		AB920CE02FE91AC900EE612A /* ILSFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = AB920CDF2FE91AC900EE612A /* ILSFoundation */; };
+		AB920CE22FE91AC900EE612A /* ILSHandTracking in Frameworks */ = {isa = PBXBuildFile; productRef = AB920CE12FE91AC900EE612A /* ILSHandTracking */; };
+		AB920CE42FE91AC900EE612A /* ILSRealityAssets in Frameworks */ = {isa = PBXBuildFile; productRef = AB920CE32FE91AC900EE612A /* ILSRealityAssets */; };
+		AB920CE62FE91AC900EE612A /* ILSSpatialAudio in Frameworks */ = {isa = PBXBuildFile; productRef = AB920CE52FE91AC900EE612A /* ILSSpatialAudio */; };
+		AB920CE82FE91AC900EE612A /* ILSSpatialDraw in Frameworks */ = {isa = PBXBuildFile; productRef = AB920CE72FE91AC900EE612A /* ILSSpatialDraw */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +48,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB920CE02FE91AC900EE612A /* ILSFoundation in Frameworks */,
+				AB920CE62FE91AC900EE612A /* ILSSpatialAudio in Frameworks */,
+				AB920CE82FE91AC900EE612A /* ILSSpatialDraw in Frameworks */,
+				AB920CDC2FE91AC900EE612A /* ILSDesignSystem in Frameworks */,
+				AB920CE22FE91AC900EE612A /* ILSHandTracking in Frameworks */,
+				AB920CDE2FE91AC900EE612A /* ILSEngine in Frameworks */,
 				AB920CC62FE9176800EE612A /* RealityKitContent in Frameworks */,
+				AB920CE42FE91AC900EE612A /* ILSRealityAssets in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +108,13 @@
 			name = TowerDefenseVision;
 			packageProductDependencies = (
 				AB920CC52FE9176800EE612A /* RealityKitContent */,
+				AB920CDB2FE91AC900EE612A /* ILSDesignSystem */,
+				AB920CDD2FE91AC900EE612A /* ILSEngine */,
+				AB920CDF2FE91AC900EE612A /* ILSFoundation */,
+				AB920CE12FE91AC900EE612A /* ILSHandTracking */,
+				AB920CE32FE91AC900EE612A /* ILSRealityAssets */,
+				AB920CE52FE91AC900EE612A /* ILSSpatialAudio */,
+				AB920CE72FE91AC900EE612A /* ILSSpatialDraw */,
 			);
 			productName = TowerDefenseVision;
 			productReference = AB920CC02FE9176800EE612A /* TowerDefenseVision.app */;
@@ -123,6 +144,9 @@
 			);
 			mainGroup = AB920CB72FE9176800EE612A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AB920CDA2FE91AC900EE612A /* XCRemoteSwiftPackageReference "ILSpatial" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AB920CC12FE9176800EE612A /* Products */;
 			projectDirPath = "";
@@ -165,6 +189,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				INFOPLIST_KEY_NSHandsTrackingUsageDescription = "Hand tracking usage";
+				INFOPLIST_KEY_NSWorldSensingUsageDescription = "World sensing usage";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -194,6 +220,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				INFOPLIST_KEY_NSHandsTrackingUsageDescription = "Hand tracking usage";
+				INFOPLIST_KEY_NSWorldSensingUsageDescription = "World sensing usage";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -356,10 +384,56 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		AB920CDA2FE91AC900EE612A /* XCRemoteSwiftPackageReference "ILSpatial" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ratafani/ILSpatial.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		AB920CC52FE9176800EE612A /* RealityKitContent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RealityKitContent;
+		};
+		AB920CDB2FE91AC900EE612A /* ILSDesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB920CDA2FE91AC900EE612A /* XCRemoteSwiftPackageReference "ILSpatial" */;
+			productName = ILSDesignSystem;
+		};
+		AB920CDD2FE91AC900EE612A /* ILSEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB920CDA2FE91AC900EE612A /* XCRemoteSwiftPackageReference "ILSpatial" */;
+			productName = ILSEngine;
+		};
+		AB920CDF2FE91AC900EE612A /* ILSFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB920CDA2FE91AC900EE612A /* XCRemoteSwiftPackageReference "ILSpatial" */;
+			productName = ILSFoundation;
+		};
+		AB920CE12FE91AC900EE612A /* ILSHandTracking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB920CDA2FE91AC900EE612A /* XCRemoteSwiftPackageReference "ILSpatial" */;
+			productName = ILSHandTracking;
+		};
+		AB920CE32FE91AC900EE612A /* ILSRealityAssets */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB920CDA2FE91AC900EE612A /* XCRemoteSwiftPackageReference "ILSpatial" */;
+			productName = ILSRealityAssets;
+		};
+		AB920CE52FE91AC900EE612A /* ILSSpatialAudio */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB920CDA2FE91AC900EE612A /* XCRemoteSwiftPackageReference "ILSpatial" */;
+			productName = ILSSpatialAudio;
+		};
+		AB920CE72FE91AC900EE612A /* ILSSpatialDraw */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB920CDA2FE91AC900EE612A /* XCRemoteSwiftPackageReference "ILSpatial" */;
+			productName = ILSSpatialDraw;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
