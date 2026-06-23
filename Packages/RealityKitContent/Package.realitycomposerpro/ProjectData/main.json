@@ -1,11 +1,35 @@
 {
   "pathsToIds" : {
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Bow.usda" : "42ACB52B-9E41-4DA6-B4A3-DF265DECCF93",
     "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/GridMaterial.usda" : "CB766F92-EE55-4A63-9401-E7B8C009764D",
     "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Immersive.usda" : "65F6F990-A780-4474-B78B-572E0E4E273D",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Materials\/Untitled%20Scene.usda" : "1F56843E-062C-4AD1-B715-96535B1DFF88",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Quiver.usda" : "C297A380-75AD-4A44-8469-7B5E701E558A",
     "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Scene.usda" : "0A9B4653-B11E-4D6A-850E-C6FCB621626C",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/ShaderOutline.usda" : "4CDD3D75-C430-490C-9A24-036E3871BEA5",
     "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Untitled Scene.usda" : "D560BB77-AAF3-4BDE-B7C4-989332A4688B",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Untitled%20Scene.usda" : "2A67D348-6E20-4430-9684-9B9A85C5E24B",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/FresnelShader.usdc" : "7D464209-5B6E-40FD-B67C-86E1005C04A9",
     "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/GridMaterial.usda" : "66168B71-AB05-424E-8B6C-D33D6E61B08F",
     "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Immersive.usda" : "AF09ED6F-1707-48FD-8720-65B998362C09",
-    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Scene.usda" : "D66134B1-3681-4A8E-AFE5-29F257229F3B"
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Materials\/FresnelShader.usdc" : "A107C078-2FDB-4375-9184-78DAD91A4A3B",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Materials\/Simple3ColorCelShader.usdc" : "9603AE53-8861-4F2F-90ED-3E68989CFEC4",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Meshs\/Bow.usdc" : "E399DA23-C798-4ACB-A022-93355B44166D",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Scene.usda" : "D66134B1-3681-4A8E-AFE5-29F257229F3B",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/ShaderOutline.usda" : "44C03EC1-7CF6-4652-B5D5-9647F2F82EB1"
+  },
+  "projectID" : 5075444262239118124,
+  "uuidToIntID" : {
+    "1F56843E-062C-4AD1-B715-96535B1DFF88" : -5436668392281891917,
+    "2A67D348-6E20-4430-9684-9B9A85C5E24B" : -1810094606006973437,
+    "42ACB52B-9E41-4DA6-B4A3-DF265DECCF93" : -2971934157427631102,
+    "44C03EC1-7CF6-4652-B5D5-9647F2F82EB1" : -4405313235258461651,
+    "4CDD3D75-C430-490C-9A24-036E3871BEA5" : 7467424315653337723,
+    "7D464209-5B6E-40FD-B67C-86E1005C04A9" : -1428254358242595171,
+    "9603AE53-8861-4F2F-90ED-3E68989CFEC4" : -5244164512784098305,
+    "A107C078-2FDB-4375-9184-78DAD91A4A3B" : 5485396305765793391,
+    "AF09ED6F-1707-48FD-8720-65B998362C09" : 7928513760250894402,
+    "C297A380-75AD-4A44-8469-7B5E701E558A" : -9128887134407614883,
+    "E399DA23-C798-4ACB-A022-93355B44166D" : -1432620830522524389
   }
 }

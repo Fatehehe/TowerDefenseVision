@@ -1,0 +1,105 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.100.6)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Material "ShaderOutlined"
+    {
+        token cullMode = "front" (
+            allowedTokens = ["unspecified", "none", "front", "back"]
+        )
+        token outputs:mtlx:surface.connect = </Root/ShaderOutlined/UnlitSurface.outputs:out>
+        token outputs:realitykit:vertex
+        float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (614.3409, 36.25527)
+        int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 26
+
+        def Shader "Normal"
+        {
+            uniform token info:id = "ND_normal_vector3"
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-482.24954, 73.32851)
+            int ui:nodegraph:node:stackingOrder = 3
+        }
+
+        def Shader "ViewDirection"
+        {
+            uniform token info:id = "ND_realitykit_viewdirection_vector3"
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-534.09045, 182.20328)
+            int ui:nodegraph:node:stackingOrder = 4
+        }
+
+        def Shader "TransformNormal"
+        {
+            uniform token info:id = "ND_transformnormal_vector3"
+            float3 inputs:in.connect = </Root/ShaderOutlined/Normal.outputs:out>
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-265.69736, 75.721016)
+            int ui:nodegraph:node:stackingOrder = 7
+        }
+
+        def Shader "TransformVector"
+        {
+            uniform token info:id = "ND_transformvector_vector3"
+            float3 inputs:in.connect = </Root/ShaderOutlined/ViewDirection.outputs:out>
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-271.3215, 187.9164)
+            int ui:nodegraph:node:stackingOrder = 10
+        }
+
+        def Shader "Normalize"
+        {
+            uniform token info:id = "ND_normalize_vector3"
+            float3 inputs:in.connect = </Root/ShaderOutlined/TransformNormal.outputs:out>
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-77.80865, 75.91159)
+            int ui:nodegraph:node:stackingOrder = 13
+        }
+
+        def Shader "Normalize_1"
+        {
+            uniform token info:id = "ND_normalize_vector3"
+            float3 inputs:in.connect = </Root/ShaderOutlined/TransformVector.outputs:out>
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-69.16911, 203.65813)
+            int ui:nodegraph:node:stackingOrder = 16
+        }
+
+        def Shader "DotProduct"
+        {
+            uniform token info:id = "ND_dotproduct_vector3"
+            float3 inputs:in1.connect = </Root/ShaderOutlined/Normalize.outputs:out>
+            float3 inputs:in2.connect = </Root/ShaderOutlined/Normalize_1.outputs:out>
+            float outputs:out
+            float2 ui:nodegraph:node:pos = (124.314125, 127.863144)
+            int ui:nodegraph:node:stackingOrder = 19
+        }
+
+        def Shader "Swizzle"
+        {
+            uniform token info:id = "ND_swizzle_float_color3"
+            float inputs:in.connect = </Root/ShaderOutlined/DotProduct.outputs:out>
+            color3f outputs:out
+            float2 ui:nodegraph:node:pos = (288.2959, 152.81616)
+            int ui:nodegraph:node:stackingOrder = 22
+        }
+
+        def Shader "UnlitSurface"
+        {
+            uniform token info:id = "ND_realitykit_unlit_surfaceshader"
+            color3f inputs:color.connect = </Root/ShaderOutlined/Swizzle.outputs:out>
+            bool inputs:hasPremultipliedAlpha
+            token outputs:out
+            float2 ui:nodegraph:node:pos = (363.44873, -54.041737)
+            int ui:nodegraph:node:stackingOrder = 25
+        }
+    }
+}
+

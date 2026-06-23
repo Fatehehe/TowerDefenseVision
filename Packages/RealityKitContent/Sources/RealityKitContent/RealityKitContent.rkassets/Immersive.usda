@@ -7,44 +7,214 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["Sphere_Left", "Sphere_Right", "GridMaterial"]
-    def Sphere "Sphere_Right" (
+    reorder nameChildren = ["GridMaterial", "Material", "Material_1", "Scope", "Mat"]
+    def Scope "Scope" (
         active = true
-        prepend apiSchemas = ["MaterialBindingAPI"]
     )
     {
-        rel material:binding = </Root/GridMaterial/GridMaterial> (
-            bindMaterialAs = "weakerThanDescendants"
+        reorder nameChildren = ["Sphere_Left", "Sphere_Right", "Dice"]
+        def "Dice" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+            customData = {
+                float3 rotationEulerHint = (-1.5707964, 0, 0)
+            }
+            references = @TechArts/Meshs/Dice.usdc@
         )
-        double radius = 0.1
-        quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (0.5, 1.5, -1.5)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        {
+            rel material:binding = </Root/Mat/Outlined> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Sphere "Sphere_Left" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Root/Mat/Outlined> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double radius = 0.1
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (-0.5, 1.5, -1.5)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Sphere "Sphere_Right" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Root/Mat/CellShading> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double radius = 0.1
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0.5, 1.5, -1.5)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
     }
 
-    def Sphere "Sphere_Left" (
+    def Scope "Mat" (
         active = true
-        prepend apiSchemas = ["MaterialBindingAPI"]
     )
     {
-        rel material:binding = </Root/GridMaterial/GridMaterial> (
-            bindMaterialAs = "weakerThanDescendants"
+        reorder nameChildren = ["GridMaterial", "Outlined", "CellShading"]
+        def Material "Outlined" (
+            references = @TechArts/Shader/FresnelShader.usdc@</Root/Material>
         )
-        double radius = 0.1
-        quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (-0.5, 1.5, -1.5)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-    }
+        {
+            color3f inputs:BaseColoro = (0.9139453, 0.9139453, 0.9139453) (
+                colorSpace = "srgb_displayp3"
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-791.5668, 82.895546)
+                        int stackingOrderInSubgraph = 974
+                    }
+                }
+            )
+            asset inputs:BaseText = @Textures/Die_6Silver_BaseColor.1001.png@ (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-1398.8495, -107.31399)
+                        int stackingOrderInSubgraph = 978
+                    }
+                }
+            )
+            color3f inputs:Constant_1 = (0.060527343, 0.019673668, 0.017737383) (
+                colorSpace = "srgb_displayp3"
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-776.3267, 291.41202)
+                        int stackingOrderInSubgraph = 971
+                    }
+                }
+            )
+            bool inputs:usePower = 0 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-768.43634, 358.5146)
+                        int stackingOrderInSubgraph = 969
+                    }
+                }
+            )
+            token outputs:mtlx:surface
+            token outputs:realitykit:vertex
+            token outputs:surface.connect = </Root/Mat/Outlined/UsdPreviewSurface.outputs:surface>
 
-    def "GridMaterial" (
-        active = true
-        prepend references = @Materials/GridMaterial.usda@
-    )
-    {
-        float3 xformOp:scale = (1, 1, 1)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            def Shader "UsdPreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                token outputs:surface
+            }
+
+            over "Swizzle"
+            {
+                float2 ui:nodegraph:node:pos = (-12.380625, 63.447445)
+                int ui:nodegraph:node:stackingOrder = 238
+            }
+
+            over "Normalize_1"
+            {
+                float2 ui:nodegraph:node:pos = (-426.85486, 467.8867)
+                int ui:nodegraph:node:stackingOrder = 966
+            }
+
+            over "ViewDirection"
+            {
+                float2 ui:nodegraph:node:pos = (-891.7762, 446.43182)
+                int ui:nodegraph:node:stackingOrder = 966
+            }
+
+            over "DotProduct"
+            {
+                float2 ui:nodegraph:node:pos = (-176.3624, 38.494427)
+                int ui:nodegraph:node:stackingOrder = 238
+            }
+
+            over "TransformVector"
+            {
+                float2 ui:nodegraph:node:pos = (-629.00726, 452.14496)
+                int ui:nodegraph:node:stackingOrder = 966
+            }
+
+            over "Normal"
+            {
+                float2 ui:nodegraph:node:pos = (-782.9261, -16.040213)
+                int ui:nodegraph:node:stackingOrder = 238
+            }
+
+            over "Normalize"
+            {
+                float2 ui:nodegraph:node:pos = (-378.48517, -13.457128)
+                int ui:nodegraph:node:stackingOrder = 238
+            }
+
+            over "TransformNormal"
+            {
+                float2 ui:nodegraph:node:pos = (-566.3739, -13.647702)
+                int ui:nodegraph:node:stackingOrder = 238
+            }
+
+            over "UnlitSurface"
+            {
+                bool inputs:applyPostProcessToneMap = 0
+                bool inputs:hasPremultipliedAlpha = 0
+                int ui:nodegraph:node:stackingOrder = 969
+            }
+
+            over "Image2D"
+            {
+                float2 ui:nodegraph:node:pos = (-1072.695, 70.52525)
+                int ui:nodegraph:node:stackingOrder = 975
+            }
+
+            over "fresnel"
+            {
+                bool inputs:ColorMixClamp = 0
+                bool inputs:PowerMixClamp = 0
+                int ui:nodegraph:node:stackingOrder = 961
+
+                over "IfEqual"
+                {
+                    bool inputs:value2 = 1
+                    int ui:nodegraph:node:stackingOrder = 1563
+                }
+            }
+        }
+
+        def Material "CellShading" (
+            references = @TechArts/Shader/Simple3ColorCelShader.usdc@</Root/CelShader>
+        )
+        {
+            token outputs:mtlx:surface
+            token outputs:realitykit:vertex
+            token outputs:surface.connect = </Root/Mat/CellShading/UsdPreviewSurface.outputs:surface>
+            float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
+
+            def Shader "UsdPreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                token outputs:surface
+            }
+
+            over "_3ColorCelShader"
+            {
+                color3f inputs:B_HighlightColor = (1, 0.9387545, 0.14107674) (
+                    colorSpace = "lin_srgb"
+                )
+                float inputs:B_MidColor_StartThreshold = 0.7
+                float2 ui:nodegraph:node:pos = (-840.6105, 45.54142)
+                int ui:nodegraph:node:stackingOrder = 535
+            }
+        }
     }
 }
 
