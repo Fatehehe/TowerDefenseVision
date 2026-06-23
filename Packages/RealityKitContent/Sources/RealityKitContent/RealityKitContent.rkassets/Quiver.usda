@@ -16,7 +16,7 @@ def Xform "Root"
     )
     {
         quatf xformOp:orient = (4.3297803e-17, 4.3297803e-17, 0.70710677, 0.70710677)
-        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:scale = (0.5, 0.5, 0.5)
         float3 xformOp:translate = (0, 0, 0)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
@@ -27,11 +27,11 @@ def Xform "Root"
             )
             {
                 asset inputs:AOTexture = None
-                asset inputs:BaseTexture = @TechArts/Textures/Bow Textures/quiver_albedo.jpeg@
+                asset inputs:BaseTexture = @TechArts/Textures/BowTextures/quiver_albedo.jpeg@
                 float inputs:MetalStrenght = 0.2
-                asset inputs:MetalTexture = @TechArts/Textures/Bow Textures/quiver_metallic.jpeg@
-                asset inputs:NormalTexture = @TechArts/Textures/Bow Textures/quiver_normal.png@
-                asset inputs:RoughnessTexture = @TechArts/Textures/Bow Textures/quiver_roughness.jpeg@
+                asset inputs:MetalTexture = @TechArts/Textures/BowTextures/quiver_metallic.jpeg@
+                asset inputs:NormalTexture = @TechArts/Textures/BowTextures/quiver_normal.png@
+                asset inputs:RoughnessTexture = @TechArts/Textures/BowTextures/quiver_roughness.jpeg@
                 token outputs:mtlx:surface
                 token outputs:realitykit:vertex
             }

@@ -16,7 +16,7 @@ def Xform "Root"
     )
     {
         quatf xformOp:orient = (4.3297803e-17, 4.3297803e-17, 0.70710677, 0.70710677)
-        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:scale = (0.5, 0.5, 0.5)
         float3 xformOp:translate = (0, 0, 0)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
@@ -26,11 +26,12 @@ def Xform "Root"
                 references = @TechArts/Shader/PBR_Material.usda@</Root/DefaultMaterial>
             )
             {
-                asset inputs:BaseTexture = @TechArts/Textures/Bow Textures/arrow_albedo.jpeg@
+                asset inputs:AOTexture = None
+                asset inputs:BaseTexture = @TechArts/Textures/BowTextures/arrow_albedo.jpeg@
                 float inputs:MetalStrenght = 0.2
-                asset inputs:MetalTexture = @TechArts/Textures/Bow Textures/arrow_metallic.jpeg@
-                asset inputs:NormalTexture = @TechArts/Textures/Bow Textures/arrow_normal.png@
-                asset inputs:RoughnessTexture = @TechArts/Textures/Bow Textures/arrow_roughness.jpeg@
+                asset inputs:MetalTexture = @TechArts/Textures/BowTextures/arrow_metallic.jpeg@
+                asset inputs:NormalTexture = @TechArts/Textures/BowTextures/arrow_normal.png@
+                asset inputs:RoughnessTexture = @TechArts/Textures/BowTextures/arrow_roughness.jpeg@
                 token outputs:mtlx:surface
                 token outputs:realitykit:vertex
             }

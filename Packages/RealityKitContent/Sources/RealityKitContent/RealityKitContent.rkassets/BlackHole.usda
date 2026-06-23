@@ -1,0 +1,105 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.100.6)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Xform "Core"
+    {
+        float3 xformOp:scale = (4, 4, 0.01)
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "VFXEmitter"
+        {
+            token info:id = "RealityKit.VFXEmitter"
+
+            def RealityKitStruct "currentState"
+            {
+                double emissionDuration = 1
+                token emitterShape = "Sphere"
+                bool isLocal = 1
+                bool isLocalFields = 1
+                bool loops = 1
+                float particleSpeed = 0
+                token spawnOccasion = "OnDeath"
+
+                def RealityKitStruct "mainEmitter"
+                {
+                    token billboardMode = "Free"
+                    float birthRate = 120
+                    float birthRateVariation = 0
+                    float4 endColorA = (0, 0, 0, 1)
+                    double particleLifeSpan = 1
+                    double particleLifeSpanVariation = 0
+                    float particleSize = 0.01
+                    float particleSizeVariation = 0.1
+                    float spreadingAngle = 0
+                    float4 startColorA = (0.0116562275, 0.003864246, 0.015986893, 1)
+                    bool useEndColor = 1
+                    bool useEndColorRange = 0
+                    bool useStartColorRange = 0
+                }
+
+                def RealityKitStruct "spawnedEmitter"
+                {
+                }
+            }
+        }
+    }
+
+    def Xform "Core_1"
+    {
+        float2 ui:nodegraph:node:pos = (20, 20)
+        int ui:nodegraph:node:stackingOrder = 1
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (3, 3, 1)
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "VFXEmitter"
+        {
+            token info:id = "RealityKit.VFXEmitter"
+
+            def RealityKitStruct "currentState"
+            {
+                token birthLocation = "Volume"
+                double emissionDuration = 1
+                token emitterShape = "Torus"
+                bool isLocal = 1
+                bool isLocalFields = 0
+                bool loops = 1
+                float particleSpeed = 0
+                token spawnOccasion = "OnDeath"
+                float spawnSpreadFactor = 0
+                float spawnVelocityFactor = 1
+
+                def RealityKitStruct "mainEmitter"
+                {
+                    token billboardMode = "Billboard"
+                    float birthRate = 400
+                    float birthRateVariation = 200
+                    float4 endColorA = (0, 0, 0, 1)
+                    float particleSize = 0.01
+                    float particleSizeVariation = 0.01
+                    float spreadingAngle = 0
+                    float4 startColorA = (0.4206482, 0.06962805, 0.65030473, 1)
+                    bool useEndColor = 1
+                    bool useEndColorRange = 0
+                    bool useStartColorRange = 0
+                }
+
+                def RealityKitStruct "spawnedEmitter"
+                {
+                }
+            }
+        }
+    }
+}
+
