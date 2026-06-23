@@ -15,5 +15,12 @@ public struct SystemRegistry {
         
         HandVisualizationComponent.registerComponent()
         HandVisualizationSystem.registerSystem()
+        
+        BowComponent.registerComponent()
+        ArrowComponent.registerComponent()
+        
+        ArcheryPlayerComponent.registerComponent()
+        
+        ArcherySystem.registerSystem()
     }
 }

@@ -18,6 +18,15 @@ struct ImmersiveView: View {
             for hand in hands {
                 content.add(hand)
             }
+            
+            let rightHandAnchor = hands[0]
+            let leftHandAnchor = hands[1]
+            
+            if let archeryManager = await ArcherySpawner.spawnArcheryManager(leftHand: leftHandAnchor, rightHand: rightHandAnchor) {
+                // 3. Tambahkan manager panahan ke scene agar sistemnya mulai berjalan
+                content.add(archeryManager)
+                print("✅ Archery System siap dimainkan!")
+            }
         }
         .task {
             try? await HandTrackingService.shared.start()

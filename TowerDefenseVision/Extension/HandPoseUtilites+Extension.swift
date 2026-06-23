@@ -31,4 +31,36 @@ extension ILHandPoseUtilities{
         guard knuckleDist > 0.001 else { return 1.0 }
         return tipDist / knuckleDist
     }
+    
+    static func thumbCurlRatio(skeleton: HandSkeleton) -> Float {
+        let thumbTip = position(of: .thumbTip, in: skeleton)
+        let palmCenter = position(of: .middleFingerKnuckle, in: skeleton)
+        let wrist = position(of: .wrist, in: skeleton)
+        let thumbDist = simd_distance(thumbTip, palmCenter)
+        let handSize = simd_distance(wrist, palmCenter)
+        guard handSize > 0.001 else { return 1.0 }
+        return thumbDist / handSize
+    }
+    
+    static func isFingerCurl(
+        skeleton: HandSkeleton,
+        tip: HandSkeleton.JointName,
+        knuckle: HandSkeleton.JointName,
+        wrist: HandSkeleton.JointName = .wrist,
+        factor: Float = 1.10
+    ) -> Bool {
+        curlRatio(skeleton: skeleton, tip: tip, knuckle: knuckle, wrist: wrist) < factor
+    }
+
+    /// Returns `true` when the thumb is curled toward the palm.
+    static func isThumbCurl(skeleton: HandSkeleton) -> Bool {
+        thumbCurlRatio(skeleton: skeleton) < 0.75
+    }
+
+    /// Returns `true` when the thumb is extended away from the palm.
+    static func isThumbExtended(skeleton: HandSkeleton) -> Bool {
+        thumbCurlRatio(skeleton: skeleton) > 0.95
+    }
+    
+    
 }
