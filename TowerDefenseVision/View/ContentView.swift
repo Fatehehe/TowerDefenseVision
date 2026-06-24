@@ -14,8 +14,10 @@ struct ContentView: View {
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     var body: some View {
         VStack {
-            Model3D(named: "Scene", bundle: realityKitContentBundle)
-                .padding(.bottom, 50)
+            Text("Tower Deffense")
+                .font(.title)
+            Text(appModel.arrowState.rawValue)
+            
         }
         .padding()
         .onAppear {

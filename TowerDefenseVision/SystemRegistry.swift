@@ -22,5 +22,6 @@ public struct SystemRegistry {
         ArcheryPlayerComponent.registerComponent()
         
         ArcherySystem.registerSystem()
+        ArrowSystem.registerSystem()
     }
 }

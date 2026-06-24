@@ -19,4 +19,6 @@ class AppModel {
         case open
     }
     var immersiveSpaceState = ImmersiveSpaceState.closed
+    
+    var arrowState: ArcheryState = .idle
 }

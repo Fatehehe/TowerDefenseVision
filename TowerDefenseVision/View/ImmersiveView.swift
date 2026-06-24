@@ -11,7 +11,8 @@ import RealityKit
 import RealityKitContent
 
 struct ImmersiveView: View {
-
+    @Environment(AppModel.self) private var model
+    
     var body: some View {
         RealityView { content in
             let hands = await GloveEntitySpawner.spawnHandGlovesAsync()
@@ -23,15 +24,17 @@ struct ImmersiveView: View {
             let leftHandAnchor = hands[1]
             
             if let archeryManager = await ArcherySpawner.spawnArcheryManager(leftHand: leftHandAnchor, rightHand: rightHandAnchor) {
-                // 3. Tambahkan manager panahan ke scene agar sistemnya mulai berjalan
                 content.add(archeryManager)
-                print("✅ Archery System siap dimainkan!")
+                print("Archery System siap dimainkan!")
             }
         }
         .task {
             try? await HandTrackingService.shared.start()
         }
         .upperLimbVisibility(.hidden)
+        .onAppear {
+            ArcherySystem.appModel = model
+        }
     }
 }
 

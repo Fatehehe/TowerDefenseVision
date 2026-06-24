@@ -46,6 +46,10 @@ public struct ArcherySpawner {
             bow.components.set(BowComponent())
             arrow.components.set(ArrowComponent())
             
+            playerComp.rightHandAnchor = rightHand
+            
+            playerComp.arrowTemplate = arrow.clone(recursive: true)
+            
             bow.isEnabled = false
             arrow.isEnabled = false
             
@@ -56,11 +60,9 @@ public struct ArcherySpawner {
             playerComp.activeArrow = arrow
             manager.components.set(playerComp)
             
-            print("Step 1: Archery Spawner terpasang dengan custom scale/posisi.")
             return manager
             
         } catch {
-            print("Archery Spawner Error: \(error)")
             return nil
         }
     }

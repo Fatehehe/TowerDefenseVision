@@ -8,7 +8,7 @@
 import ARKit
 import ILSHandTracking
 
-enum ThumbsUpPoseDetector {
+enum ShootHandPoseDetector {
     static func detect(handSkeleton: HandSkeleton) -> Bool{
         let isThumbCurl = ILHandPoseUtilities.isThumbCurl(skeleton: handSkeleton)
         let isIndexCurl = ILHandPoseUtilities.isFingerCurl(skeleton: handSkeleton, tip: .indexFingerTip, knuckle: .indexFingerKnuckle)
@@ -16,6 +16,6 @@ enum ThumbsUpPoseDetector {
         let isRingCurl = ILHandPoseUtilities.isFingerCurl(skeleton: handSkeleton, tip: .ringFingerTip, knuckle: .ringFingerKnuckle)
         let isLittleCurl = ILHandPoseUtilities.isFingerCurl(skeleton: handSkeleton, tip: .littleFingerTip, knuckle: .littleFingerKnuckle)
         
-        return !isThumbCurl && isIndexCurl && isMiddleCurl && isRingCurl && isLittleCurl
+        return !isThumbCurl && !isIndexCurl && isMiddleCurl && isRingCurl && isLittleCurl
     }
 }

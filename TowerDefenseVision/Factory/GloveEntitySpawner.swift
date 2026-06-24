@@ -23,19 +23,17 @@ public struct GloveEntitySpawner {
         leftHand.components.set(ILHandTrackingComponent())
         leftHand.components.set(ILHandAnchorComponent())
             
-        // Panggil fungsi custom usdz untuk merender Tangan Kanan
         if let rightModel = await spawnGlove(named: "RightGlove") {
             rightHand.components.set(HandVisualizationComponent(modelEntity: rightModel))
             rightHand.addChild(rightModel)
         }
         
-        // Panggil fungsi custom usdz untuk merender Tangan Kiri
         if let leftModel = await spawnGlove(named: "LeftGlove") {
             leftHand.components.set(HandVisualizationComponent(modelEntity: leftModel))
             leftHand.addChild(leftModel)
         }
             
-        print("Spawning Hands Selesai")
+//        print("Spawning Hands Selesai")
             
         return [rightHand, leftHand]
     }

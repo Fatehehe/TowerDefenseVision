@@ -9,5 +9,8 @@ import RealityKit
 
 public struct ArrowComponent: Component {
     public var isFlying: Bool = false
+    public var direction: SIMD3<Float> = .zero
+    public var speed: Float = 2.0 // Kecepatan: 10 meter per detik
+    
     public init() {}
 }
