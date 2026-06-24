@@ -7,28 +7,22 @@
 
 import SwiftUI
 import RealityKit
-import RealityKitContent
 
 struct ContentView: View {
     @Environment(AppModel.self) var appModel
-    @Environment(\.openImmersiveSpace) var openImmersiveSpace
+    
     var body: some View {
-        VStack {
-            Text("Tower Deffense")
-                .font(.title)
-            Text(appModel.arrowState.rawValue)
-            
-        }
-        .padding()
-        .onAppear {
-            Task{
-                await openImmersiveSpace(id: appModel.immersiveSpaceID)
+        // Mengubah tampilan window berdasarkan status game saat ini
+        Group {
+            switch appModel.currentGameState {
+            case .startScreen:
+                StartScreenView()
+            case .tutorial:
+                TutorialView()
+            case .playing:
+                GameplayHUDView()
             }
         }
+        .animation(.easeInOut, value: appModel.currentGameState)
     }
-}
-
-#Preview(windowStyle: .automatic) {
-    ContentView()
-        .environment(AppModel())
 }

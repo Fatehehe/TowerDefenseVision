@@ -13,6 +13,15 @@ import ILSHandTracking
 @Observable
 class AppModel {
     let immersiveSpaceID = "ImmersiveSpace"
+    
+    // --- TAMBAHAN: Status Layar Utama ---
+    enum GameState {
+        case startScreen
+        case tutorial
+        case playing
+    }
+    var currentGameState: GameState = .startScreen
+    
     enum ImmersiveSpaceState {
         case closed
         case inTransition
@@ -20,5 +29,6 @@ class AppModel {
     }
     var immersiveSpaceState = ImmersiveSpaceState.closed
     
+    // Variabel untuk nyimpen status panah dari ECS
     var arrowState: ArcheryState = .idle
 }

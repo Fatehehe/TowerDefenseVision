@@ -12,7 +12,7 @@ public struct MedievalSceneSpawner {
     public static func spawnMedievalWorld(named sceneName: String = "MedievalScene") async -> Entity? {
         do {
             let rootWorld = try await Entity(named: sceneName, in: realityKitContentBundle)
-            rootWorld.position = SIMD3<Float>(10, 0, 0)
+            rootWorld.position = SIMD3<Float>(12, 0, -6)
             rootWorld.scale = SIMD3<Float>(repeating: 1.0)
             
             print("[MedievalSceneSpawner] Sukses memuat dunia: \(sceneName)")

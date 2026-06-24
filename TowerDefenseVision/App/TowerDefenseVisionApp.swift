@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import ILSHandTracking
 
 @main
 struct TowerDefenseVisionApp: App {

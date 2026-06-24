@@ -17,6 +17,11 @@ struct ImmersiveView: View {
         RealityView { content in
             
             if let medievalWorld = await MedievalSceneSpawner.spawnMedievalWorld(named: "MedievalScene") {
+                if let targetBullsEye = medievalWorld.findEntity(named: "Tower") {
+                    print("🎯 BINGO! Objek Tower berhasil ditemukan!")
+                } else {
+                    print("⚠️ Objek 'Tower' tidak ditemukan di scene ini.")
+                }
                 content.add(medievalWorld)
             }
             
