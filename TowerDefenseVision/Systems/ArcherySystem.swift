@@ -25,14 +25,11 @@ public struct ArcherySystem: System {
             return
         }
         
-        // 1. Deteksi semua pose yang dibutuhkan
         let isLeftFist = BowHandPoseDetector.detect(handSkeleton: leftSkeleton)
         let isRightFist = ArrowHandPoseDetector.detect(handSkeleton: rightSkeleton)
         
-        // --- TAMBAHAN: Deteksi pose menembak (release) dari tangan kanan ---
         let isShooting = ShootHandPoseDetector.detect(handSkeleton: rightSkeleton)
         
-        // 2. Kalkulasi posisi tangan di dunia 3D untuk mengukur jarak
         let leftPos = leftHand.originFromAnchorTransform.columns.3
         let rightPos = rightHand.originFromAnchorTransform.columns.3
         let handDistance = simd_distance(
@@ -45,7 +42,6 @@ public struct ArcherySystem: System {
                   let bow = playerComp.activeBow,
                   let arrow = playerComp.activeArrow else { continue }
             
-            // 3. Evaluasi State Machine Penuh
             switch playerComp.state {
                 
             case .idle, .equipped:
@@ -55,11 +51,11 @@ public struct ArcherySystem: System {
                 if isLeftFist && isRightFist {
                     if playerComp.state != .equipped {
                         playerComp.state = .equipped
-                        print("🏹 [ArcherySystem] STATE: EQUIPPED (Siap menempelkan panah)")
+                        print("[ArcherySystem] STATE: EQUIPPED (Siap menempelkan panah)")
                     }
                     if handDistance < 0.15 {
                         playerComp.state = .nocked
-                        print("🎯 [ArcherySystem] STATE: NOCKED (Panah menempel di tali)")
+                        print("[ArcherySystem] STATE: NOCKED (Panah menempel di tali)")
                     }
                 } else {
                     playerComp.state = .idle
@@ -68,34 +64,28 @@ public struct ArcherySystem: System {
             case .nocked:
                 if !isRightFist || !isLeftFist {
                     playerComp.state = .idle
-                    print("🛑 [ArcherySystem] Batal ditarik, kembali ke IDLE")
+                    print("[ArcherySystem] Batal ditarik, kembali ke IDLE")
                 } else if handDistance >= 0.15 {
                     playerComp.state = .drawn
-                    print("🏹 [ArcherySystem] STATE: DRAWN (Menarik panah...)")
+                    print("[ArcherySystem] STATE: DRAWN (Menarik panah...)")
                 }
                 
             case .drawn:
                 if isShooting {
-                    print("🚀 [ArcherySystem] SHOOT! Panah dilepaskan secara manual!")
+                    print("[ArcherySystem] SHOOT! Panah dilepaskan secara manual!")
                     
-                    // A. Simpan matriks dunia panah saat ini
                     let worldTransform = arrow.transformMatrix(relativeTo: nil)
                     
-                    // B. Lepaskan panah dari parent (tangan) dengan mengunci posisinya di dunia nyata
-//                    arrow.setParent(nil, preservingWorldTransform: true)
                     entity.addChild(arrow, preservingWorldTransform: true)
                     
-                    // C. Hitung arah depan panah (-Z adalah arah lurus ke depan di RealityKit)
                     let zAxis = worldTransform.columns.1
                     let forwardDirection = simd_normalize(simd_make_float3(zAxis.x, zAxis.y, zAxis.z))
                     
-                    // D. Perbarui komponen untuk menandakan panah sedang terbang
                     var arrowComp = arrow.components[ArrowComponent.self] ?? ArrowComponent()
                     arrowComp.isFlying = true
                     arrowComp.direction = forwardDirection
                     arrow.components.set(arrowComp)
                     
-                    // --- E. SISTEM RELOAD: MUNCULKAN PANAH BARU ---
                     if let template = playerComp.arrowTemplate,
                        let rightHandEntity = playerComp.rightHandAnchor {
                         
@@ -103,9 +93,9 @@ public struct ArcherySystem: System {
                         clonedArrow.isEnabled = false
                         rightHandEntity.addChild(clonedArrow)
                         playerComp.activeArrow = clonedArrow
-                        print("🔄 [ArcherySystem] RELOAD: Panah baru siap di tangan kanan!")
+                        print("[ArcherySystem] RELOAD: Panah baru siap di tangan kanan!")
                     } else {
-                        print("⚠️ [ArcherySystem] Gagal reload: Template panah tidak ditemukan.")
+                        print("[ArcherySystem] Gagal reload: Template panah tidak ditemukan.")
                     }
                     
                     playerComp.state = .idle
@@ -113,7 +103,7 @@ public struct ArcherySystem: System {
             }
             
             model.arrowState = playerComp.state
-            model.immersiveSpaceState = .open // Sesuaikan dengan UI state yang kamu pakai
+            model.immersiveSpaceState = .open
             entity.components[ArcheryPlayerComponent.self] = playerComp
         }
     }

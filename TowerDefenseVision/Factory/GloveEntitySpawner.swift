@@ -32,9 +32,7 @@ public struct GloveEntitySpawner {
             leftHand.components.set(HandVisualizationComponent(modelEntity: leftModel))
             leftHand.addChild(leftModel)
         }
-            
-//        print("Spawning Hands Selesai")
-            
+
         return [rightHand, leftHand]
     }
     

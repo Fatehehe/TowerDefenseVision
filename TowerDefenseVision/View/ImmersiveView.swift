@@ -15,6 +15,11 @@ struct ImmersiveView: View {
     
     var body: some View {
         RealityView { content in
+            
+            if let medievalWorld = await MedievalSceneSpawner.spawnMedievalWorld(named: "MedievalScene") {
+                content.add(medievalWorld)
+            }
+            
             let hands = await GloveEntitySpawner.spawnHandGlovesAsync()
             for hand in hands {
                 content.add(hand)
@@ -25,7 +30,6 @@ struct ImmersiveView: View {
             
             if let archeryManager = await ArcherySpawner.spawnArcheryManager(leftHand: leftHandAnchor, rightHand: rightHandAnchor) {
                 content.add(archeryManager)
-                print("Archery System siap dimainkan!")
             }
         }
         .task {

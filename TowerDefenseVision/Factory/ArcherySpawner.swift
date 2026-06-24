@@ -9,7 +9,6 @@ import RealityKit
 import RealityKitContent
 
 public struct ArcherySpawner {
-    
     public static func spawnArcheryManager(leftHand: Entity, rightHand: Entity) async -> Entity? {
         let manager = Entity()
         manager.name = "ArcheryManager"
