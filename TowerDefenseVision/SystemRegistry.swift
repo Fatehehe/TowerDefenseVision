@@ -23,5 +23,14 @@ public struct SystemRegistry {
         
         ArcherySystem.registerSystem()
         ArrowSystem.registerSystem()
+        
+        TowerComponent.registerComponent()
+        PortalComponent.registerComponent()
+        EnemyComponent.registerComponent()
+        
+        PortalSystem.registerSystem()
+        EnemySystem.registerSystem()
+        
+        CombatSystem.registerSystem()
     }
 }

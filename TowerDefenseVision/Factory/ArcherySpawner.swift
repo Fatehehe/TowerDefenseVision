@@ -45,6 +45,9 @@ public struct ArcherySpawner {
             bow.components.set(BowComponent())
             arrow.components.set(ArrowComponent())
             
+            let arrowShape = ShapeResource.generateBox(size: [0.05, 0.05, 0.5])
+            arrow.components.set(CollisionComponent(shapes: [arrowShape]))
+            
             playerComp.rightHandAnchor = rightHand
             
             playerComp.arrowTemplate = arrow.clone(recursive: true)

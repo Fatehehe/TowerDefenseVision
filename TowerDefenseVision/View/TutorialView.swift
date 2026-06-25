@@ -19,16 +19,17 @@ struct TutorialView: View {
                 .bold()
                 .padding(.top, 30)
             
-            // Slider Tutorial
             TabView(selection: $currentStep) {
-                TutorialSlide(icon: "hand.raised.fill", title: "1. Siapkan Senjata", description: "Kepalkan kedua tanganmu untuk memunculkan busur dan panah.")
+                TutorialSlide(icon: "hand.raised.fill", title: "1. Siapkan Senjata", description: "renggangkan jari di tangan kiri kamu untuk memunculkan panah.")
                     .tag(0)
                 
-                TutorialSlide(icon: "arrow.left.and.right", title: "2. Tarik Panah", description: "Dekatkan tangan kanan ke kiri, lalu tarik ke belakang seperti memanah sungguhan.")
+                TutorialSlide(icon: "arrow.left.and.right", title: "2. Siapkan Busur", description: "lakukan thumbs up untuk memunculkan busur.")
                     .tag(1)
                 
-                TutorialSlide(icon: "target", title: "3. Tembak!", description: "Buka jari tangan kananmu untuk melepaskan panah ke arah monster.")
+                TutorialSlide(icon: "target", title: "3. Tarik Panah", description: "Dekatkan busur ke panah, kemudian tarik tangan kanan kamu.")
                     .tag(2)
+                TutorialSlide(icon: "target", title: "4. Tembak!", description: "Buka semua jari tangan kanan kamu untuk melepas busur!.")
+                    .tag(3)
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .frame(height: 300)

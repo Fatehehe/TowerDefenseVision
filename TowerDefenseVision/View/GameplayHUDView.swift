@@ -15,15 +15,13 @@ struct GameplayHUDView: View {
             Text("Status Panah")
                 .font(.headline)
                 .foregroundColor(.secondary)
-            
-            // Ambil data langsung dari ECS yang sudah kamu buat sebelumnya
+        
             Text("\(appModel.arrowState.rawValue)")
                 .font(.largeTitle)
                 .bold()
                 .textCase(.uppercase)
         }
         .padding(30)
-        // Mengecilkan ukuran window saat masuk ke mode bermain
         .frame(width: 300, height: 200)
     }
 }

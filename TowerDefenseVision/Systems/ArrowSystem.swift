@@ -20,6 +20,15 @@ public struct ArrowSystem: System {
             
             if arrowComp.isFlying {
                 entity.position += arrowComp.direction * arrowComp.speed * deltaTime
+                
+                let distance = simd_length(entity.position)
+                
+                let maxDistance: Float = 20.0
+                
+                if distance > maxDistance {
+                    entity.removeFromParent()
+                    print("[ArrowSystem] Panah meleset terlalu jauh (> 20 meter) dan telah dihancurkan!")
+                }
             }
         }
     }
