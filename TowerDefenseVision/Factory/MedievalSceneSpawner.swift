@@ -21,13 +21,17 @@ public struct MedievalSceneSpawner {
                 var towerData = TowerComponent()
                 towerData.hp = 100
                 targetBullsEye.components.set(towerData)
+            }else{
+                print("no tower")
             }
             
-            if let blackHole = rootWorld.findEntity(named: "BlackHole") {
-                var portalData = PortalComponent()
-                portalData.spawnInterval = 3.0
-                blackHole.components.set(portalData)
-            }
+//            if let blackHole = rootWorld.findEntity(named: "BlackHole") {
+//                var portalData = PortalComponent()
+//                portalData.spawnInterval = 3.0
+//                blackHole.components.set(portalData)
+//            }else{
+//                print("no blackhole")
+//            }
             
             return rootWorld
             

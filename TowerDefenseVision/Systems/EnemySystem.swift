@@ -6,6 +6,7 @@
 //
 
 import RealityKit
+import SwiftUI
 
 public struct EnemySystem: System {
     static let query = EntityQuery(where: .has(EnemyComponent.self))
@@ -19,26 +20,35 @@ public struct EnemySystem: System {
             guard let enemyComp = entity.components[EnemyComponent.self],
                   let tower = enemyComp.targetTower else { continue }
             
-            // 1. Hitung jarak monster ke tower
-            let directionVector = tower.position - entity.position
+            let towerWorldPos = tower.position(relativeTo: nil)
+            let enemyWorldPos = entity.position(relativeTo: nil)
+            
+            let directionVector = towerWorldPos - enemyWorldPos
             let distance = simd_length(directionVector)
             
-            // 2. Jika jaraknya masih lebih dari 50 cm, terus berjalan maju
             if distance > 0.5 {
                 let direction = simd_normalize(directionVector)
-                entity.position += direction * enemyComp.speed * deltaTime
+                let newWorldPos = enemyWorldPos + (direction * enemyComp.speed * deltaTime)
                 
-                // Selalu menghadap tower saat berjalan
-                entity.look(at: tower.position, from: entity.position, upVector: [0, 1, 0], relativeTo: nil)
+                entity.setPosition(newWorldPos, relativeTo: nil)
+                entity.look(at: towerWorldPos, from: newWorldPos, upVector: [0, 1, 0], relativeTo: nil)
             } else {
-                // 3. Monster MENABRAK TOWER! Kurangi HP Tower
+                // 💥 MONSTER MENABRAK TOWER
                 if var towerComp = tower.components[TowerComponent.self] {
-                    towerComp.hp -= 10 // Kurangi darah tower sebanyak 10
+                    towerComp.hp -= 10
                     print("💥 Tower ditabrak monster! Sisa HP: \(towerComp.hp)")
+                    
+                    // 🛑 CEK KONDISI KALAH DI SINI
+                    if towerComp.hp <= 0 {
+                        if let model = ArcherySystem.appModel {
+                            DispatchQueue.main.async {
+                                model.currentGameState = .lost
+                            }
+                        }
+                    }
                     tower.components.set(towerComp)
                 }
                 
-                // Hapus monster dari dunia karena sudah meledak/menyerang tower
                 entity.removeFromParent()
             }
         }

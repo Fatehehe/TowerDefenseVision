@@ -12,15 +12,20 @@ struct ContentView: View {
     @Environment(AppModel.self) var appModel
     
     var body: some View {
-        // Mengubah tampilan window berdasarkan status game saat ini
         Group {
             switch appModel.currentGameState {
             case .startScreen:
                 StartScreenView()
+            case .loading:
+                LoadingView()
             case .tutorial:
                 TutorialView()
             case .playing:
-                GameplayHUDView()
+                Color.clear
+            case .won: // 🎉 Tampilkan Layar Menang
+                GameResultView(isWin: true)
+            case .lost: // 💀 Tampilkan Layar Kalah
+                GameResultView(isWin: false)
             }
         }
         .animation(.easeInOut, value: appModel.currentGameState)

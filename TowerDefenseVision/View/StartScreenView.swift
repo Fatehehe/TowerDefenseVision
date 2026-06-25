@@ -22,10 +22,10 @@ struct StartScreenView: View {
                 .foregroundColor(.secondary)
             
             Button(action: {
-                // 1. Ubah UI ke mode tutorial
-                appModel.currentGameState = .tutorial
+                // 1. Ubah UI ke mode LOADING
+                appModel.currentGameState = .loading
                 
-                // 2. Buka dunia 3D di background (jadi pemain bisa baca tutorial sambil lihat dunianya muncul)
+                // 2. Buka dunia 3D (proses berat dimulai)
                 Task {
                     await openImmersiveSpace(id: appModel.immersiveSpaceID)
                 }

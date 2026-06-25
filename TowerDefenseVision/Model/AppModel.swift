@@ -8,27 +8,30 @@
 import SwiftUI
 import ILSHandTracking
 
-/// Maintains app-wide state
 @MainActor
 @Observable
 class AppModel {
     let immersiveSpaceID = "ImmersiveSpace"
     
-    // --- TAMBAHAN: Status Layar Utama ---
     enum GameState {
         case startScreen
+        case loading
         case tutorial
         case playing
+        case won   // 🎉 Kondisi Menang
+        case lost  // 💀 Kondisi Kalah
     }
+    
     var currentGameState: GameState = .startScreen
     
     enum ImmersiveSpaceState {
-        case closed
-        case inTransition
-        case open
+        case closed, inTransition, open
     }
     var immersiveSpaceState = ImmersiveSpaceState.closed
     
-    // Variabel untuk nyimpen status panah dari ECS
     var arrowState: ArcheryState = .idle
+    
+    // --- TAMBAHAN TRACKING WIN/LOSE ---
+    var enemiesDefeated: Int = 0
+    var totalEnemiesToWin: Int = 3 // Sesuaikan dengan jumlah maxEnemies di Portal
 }

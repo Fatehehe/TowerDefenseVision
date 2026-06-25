@@ -10,7 +10,7 @@ import SwiftUI
 struct TutorialView: View {
     @Environment(AppModel.self) var appModel
     @State private var currentStep = 0
-    let totalSteps = 3
+    let totalSteps = 4
     
     var body: some View {
         VStack {

@@ -11,17 +11,23 @@ struct GameplayHUDView: View {
     @Environment(AppModel.self) var appModel
     
     var body: some View {
-        VStack(spacing: 15) {
-            Text("Status Panah")
-                .font(.headline)
+        HStack(spacing: 12) {
+            Image(systemName: "target")
+                .font(.title3)
                 .foregroundColor(.secondary)
-        
+            
+            Text("PANAH :")
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundColor(.secondary)
             Text("\(appModel.arrowState.rawValue)")
-                .font(.largeTitle)
+                .font(.headline)
                 .bold()
                 .textCase(.uppercase)
+                .frame(minWidth: 80, alignment: .leading)
         }
-        .padding(30)
-        .frame(width: 300, height: 200)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
+        .glassBackgroundEffect(in: Capsule())
     }
 }

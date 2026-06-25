@@ -6,15 +6,13 @@
 //
 
 import RealityKit
+import SwiftUI
+import Combine
 
 public class CombatSystem: System {
-    // 1. Wajib menyimpan subscription agar event listener tidak terhapus dari memori
-    private var collisionSub: EventSubscription?
+    private var collisionSub: (any Cancellable)?
     
-    // 2. Akses scene tersedia secara langsung di init
     public required init(scene: RealityKit.Scene) {
-        
-        // 3. Pasang pendengar event di sini
         collisionSub = scene.subscribe(to: CollisionEvents.Began.self) { event in
             let entityA = event.entityA
             let entityB = event.entityB
@@ -36,7 +34,6 @@ public class CombatSystem: System {
                 enemy = entityA
             }
             
-            // Logika "Hit" dipindahkan ke sini
             if let hitArrow = arrow, let hitEnemy = enemy {
                 print("🎯 HEADSHOT! Panah mengenai musuh!")
                 
@@ -44,8 +41,18 @@ public class CombatSystem: System {
                     enemyComp.hp -= 30
                     
                     if enemyComp.hp <= 0 {
-                        hitEnemy.removeFromParent()
+                        hitEnemy.removeFromParent() // Hancurkan Musuh
                         print("💀 Musuh Hancur!")
+                        
+                        // 🎉 CEK KONDISI MENANG DI SINI
+                        if let model = ArcherySystem.appModel {
+                            DispatchQueue.main.async {
+                                model.enemiesDefeated += 1
+                                if model.enemiesDefeated >= model.totalEnemiesToWin {
+                                    model.currentGameState = .won
+                                }
+                            }
+                        }
                     } else {
                         hitEnemy.components.set(enemyComp)
                     }
@@ -56,7 +63,5 @@ public class CombatSystem: System {
         }
     }
     
-    // Fungsi update wajib ada untuk System, tapi biarkan kosong
-    // karena kita menangani logic berbasis Event (bukan per frame)
-    public func update(context: SceneUpdateContext) { }
+    public func update(context: SceneUpdateContext) {}
 }
