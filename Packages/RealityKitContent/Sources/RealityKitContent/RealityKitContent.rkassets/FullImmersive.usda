@@ -1,0 +1,260 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.100.6)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    reorder nameChildren = ["RunToTowerAndAttack", "WalkToTowerAndAttack"]
+    def "MedievalScene" (
+        active = true
+        references = @MedievalScene.usda@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def "FREE___SkyBox_Anime_Sky" (
+        active = true
+        references = @TechArts/Meshs/FREE_-_SkyBox_Anime_Sky.usdz@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def "BlackHole" (
+        active = true
+        customData = {
+            float3 rotationEulerHint = (0, 1.5707963, 0)
+        }
+        references = @BlackHole.usda@
+    )
+    {
+        quatf xformOp:orient = (0.70710677, 0, 0.70710677, 0)
+        float3 xformOp:scale = (10, 7, 10)
+        float3 xformOp:translate = (-28.076855, 1.8167531, -1.0315855)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def "Goblon" (
+        active = true
+        customData = {
+            float3 rotationEulerHint = (0, 1.5707963, 0)
+        }
+        references = @Goblon.usda@
+    )
+    {
+        quatf xformOp:orient = (0.70710677, 0, 0.70710677, 0)
+        float3 xformOp:scale = (2.5, 2.5, 2.5)
+        float3 xformOp:translate = (-30.321163, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Goblin_T_pose"
+        {
+            over "AnimationLibrary"
+            {
+                over "Goblin_Walk"
+                {
+                    uniform bool looping = 1
+                    uniform string name = "Goblin_Walk"
+                }
+
+                over "Goblin_Attack"
+                {
+                    uniform bool looping = 1
+                    uniform string name = "Goblin_Attack"
+                }
+
+                over "Goblin_Run"
+                {
+                    uniform bool looping = 1
+                    uniform string name = "Goblin_Run"
+                }
+            }
+        }
+
+        def RealityKitComponent "RCP_BehaviorsContainer"
+        {
+            rel behaviors = </Root/Goblon/OnAddedToScene>
+            uniform token info:id = "RCP.BehaviorsContainer"
+        }
+
+        def Preliminary_Behavior "OnAddedToScene"
+        {
+            rel actions = </Root/Goblon/OnAddedToScene/Action>
+            uniform bool exclusive
+            rel triggers = </Root/Goblon/OnAddedToScene/Trigger>
+
+            def Preliminary_Trigger "Trigger"
+            {
+                rel affectedObjects = </Root/Goblon>
+                token info:id = "SceneTransition"
+            }
+
+            def Preliminary_Action "Action"
+            {
+                rel affectedObjects = </Root>
+                rel animationLibraryKey = </Root/RunToTowerAndAttack>
+                rel animationLibraryKeyOverrideKey = </Root/Goblon/OnAddedToScene/Trigger>
+                token info:id = "PlayTimeline"
+                int loops = 0
+                int performCount = 1
+                token type = "serial"
+            }
+        }
+    }
+
+    def RealityKitTimeline "RunToTowerAndAttack"
+    {
+        reorder nameChildren = ["Track", "Track2"]
+        def RealityKitTrack "Track"
+        {
+            reorder nameChildren = ["Animation3", "Animation2"]
+            def RealityKitAction "Animation3"
+            {
+                string actionKind = "animation"
+                string animation = "Goblin_Run"
+                int blendLayer = 500
+                double duration = 1.0499999523162842
+                uniform token info:id = "2FFA663F-A670-487A-87BB-5E8074802AAC"
+                double loopCount = 7.6
+                bool separateAnimatedValue = 1
+                double startTime = 0
+                rel target = </Root/Goblon/Goblin_T_pose>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
+
+            def RealityKitAction "Animation2"
+            {
+                string actionKind = "animation"
+                string animation = "Goblin_Attack"
+                int blendLayer = 500
+                double duration = 0.949999988079071
+                uniform token info:id = "CD5A39B1-C9FD-412F-AB10-F4CA20EB4045"
+                double loopCount = 0
+                bool separateAnimatedValue = 1
+                double startTime = 7.9264043781846105
+                rel target = </Root/Goblon/Goblin_T_pose>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
+        }
+
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "Transform_To"
+            {
+                string actionKind = "moveTo"
+                int blendLayer = 300
+                double duration = 8
+                uniform token info:id = "D79CD460-B348-4BF9-A7AC-22FD0E066FF1"
+                float3 position = (-5.3614222e-8, 4.649163e-7, 11.741887)
+                quatf rotation = (0.70710677, -0.7071067, 0, 0)
+                float3 scale = (0.99999994, 0.99999994, 0.99999994)
+                double startTime = 0
+                rel target = </Root/Goblon/Goblin_T_pose>
+
+                def RealityKitStruct "transformMode"
+                {
+                    rel referenceEntity = </Root>
+                    token type = "parent"
+                }
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "cubicBezier"
+                }
+            }
+        }
+    }
+
+    def RealityKitTimeline "WalkToTowerAndAttack"
+    {
+        reorder nameChildren = ["Track", "Track2", "Track3"]
+        float2 ui:nodegraph:node:pos = (20, 20)
+        int ui:nodegraph:node:stackingOrder = 1
+
+        def RealityKitTrack "Track"
+        {
+            reorder nameChildren = ["Animation32", "Animation2"]
+            def RealityKitAction "Animation2"
+            {
+                string actionKind = "animation"
+                string animation = "Goblin_Attack"
+                int blendLayer = 500
+                double duration = 0.949999988079071
+                uniform token info:id = "CD5A39B1-C9FD-412F-AB10-F4CA20EB4045"
+                double loopCount = 0
+                bool separateAnimatedValue = 1
+                double startTime = 13.903886066079709
+                rel target = </Root/Goblon/Goblin_T_pose>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
+        }
+
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "Transform_To"
+            {
+                string actionKind = "moveTo"
+                int blendLayer = 300
+                double duration = 14
+                uniform token info:id = "D79CD460-B348-4BF9-A7AC-22FD0E066FF1"
+                float3 position = (-5.3614222e-8, 4.649163e-7, 11.741887)
+                quatf rotation = (0.70710677, -0.7071067, 0, 0)
+                float3 scale = (0.99999994, 0.99999994, 0.99999994)
+                double startTime = 0
+                rel target = </Root/Goblon/Goblin_T_pose>
+
+                def RealityKitStruct "transformMode"
+                {
+                    rel referenceEntity = </Root>
+                    token type = "parent"
+                }
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "cubicBezier"
+                }
+            }
+        }
+
+        def RealityKitTrack "Track3"
+        {
+            def RealityKitAction "Animation32"
+            {
+                string actionKind = "animation"
+                string animation = "Goblin_Walk"
+                int blendLayer = 500
+                double duration = 1.5833333730697632
+                uniform token info:id = "2FFA663F-A670-487A-87BB-5E8074802AAC"
+                double loopCount = 9
+                bool separateAnimatedValue = 1
+                double startTime = 0
+                rel target = </Root/Goblon/Goblin_T_pose>
+
+                def RealityKitStruct "handoffType"
+                {
+                    bool applyToAllLayers = 0
+                    token type = "defaultHandoffType"
+                }
+            }
+        }
+    }
+}
+

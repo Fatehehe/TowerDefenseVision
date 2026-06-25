@@ -2,6 +2,8 @@
   "pathsToIds" : {
     "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/BlackHole.usda" : "5CD5CB44-D6AA-4C5A-AD4A-1B225BA8DBA8",
     "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Bow.usda" : "42ACB52B-9E41-4DA6-B4A3-DF265DECCF93",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/FullImmersive.usda" : "C92E2B1C-9ECF-4124-8429-A5387627826E",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Goblon.usda" : "1C34E26C-E8F4-474F-BA98-22A5E82B183A",
     "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/GridMaterial.usda" : "CB766F92-EE55-4A63-9401-E7B8C009764D",
     "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Immersive.usda" : "65F6F990-A780-4474-B78B-572E0E4E273D",
     "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Materials\/Untitled%20Scene.usda" : "1F56843E-062C-4AD1-B715-96535B1DFF88",
@@ -24,11 +26,14 @@
     "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Quiver.usda" : "5161F9C3-A0BA-43A6-970B-42D7C133AEB0",
     "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Scene.usda" : "D66134B1-3681-4A8E-AFE5-29F257229F3B",
     "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/ShaderOutline.usda" : "44C03EC1-7CF6-4652-B5D5-9647F2F82EB1",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/TechArts\/Animations\/Goblin_Hit_1.usdc" : "6097A49B-47A8-42BF-84F8-BD797A97910F",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/TechArts\/Meshs\/Goblin.usdc" : "68969F02-7A53-4BED-A2F4-1C1E67AB60E4",
     "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/TechArts\/Shader\/PBR_Material.usda" : "B499CB33-6232-451E-A511-BBFB42E64D7D",
     "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/TechArts\/Shader\/ShaderTerrain.usda" : "A34C0C6D-0566-43A8-8AF8-ADC9DA45E3C8"
   },
   "projectID" : 5075444262239118124,
   "uuidToIntID" : {
+    "1C34E26C-E8F4-474F-BA98-22A5E82B183A" : -3314385654402127551,
     "1F56843E-062C-4AD1-B715-96535B1DFF88" : -5436668392281891917,
     "225C706F-4385-413C-877E-0AA208537EEB" : 2265863147373333653,
     "2A67D348-6E20-4430-9684-9B9A85C5E24B" : -1810094606006973437,
@@ -38,6 +43,8 @@
     "4CDD3D75-C430-490C-9A24-036E3871BEA5" : 7467424315653337723,
     "5161F9C3-A0BA-43A6-970B-42D7C133AEB0" : -8029167919397278876,
     "5CD5CB44-D6AA-4C5A-AD4A-1B225BA8DBA8" : 8926438313466940489,
+    "6097A49B-47A8-42BF-84F8-BD797A97910F" : -7961362902389279200,
+    "68969F02-7A53-4BED-A2F4-1C1E67AB60E4" : 4694115976820621591,
     "7D464209-5B6E-40FD-B67C-86E1005C04A9" : -1428254358242595171,
     "85A41A9A-E184-432C-B7EF-172E46F96CF0" : -5273353438337968579,
     "9603AE53-8861-4F2F-90ED-3E68989CFEC4" : -5244164512784098305,
@@ -47,6 +54,7 @@
     "AF09ED6F-1707-48FD-8720-65B998362C09" : 7928513760250894402,
     "B499CB33-6232-451E-A511-BBFB42E64D7D" : 7330061539921497420,
     "C297A380-75AD-4A44-8469-7B5E701E558A" : -9128887134407614883,
+    "C92E2B1C-9ECF-4124-8429-A5387627826E" : -3639419921133523707,
     "D1482F36-51EB-40E4-8F60-F609729CF6A8" : -6572371854321591295,
     "E399DA23-C798-4ACB-A022-93355B44166D" : -1432620830522524389
   }
