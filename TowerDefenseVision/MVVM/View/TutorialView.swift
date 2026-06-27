@@ -46,6 +46,7 @@ struct TutorialView: View {
                             } else {
                                 Button(action: {
                                     appModel.currentGameState = .playing
+                                    appModel.playGame()
                                     // 🎯 2. Tutup window utama!
                                     dismissWindow(id: "MainWindow")
                                 }) {

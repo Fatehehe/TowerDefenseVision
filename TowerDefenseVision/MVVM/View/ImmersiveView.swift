@@ -13,10 +13,10 @@ import RealityKitContent
 struct ImmersiveView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.openWindow) var openWindow
-    @Environment(GameCoordinator.self) var coordinator
+//    @Environment(GameCoordinator.self) var coordinator
     
-    @State private var viewModel = GameViewModel()
-    @State private var updateSubscription: EventSubscription?
+//    @State private var viewModel = GameViewModel()
+//    @State private var updateSubscription: EventSubscription?
     
     var body: some View {
         // Hapus blok 'update' jika tidak digunakan agar kode lebih bersih
@@ -31,14 +31,14 @@ struct ImmersiveView: View {
             if let medievalWorld = await MedievalSceneSpawner.spawnMedievalWorld(named: "MedievalScene") {
                 if let targetBullsEye = medievalWorld.findEntity(named: "Tower") {
                     var towerData = TowerComponent()
-                    towerData.hp = 30
+                    towerData.hp = 100
                     targetBullsEye.components.set(towerData)
                 }
                 content.add(medievalWorld)
             }
                     
             // 2. Portal
-            if let portal = await MedievalSceneSpawner.spawnPortalAsync() {
+            if let portal = await MedievalSceneSpawner.spawnPortalAsync(){
                 content.add(portal)
             }
                     
@@ -87,16 +87,30 @@ struct ImmersiveView: View {
         .upperLimbVisibility(.hidden)
         // ❌ HAPUS blok .onAppear yang mengikat ArcherySystem dengan model
         // ArcherySystem kini sepenuhnya mandiri menggunakan NotificationCenter
-        .onChange(of: model.currentGameState) { _, newState in
-            // 1. Beritahu System bahwa game sedang berjalan atau berhenti
-            // Sinkronisasi dengan properti statis yang dibaca oleh System Anda
-//            GameStateTracker.isPlaying = (newState == .playing)
+        .onReceive(NotificationCenter.default.publisher(for: .enemyDefeated)) { _ in
+                    model.enemiesDefeated += 1
+                    print("Musuh mati: \(model.enemiesDefeated) / \(model.totalEnemiesToWin)")
                     
-            // 2. Buka jendela utama saat menang/kalah
-            if newState == .won || newState == .lost {
-                openWindow(id: "MainWindow")
-            }
-        }
+                    if model.enemiesDefeated >= model.totalEnemiesToWin {
+                        model.currentGameState = .won
+                    }
+                }
+                
+                .onReceive(NotificationCenter.default.publisher(for: .towerDestroyed)) { _ in
+                    model.currentGameState = .lost
+                    print("Tower Hancur ditangkap oleh ImmersiveView!")
+                }
+                
+                // 🎯 PENTING: BUKA KEMBALI UI SAAT MENANG/KALAH
+                .onChange(of: model.currentGameState) { _, newState in
+                    if newState == .won || newState == .lost {
+                        // Panggil kembali ContentView yang tadi ditutup!
+                        model.stopGame()
+                        openWindow(id: "MainWindow")
+                    }
+                }
+                
+                
     }
 }
 

@@ -9,7 +9,8 @@ import SwiftUI
 
 struct GameResultView: View {
     @Environment(AppModel.self) var appModel
-    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
+//    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
+    @Environment(\.dismissWindow) var dismissWindow
     
     var isWin: Bool
     
@@ -25,9 +26,10 @@ struct GameResultView: View {
             
             Button(action: {
                 Task {
-                    appModel.immersiveSpaceState = .inTransition
-                    await dismissImmersiveSpace()
+//                    appModel.immersiveSpaceState = .inTransition
+//                    await dismissImmersiveSpace()
                     appModel.resetGame()
+                    dismissWindow(id: "MainWindow")
                 }
             }) {
                 Text("Main Lagi")

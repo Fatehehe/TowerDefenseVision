@@ -41,65 +41,65 @@ public struct MedievalSceneSpawner {
         }
     }
     
-    public static func createWorld(named sceneName: String = "MedievalScene") async -> Entity {
-        let worldAnchor = Entity()
-        worldAnchor.name = "WorldAnchor"
-        worldAnchor.components.set(GameStateComponent())
-        
-        if let rcpScene = try? await Entity(named: sceneName, in: realityKitContentBundle) {
-            rcpScene.position = SIMD3<Float>(12, 0, -2)
-            rcpScene.scale = SIMD3<Float>(repeating: 1.0)
-            
-            if let targetBullsEye = rcpScene.findEntity(named: "Tower") {
-                var towerData = TowerComponent()
-                towerData.hp = 100
-                targetBullsEye.components.set(towerData)
-            }else{
-                print("no tower")
-            }
-            worldAnchor.addChild(rcpScene)
-        }
-        return worldAnchor
-    }
-    
-    public static func createPortal(named entityName: String = "BlackHole") async -> Entity {
-        if let portalEntity = try? await Entity(named: entityName, in: realityKitContentBundle) {
-            
-            var portalData = PortalComponent()
-            portalData.spawnInterval = 5.0
-            portalEntity.components.set(portalData)
-            
-            let portalScale: Float = 5.0
-            portalEntity.transform.scale = SIMD3<Float>(repeating: portalScale)
-            
-            portalEntity.position = SIMD3<Float>(-15, 1, -3)
-            let portalAngle: Float = .pi / 2
-            let portalAxis = SIMD3<Float>(0, 1, 0)
-            portalEntity.transform.rotation = simd_quatf(angle: portalAngle, axis: portalAxis)
-
-            return portalEntity
-        }
-
-        return Entity()
-    }
+//    public static func createWorld(named sceneName: String = "MedievalScene") async -> Entity {
+//        let worldAnchor = Entity()
+//        worldAnchor.name = "WorldAnchor"
+//        worldAnchor.components.set(GameStateComponent())
+//        
+//        if let rcpScene = try? await Entity(named: sceneName, in: realityKitContentBundle) {
+//            rcpScene.position = SIMD3<Float>(12, 0, -2)
+//            rcpScene.scale = SIMD3<Float>(repeating: 1.0)
+//            
+//            if let targetBullsEye = rcpScene.findEntity(named: "Tower") {
+//                var towerData = TowerComponent()
+//                towerData.hp = 100
+//                targetBullsEye.components.set(towerData)
+//            }else{
+//                print("no tower")
+//            }
+//            worldAnchor.addChild(rcpScene)
+//        }
+//        return worldAnchor
+//    }
+//    
+//    public static func createPortal(named entityName: String = "BlackHole") async -> Entity {
+//        if let portalEntity = try? await Entity(named: entityName, in: realityKitContentBundle) {
+//            
+//            var portalData = PortalComponent()
+//            portalData.spawnInterval = 5.0
+//            portalEntity.components.set(portalData)
+//            
+//            let portalScale: Float = 5.0
+//            portalEntity.transform.scale = SIMD3<Float>(repeating: portalScale)
+//            
+//            portalEntity.position = SIMD3<Float>(-15, 1, -3)
+//            let portalAngle: Float = .pi / 2
+//            let portalAxis = SIMD3<Float>(0, 1, 0)
+//            portalEntity.transform.rotation = simd_quatf(angle: portalAngle, axis: portalAxis)
+//
+//            return portalEntity
+//        }
+//
+//        return Entity()
+//    }
     
     public static func spawnPortalAsync(named entityName: String = "BlackHole") async -> Entity? {
         do {
-            // 1. Ambil model portal dari RCP (misal bentuk gerbang/lingkaran)
+            // 1. Ambil model portal dari RCP
             let portalEntity = try await Entity(named: entityName, in: realityKitContentBundle)
             
             // 2. Beri komponen Portal agar sistem mengenalinya
             var portalData = PortalComponent()
-            portalData.spawnInterval = 3.0 // Atur jeda spawn di sini
+            portalData.spawnInterval = 3.0 // Atur jeda spawn awal
             portalEntity.components.set(portalData)
             
-            let portalScale: Float = 5.0
+            let portalScale: Float = 10.0
             portalEntity.transform.scale = SIMD3<Float>(repeating: portalScale)
         
-            // 3. Atur posisi portal (misalnya 5 meter di depan pemain)
-            portalEntity.position = SIMD3<Float>(-15, 1, -3)
+            // 3. Atur posisi portal (misalnya 15 meter di kiri pemain)
+            portalEntity.position = SIMD3<Float>(-15, 0, -3)
             let portalAngle: Float = .pi / 2
-            let portalAxis = SIMD3<Float>(0,1,0)
+            let portalAxis = SIMD3<Float>(0, 1, 0)
             portalEntity.transform.rotation = simd_quatf(angle: portalAngle, axis: portalAxis)
                 
             print("[PortalSpawner] Sukses memuat Portal dari RCP!")

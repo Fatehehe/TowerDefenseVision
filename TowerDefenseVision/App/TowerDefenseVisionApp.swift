@@ -11,7 +11,7 @@ import SwiftUI
 struct TowerDefenseVisionApp: App {
 
     @State private var appModel = AppModel()
-    @State private var coordinator = GameCoordinator()
+//    @State private var coordinator = GameCoordinator()
     
     init() {
         SystemRegistry.registerAllSystems()
@@ -19,17 +19,17 @@ struct TowerDefenseVisionApp: App {
 
     var body: some Scene {
         WindowGroup(id: "MainWindow") {
-//            ContentView()
-//                .environment(appModel)
-            RootCoordinatorView()
-                .environment(coordinator)
+            ContentView()
+                .environment(appModel)
+//            RootCoordinatorView()
+//                .environment(coordinator)
         }
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()
                 .environment(appModel)
-                .environment(coordinator)
+//                .environment(coordinator)
         }
-        .immersionStyle(selection: .constant(.full), in: .full)
+        .immersionStyle(selection: .constant(.mixed), in: .mixed)
      }
 }

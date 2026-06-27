@@ -29,10 +29,24 @@ class AppModel {
     var enemiesDefeated: Int = 0
     var totalEnemiesToWin: Int = 3
     
+    var towerHp: Int = 100
+    var towerMaxHp: Int = 100
+    
     func resetGame() {
-            enemiesDefeated = 0
-            arrowState = .idle // Kembalikan tangan ke kondisi awal
-            currentGameState = .startScreen
-            immersiveSpaceState = .closed // Sinkronkan state ruang 3D
-        }
+        enemiesDefeated = 0
+        arrowState = .idle
+        currentGameState = .playing
+        
+        towerHp = 100
+//        immersiveSpaceState = .closed
+        playGame()
+    }
+    
+    func playGame() {
+        GameStateTracker.isPlaying = true
+    }
+    
+    func stopGame() {
+        GameStateTracker.isPlaying = false
+    }
 }

@@ -38,10 +38,20 @@ public struct EnemySystem: System {
                 // Musuh mencapai tower (Jarak <= 0.5)
                 if var towerComp = tower.components[TowerComponent.self] {
                     towerComp.hp -= 10
-                    print("🏰 Tower ditabrak monster! Sisa HP: \(towerComp.hp)")
+                    let currentHP = towerComp.hp // Simpan di variabel lokal agar aman dibawa ke dalam Task
                     
-                    if towerComp.hp <= 0 {
-                        // 🎉 PERBAIKAN: Delegasikan event kekalahan ke Main Thread
+                    print("🏰 Tower ditabrak monster! Sisa HP: \(currentHP)")
+                    
+                    // 🎯 PERBAIKAN: Kirim event towerGetHit beserta sisa HP-nya
+                    Task { @MainActor in
+                        NotificationCenter.default.post(
+                            name: .towerGetHit,
+                            object: currentHP
+                        )
+                    }
+                    
+                    if currentHP <= 0 {
+                        // 🎉 Delegasikan event kekalahan ke Main Thread
                         Task { @MainActor in
                             NotificationCenter.default.post(
                                 name: .towerDestroyed,

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainMenuView: View {
-    @Environment(GameCoordinator.self) private var coordinator
+//    @Environment(GameCoordinator.self) private var coordinator
     
     var body: some View {
         VStack(spacing: 30) {
@@ -21,7 +21,7 @@ struct MainMenuView: View {
                 .foregroundColor(.secondary)
             
             Button(action: {
-                coordinator.startNewGame()
+//                coordinator.startNewGame()
             }) {
                 Text("Start Game")
                     .font(.title2)
