@@ -16,7 +16,7 @@ def Xform "Root"
     )
     {
         quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
-        float3 xformOp:scale = (2.5, 2.5, 2.5)
+        float3 xformOp:scale = (1.5, 1.5, 1.5)
         float3 xformOp:translate = (0, 0, 0)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
@@ -212,6 +212,7 @@ def Xform "Root"
 
         def RealityKitTrack "Track3"
         {
+            reorder nameChildren = ["Animation", "Play_Audio2222"]
             def RealityKitAction "Animation"
             {
                 string actionKind = "animation"
@@ -228,7 +229,45 @@ def Xform "Root"
                 {
                 }
             }
+
+            def RealityKitAction "Play_Audio2222"
+            {
+                string actionKind = "audio"
+                string audioResourceName = "YTMP3GG_YouTube_Running-F.mp3"
+                bool controlPlayback = 1
+                double duration = 4.911
+                uniform token info:id = "B73D51F9-5457-4FB3-89F6-8A4A782E714D"
+                double loopCount = 1.65
+                double startTime = 0
+                rel target = </Root>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
         }
+    }
+
+    def RealityKitComponent "SpatialAudio"
+    {
+        uniform token info:id = "RealityKit.SpatialAudio"
+    }
+
+    def RealityKitComponent "AudioLibrary"
+    {
+        uniform token info:id = "RealityKit.AudioLibrary"
+
+        def RealityKitDict "resources"
+        {
+            string[] keys = ["YTMP3GG_YouTube_Running-F.mp3"]
+            rel values = </Root/YTMP3GG_YouTube_Running_F_mp3>
+        }
+    }
+
+    def RealityKitAudioFile "YTMP3GG_YouTube_Running_F_mp3"
+    {
+        uniform asset file = @TechArts/Audio/YTMP3GG_YouTube_Running-F.mp3@
+        uniform bool shouldLoop = 1
     }
 }
 
