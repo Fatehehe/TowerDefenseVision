@@ -626,7 +626,9 @@
       [
         "7264D387-398A-4D4D-8B1F-07114F164340",
         "Root",
-        "watchtower"
+        "watchtower",
+        "_materials",
+        "Watchtower"
       ],
       {
         "isExpanded" : true,
@@ -635,6 +637,15 @@
       [
         "7264D387-398A-4D4D-8B1F-07114F164340",
         "Root"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "7264D387-398A-4D4D-8B1F-07114F164340",
+        "Root",
+        "watchtower"
       ],
       {
         "isExpanded" : true,
