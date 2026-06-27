@@ -290,19 +290,5 @@ def Xform "Root"
             }
         }
     }
-
-    def "Watchtower" (
-        active = true
-        customData = {
-            float3 rotationEulerHint = (0, -1.1519173, 0)
-        }
-        prepend references = @Watchtower.usda@
-    )
-    {
-        quatf xformOp:orient = (0.83867055, 0, -0.54463905, 0)
-        float3 xformOp:scale = (1.5, 1.5, 1.5)
-        float3 xformOp:translate = (-10.494952, 0, 6.07513)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-    }
 }
 

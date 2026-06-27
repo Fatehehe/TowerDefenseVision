@@ -795,47 +795,7 @@
     "objectMetadataList" : [
       [
         "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
-        "Root",
-        "Environment",
-        "Houses"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
-        "Root",
-        "Environment",
-        "Houses",
-        "_materials"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
         "Root"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
-        "Root",
-        "Environment",
-        "Floor"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
-        "Root",
-        "Environment"
       ],
       {
         "isExpanded" : true,
