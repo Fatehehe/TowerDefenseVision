@@ -6,7 +6,7 @@
 //
 
 import RealityKit
-import SwiftUI
+import Foundation
 
 public struct EnemySystem: System {
     static let query = EntityQuery(where: .has(EnemyComponent.self))
@@ -26,27 +26,34 @@ public struct EnemySystem: System {
             let directionVector = towerWorldPos - enemyWorldPos
             let distance = simd_length(directionVector)
             
+            // Jarak > 0.5 meter, musuh terus maju
             if distance > 0.5 {
                 let direction = simd_normalize(directionVector)
                 let newWorldPos = enemyWorldPos + (direction * enemyComp.speed * deltaTime)
                 
                 entity.setPosition(newWorldPos, relativeTo: nil)
                 entity.look(at: towerWorldPos, from: newWorldPos, upVector: [0, 1, 0], relativeTo: nil)
+                
             } else {
+                // Musuh mencapai tower (Jarak <= 0.5)
                 if var towerComp = tower.components[TowerComponent.self] {
                     towerComp.hp -= 10
-                    print("Tower ditabrak monster! Sisa HP: \(towerComp.hp)")
-                
+                    print("🏰 Tower ditabrak monster! Sisa HP: \(towerComp.hp)")
+                    
                     if towerComp.hp <= 0 {
-                        if let model = ArcherySystem.appModel {
-                            DispatchQueue.main.async {
-                                model.currentGameState = .lost
-                            }
+                        // 🎉 PERBAIKAN: Delegasikan event kekalahan ke Main Thread
+                        Task { @MainActor in
+                            NotificationCenter.default.post(
+                                name: .towerDestroyed,
+                                object: nil
+                            )
                         }
                     }
+                    // Simpan kembali HP terbaru ke entitas tower
                     tower.components.set(towerComp)
                 }
                 
+                // Musuh mati/hilang setelah menabrak tower
                 entity.removeFromParent()
             }
         }

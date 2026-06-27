@@ -24,11 +24,10 @@ struct GameResultView: View {
                 .multilineTextAlignment(.center)
             
             Button(action: {
-                // Tutup dunia 3D dan kembali ke awal
                 Task {
+                    appModel.immersiveSpaceState = .inTransition
                     await dismissImmersiveSpace()
-                    appModel.enemiesDefeated = 0 // Reset skor
-                    appModel.currentGameState = .startScreen
+                    appModel.resetGame()
                 }
             }) {
                 Text("Main Lagi")

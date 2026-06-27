@@ -30,5 +30,16 @@ struct ContentView: View {
             }
         }
         .animation(.easeInOut, value: appModel.currentGameState)
+        .onReceive(NotificationCenter.default.publisher(for: .enemyDefeated)) { _ in
+            appModel.enemiesDefeated += 1
+            print("Musuh mati: \(appModel.enemiesDefeated) / \(appModel.totalEnemiesToWin)")
+            
+            if appModel.enemiesDefeated >= appModel.totalEnemiesToWin {
+                appModel.currentGameState = .won
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .towerDestroyed)) { _ in
+            appModel.currentGameState = .lost
+        }
     }
 }

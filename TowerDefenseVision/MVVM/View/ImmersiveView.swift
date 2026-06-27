@@ -19,11 +19,8 @@ struct ImmersiveView: View {
     @State private var updateSubscription: EventSubscription?
     
     var body: some View {
-        // 1. Tambahkan 'attachments' di sini
+        // Hapus blok 'update' jika tidak digunakan agar kode lebih bersih
         RealityView { content, attachments in
-                    
-            //add baru
-//            updateSubscription = await GameSimulationBuilder.setupWorld(content: content, viewModel: viewModel)
             
             // 1. Map & Tower
             let worldAnchor = Entity()
@@ -69,44 +66,37 @@ struct ImmersiveView: View {
             content.add(headAnchor)
             
             // 🎯 6. PROSES SELESAI, UBAH STATE KE TUTORIAL
-            // Gunakan DispatchQueue.main.async agar perubahan state UI aman dan tidak memicu warning thread.
-            DispatchQueue.main.async {
+            // Gunakan Task dan @MainActor untuk standar keamanan Swift modern
+            Task { @MainActor in
                 model.currentGameState = .tutorial
             }
-            //add baru juga update
-        }update: { content, attachment in
-            if let arrowUI = attachment.entity(for: "gameplay_hud"){
-                
-            }
-        }attachments: {
+            
+        } attachments: {
             // 🎯 7. DEKLARASIKAN HUD SEBAGAI ATTACHMENT
             Attachment(id: "gameplay_hud") {
-                // Hanya render HUD kalau status game sudah playing
+                // Render HUD kalau status game minimal sedang bermain
                 if model.currentGameState == .playing {
                     GameplayHUDView()
                 }
             }
         }
         .task {
+            // Memulai pelacakan tangan secara asinkron
             try? await HandTrackingService.shared.start()
         }
         .upperLimbVisibility(.hidden)
-        .onAppear {
-            ArcherySystem.appModel = model
-        }
+        // ❌ HAPUS blok .onAppear yang mengikat ArcherySystem dengan model
+        // ArcherySystem kini sepenuhnya mandiri menggunakan NotificationCenter
         .onChange(of: model.currentGameState) { _, newState in
-                    // 1. Beritahu System bahwa game sedang berjalan atau berhenti
-                    if newState == .playing {
-                        GameStateTracker.isPlaying = true
-                    } else {
-                        GameStateTracker.isPlaying = false
-                    }
+            // 1. Beritahu System bahwa game sedang berjalan atau berhenti
+            // Sinkronisasi dengan properti statis yang dibaca oleh System Anda
+//            GameStateTracker.isPlaying = (newState == .playing)
                     
-                    // 2. Buka jendela utama saat menang/kalah
-                    if newState == .won || newState == .lost {
-                        openWindow(id: "MainWindow")
-                    }
-                }
+            // 2. Buka jendela utama saat menang/kalah
+            if newState == .won || newState == .lost {
+                openWindow(id: "MainWindow")
+            }
+        }
     }
 }
 

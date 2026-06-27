@@ -17,7 +17,7 @@ public struct PortalSystem: System {
     
     public func update(context: SceneUpdateContext) {
 //        guard let model = ArcherySystem.appModel, model.currentGameState == .playing else { return }
-        guard GameStateTracker.isPlaying else { return }
+//        guard GameStateTracker.isPlaying else { return }
         
         let currentTime = ProcessInfo.processInfo.systemUptime
         

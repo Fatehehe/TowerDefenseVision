@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import ILSHandTracking
 
 @MainActor
 @Observable
@@ -14,14 +13,10 @@ class AppModel {
     let immersiveSpaceID = "ImmersiveSpace"
     
     enum GameState {
-        case startScreen
-        case loading
-        case tutorial
-        case playing
-        case won   // 🎉 Kondisi Menang
-        case lost  // 💀 Kondisi Kalah
+        case startScreen, loading, tutorial, playing
+        case won
+        case lost
     }
-    
     var currentGameState: GameState = .startScreen
     
     enum ImmersiveSpaceState {
@@ -31,7 +26,13 @@ class AppModel {
     
     var arrowState: ArcheryState = .idle
     
-    // --- TAMBAHAN TRACKING WIN/LOSE ---
     var enemiesDefeated: Int = 0
-    var totalEnemiesToWin: Int = 3 // Sesuaikan dengan jumlah maxEnemies di Portal
+    var totalEnemiesToWin: Int = 3
+    
+    func resetGame() {
+            enemiesDefeated = 0
+            arrowState = .idle // Kembalikan tangan ke kondisi awal
+            currentGameState = .startScreen
+            immersiveSpaceState = .closed // Sinkronkan state ruang 3D
+        }
 }

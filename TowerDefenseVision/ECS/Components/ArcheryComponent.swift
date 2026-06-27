@@ -12,7 +12,6 @@ public enum ArcheryState: String {
     case equipped = "Equipped"
     case nocked = "Nocked"
     case drawn = "Drawn"
-//    case shoot = "Shoot"
 }
 
 public struct ArcheryPlayerComponent: Component {
@@ -20,7 +19,6 @@ public struct ArcheryPlayerComponent: Component {
     public weak var activeBow: Entity?
     public weak var activeArrow: Entity?
     
-    // Tambahan untuk Reload Mekanik
     public var arrowTemplate: Entity?
     public weak var rightHandAnchor: Entity?
     

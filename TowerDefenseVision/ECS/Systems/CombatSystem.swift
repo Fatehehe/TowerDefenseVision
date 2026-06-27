@@ -6,7 +6,7 @@
 //
 
 import RealityKit
-import SwiftUI
+import Foundation
 import Combine
 
 public class CombatSystem: System {
@@ -42,26 +42,20 @@ public class CombatSystem: System {
                     
                     if enemyComp.hp <= 0 {
                         hitEnemy.removeFromParent() // Hancurkan Musuh
-                        print("💀 Musuh Hancur!")
+                        print("Musuh Hancur!")
                         
-                        // 🎉 CEK KONDISI MENANG DI SINI
-                        if let model = ArcherySystem.appModel {
-                            DispatchQueue.main.async {
-                                model.enemiesDefeated += 1
-                                if model.enemiesDefeated >= model.totalEnemiesToWin {
-                                    model.currentGameState = .won
-                                }
-                            }
+                        Task { @MainActor in
+                            NotificationCenter.default.post(
+                                name: .enemyDefeated,
+                                object: nil
+                            )
                         }
                     } else {
                         hitEnemy.components.set(enemyComp)
                     }
                 }
-                
                 hitArrow.removeFromParent()
             }
         }
     }
-    
-    public func update(context: SceneUpdateContext) {}
 }

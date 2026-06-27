@@ -10,20 +10,14 @@ import ARKit
 import ILSHandTracking
 
 public struct ArcherySystem: System {
-    nonisolated(unsafe) static var appModel: AppModel?
-    
     static let query = EntityQuery(where: .has(ArcheryPlayerComponent.self))
     
     public init(scene: RealityKit.Scene) {}
     
     public func update(context: SceneUpdateContext) {
-//        guard let model = Self.appModel else { return }
-        
-        // TETAP GUNAKAN GameStateTracker UNTUK MEMBACA STATE DEMI KEAMANAN
-        guard GameStateTracker.isPlaying else { return }
+//        guard GameStateTracker.isPlaying else { return }
         
         let service = HandTrackingService.shared
-        
         guard let leftHand = service.latestLeftHand, let leftSkeleton = leftHand.handSkeleton, leftHand.isTracked,
               let rightHand = service.latestRightHand, let rightSkeleton = rightHand.handSkeleton, rightHand.isTracked else {
             return
@@ -31,7 +25,6 @@ public struct ArcherySystem: System {
         
         let isLeftFist = BowHandPoseDetector.detect(handSkeleton: leftSkeleton)
         let isRightFist = ArrowHandPoseDetector.detect(handSkeleton: rightSkeleton)
-        
         let isShooting = ShootHandPoseDetector.detect(handSkeleton: rightSkeleton)
         
         let leftPos = leftHand.originFromAnchorTransform.columns.3
@@ -46,21 +39,18 @@ public struct ArcherySystem: System {
                   let bow = playerComp.activeBow,
                   let arrow = playerComp.activeArrow else { continue }
             
+            // 1. Simpan state sebelum proses frame ini dimulai
+            let previousState = playerComp.state
+            
+            // 2. Evaluasi logika game
             switch playerComp.state {
-                
             case .idle, .equipped:
                 bow.isEnabled = isLeftFist
                 arrow.isEnabled = isRightFist
                 
                 if isLeftFist && isRightFist {
-                    if playerComp.state != .equipped {
-                        playerComp.state = .equipped
-                        print("[ArcherySystem] STATE: EQUIPPED")
-                    }
-                    if handDistance < 0.15 {
-                        playerComp.state = .nocked
-                        print("[ArcherySystem] STATE: NOCKED")
-                    }
+                    if playerComp.state != .equipped { playerComp.state = .equipped }
+                    if handDistance < 0.15 { playerComp.state = .nocked }
                 } else {
                     playerComp.state = .idle
                 }
@@ -70,13 +60,10 @@ public struct ArcherySystem: System {
                     playerComp.state = .idle
                 } else if handDistance >= 0.15 {
                     playerComp.state = .drawn
-                    print("[ArcherySystem] STATE: DRAWN")
                 }
                 
             case .drawn:
                 if isShooting {
-                    print("[ArcherySystem] SHOOT!")
-                    
                     let worldTransform = arrow.transformMatrix(relativeTo: nil)
                     entity.addChild(arrow, preservingWorldTransform: true)
                     
@@ -101,19 +88,20 @@ public struct ArcherySystem: System {
                 }
             }
             
+            // 3. Terapkan komponen yang sudah di-update kembali ke entitas
             entity.components[ArcheryPlayerComponent.self] = playerComp
             
-            // 🎯 PERBAIKAN: Lakxukan update UI di Main Thread
-            let newState = playerComp.state
-            DispatchQueue.main.async {
-                // Pastikan model masih ada
-                guard let validModel = Self.appModel else { return }
+            // 4. NOTIFICATION: Evaluasi apakah state berubah
+            // Jika berubah, delegasikan pengiriman notifikasi ke Main Actor agar thread-safe
+            if playerComp.state != previousState {
+                let newState = playerComp.state // Tangkap variabel untuk menghindari data race
                 
-                // Jangan update jika state tidak berubah untuk menghemat memori UI
-                if validModel.arrowState != newState {
-                    validModel.arrowState = newState
+                Task { @MainActor in
+                    NotificationCenter.default.post(
+                        name: .archeryStateDidChange,
+                        object: newState
+                    )
                 }
-                validModel.immersiveSpaceState = .open
             }
         }
     }
