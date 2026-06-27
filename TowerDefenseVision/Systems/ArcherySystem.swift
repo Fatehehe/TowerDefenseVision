@@ -17,7 +17,11 @@ public struct ArcherySystem: System {
     public init(scene: RealityKit.Scene) {}
     
     public func update(context: SceneUpdateContext) {
-        guard let model = Self.appModel else {return}
+//        guard let model = Self.appModel else { return }
+        
+        // TETAP GUNAKAN GameStateTracker UNTUK MEMBACA STATE DEMI KEAMANAN
+        guard GameStateTracker.isPlaying else { return }
+        
         let service = HandTrackingService.shared
         
         guard let leftHand = service.latestLeftHand, let leftSkeleton = leftHand.handSkeleton, leftHand.isTracked,
@@ -51,11 +55,11 @@ public struct ArcherySystem: System {
                 if isLeftFist && isRightFist {
                     if playerComp.state != .equipped {
                         playerComp.state = .equipped
-                        print("[ArcherySystem] STATE: EQUIPPED (Siap menempelkan panah)")
+                        print("[ArcherySystem] STATE: EQUIPPED")
                     }
                     if handDistance < 0.15 {
                         playerComp.state = .nocked
-                        print("[ArcherySystem] STATE: NOCKED (Panah menempel di tali)")
+                        print("[ArcherySystem] STATE: NOCKED")
                     }
                 } else {
                     playerComp.state = .idle
@@ -64,18 +68,16 @@ public struct ArcherySystem: System {
             case .nocked:
                 if !isRightFist || !isLeftFist {
                     playerComp.state = .idle
-                    print("[ArcherySystem] Batal ditarik, kembali ke IDLE")
                 } else if handDistance >= 0.15 {
                     playerComp.state = .drawn
-                    print("[ArcherySystem] STATE: DRAWN (Menarik panah...)")
+                    print("[ArcherySystem] STATE: DRAWN")
                 }
                 
             case .drawn:
                 if isShooting {
-                    print("[ArcherySystem] SHOOT! Panah dilepaskan secara manual!")
+                    print("[ArcherySystem] SHOOT!")
                     
                     let worldTransform = arrow.transformMatrix(relativeTo: nil)
-                    
                     entity.addChild(arrow, preservingWorldTransform: true)
                     
                     let zAxis = worldTransform.columns.1
@@ -93,18 +95,26 @@ public struct ArcherySystem: System {
                         clonedArrow.isEnabled = false
                         rightHandEntity.addChild(clonedArrow)
                         playerComp.activeArrow = clonedArrow
-                        print("[ArcherySystem] RELOAD: Panah baru siap di tangan kanan!")
-                    } else {
-                        print("[ArcherySystem] Gagal reload: Template panah tidak ditemukan.")
                     }
                     
                     playerComp.state = .idle
                 }
             }
             
-            model.arrowState = playerComp.state
-            model.immersiveSpaceState = .open
             entity.components[ArcheryPlayerComponent.self] = playerComp
+            
+            // 🎯 PERBAIKAN: Lakxukan update UI di Main Thread
+            let newState = playerComp.state
+            DispatchQueue.main.async {
+                // Pastikan model masih ada
+                guard let validModel = Self.appModel else { return }
+                
+                // Jangan update jika state tidak berubah untuk menghemat memori UI
+                if validModel.arrowState != newState {
+                    validModel.arrowState = newState
+                }
+                validModel.immersiveSpaceState = .open
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ import RealityKit
 import Foundation
 
 public struct EnemyComponent: Component {
-    public var speed: Float = 0.5
+    public var speed: Float = 1
     public var hp: Int = 30
     public var targetTower: Entity?
     

@@ -12,16 +12,29 @@ import RealityKitContent
 
 struct ImmersiveView: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.openWindow) var openWindow
+    @Environment(GameCoordinator.self) var coordinator
+    
+    @State private var viewModel = GameViewModel()
+    @State private var updateSubscription: EventSubscription?
     
     var body: some View {
         // 1. Tambahkan 'attachments' di sini
         RealityView { content, attachments in
                     
+            //add baru
+//            updateSubscription = await GameSimulationBuilder.setupWorld(content: content, viewModel: viewModel)
+            
             // 1. Map & Tower
+            let worldAnchor = Entity()
+            worldAnchor.name = "WorldAnchor"
+            worldAnchor.components.set(GameStateComponent())
+            content.add(worldAnchor)
+            
             if let medievalWorld = await MedievalSceneSpawner.spawnMedievalWorld(named: "MedievalScene") {
                 if let targetBullsEye = medievalWorld.findEntity(named: "Tower") {
                     var towerData = TowerComponent()
-                    towerData.hp = 100
+                    towerData.hp = 30
                     targetBullsEye.components.set(towerData)
                 }
                 content.add(medievalWorld)
@@ -60,8 +73,12 @@ struct ImmersiveView: View {
             DispatchQueue.main.async {
                 model.currentGameState = .tutorial
             }
-            
-        } attachments: {
+            //add baru juga update
+        }update: { content, attachment in
+            if let arrowUI = attachment.entity(for: "gameplay_hud"){
+                
+            }
+        }attachments: {
             // 🎯 7. DEKLARASIKAN HUD SEBAGAI ATTACHMENT
             Attachment(id: "gameplay_hud") {
                 // Hanya render HUD kalau status game sudah playing
@@ -77,6 +94,19 @@ struct ImmersiveView: View {
         .onAppear {
             ArcherySystem.appModel = model
         }
+        .onChange(of: model.currentGameState) { _, newState in
+                    // 1. Beritahu System bahwa game sedang berjalan atau berhenti
+                    if newState == .playing {
+                        GameStateTracker.isPlaying = true
+                    } else {
+                        GameStateTracker.isPlaying = false
+                    }
+                    
+                    // 2. Buka jendela utama saat menang/kalah
+                    if newState == .won || newState == .lost {
+                        openWindow(id: "MainWindow")
+                    }
+                }
     }
 }
 

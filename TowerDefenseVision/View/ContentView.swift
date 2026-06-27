@@ -10,6 +10,7 @@ import RealityKit
 
 struct ContentView: View {
     @Environment(AppModel.self) var appModel
+    @Environment(GameCoordinator.self) var coordinator
     
     var body: some View {
         Group {
@@ -22,9 +23,9 @@ struct ContentView: View {
                 TutorialView()
             case .playing:
                 Color.clear
-            case .won: // 🎉 Tampilkan Layar Menang
+            case .won:
                 GameResultView(isWin: true)
-            case .lost: // 💀 Tampilkan Layar Kalah
+            case .lost:
                 GameResultView(isWin: false)
             }
         }

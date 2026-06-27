@@ -26,3 +26,7 @@ public struct ArcheryPlayerComponent: Component {
     
     public init() {}
 }
+
+public struct ArcheryStatusEvent: Event {
+    public let newAction: ArcheryState
+}

@@ -8,7 +8,7 @@
 import RealityKit
 
 public struct TowerComponent: Component {
-    public var hp: Int = 100
+    public var hp: Int = 30
     public var maxHp: Int = 100
     public var isDestroyed: Bool = false
     

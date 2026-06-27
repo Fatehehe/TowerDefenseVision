@@ -34,3 +34,4 @@ public struct SystemRegistry {
         CombatSystem.registerSystem()
     }
 }
+

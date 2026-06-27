@@ -9,6 +9,8 @@ import SwiftUI
 
 struct TutorialView: View {
     @Environment(AppModel.self) var appModel
+    @Environment(\.dismissWindow) var dismissWindow
+    
     @State private var currentStep = 0
     let totalSteps = 4
     
@@ -36,24 +38,26 @@ struct TutorialView: View {
             
             // Navigasi Bawah
             HStack {
-                if currentStep < totalSteps - 1 {
-                    Button("Next") {
-                        withAnimation { currentStep += 1 }
-                    }
-                    .buttonStyle(.bordered)
-                } else {
-                    Button(action: {
-                        appModel.currentGameState = .playing
-                    }) {
-                        Text("Paham, Mari Mulai!")
-                            .bold()
-                            .padding(.horizontal, 30)
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.green)
-                }
-            }
-            .padding(.bottom, 40)
+                            if currentStep < totalSteps - 1 {
+                                Button("Next") {
+                                    withAnimation { currentStep += 1 }
+                                }
+                                .buttonStyle(.bordered)
+                            } else {
+                                Button(action: {
+                                    appModel.currentGameState = .playing
+                                    // 🎯 2. Tutup window utama!
+                                    dismissWindow(id: "MainWindow")
+                                }) {
+                                    Text("Paham, Mari Mulai!")
+                                        .bold()
+                                        .padding(.horizontal, 30)
+                                }
+                                .buttonStyle(.borderedProminent)
+                                .tint(.green)
+                            }
+                        }
+                        .padding(.bottom, 40)
         }
         .frame(width: 600, height: 500)
     }

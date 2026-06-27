@@ -33,12 +33,10 @@ public struct EnemySystem: System {
                 entity.setPosition(newWorldPos, relativeTo: nil)
                 entity.look(at: towerWorldPos, from: newWorldPos, upVector: [0, 1, 0], relativeTo: nil)
             } else {
-                // 💥 MONSTER MENABRAK TOWER
                 if var towerComp = tower.components[TowerComponent.self] {
                     towerComp.hp -= 10
-                    print("💥 Tower ditabrak monster! Sisa HP: \(towerComp.hp)")
-                    
-                    // 🛑 CEK KONDISI KALAH DI SINI
+                    print("Tower ditabrak monster! Sisa HP: \(towerComp.hp)")
+                
                     if towerComp.hp <= 0 {
                         if let model = ArcherySystem.appModel {
                             DispatchQueue.main.async {
