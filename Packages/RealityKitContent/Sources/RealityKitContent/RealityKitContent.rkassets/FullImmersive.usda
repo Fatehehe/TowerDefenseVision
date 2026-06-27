@@ -10,7 +10,7 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["RunToTowerAndAttack", "WalkToTowerAndAttack"]
+    reorder nameChildren = ["RunToTowerAndAttack", "WalkToTowerAndAttack", "Timeline"]
     def "MedievalScene" (
         active = true
         references = @MedievalScene.usda@
@@ -30,7 +30,7 @@ def Xform "Root"
     }
 
     def "BlackHole" (
-        active = true
+        active = false
         customData = {
             float3 rotationEulerHint = (0, 1.5707963, 0)
         }
@@ -44,7 +44,6 @@ def Xform "Root"
     }
 
     def "Goblon" (
-        active = true
         customData = {
             float3 rotationEulerHint = (0, 1.5707963, 0)
         }
@@ -252,6 +251,41 @@ def Xform "Root"
                 {
                     bool applyToAllLayers = 0
                     token type = "defaultHandoffType"
+                }
+            }
+        }
+    }
+
+    def "GoblonV2" (
+        active = true
+        customData = {
+            float3 rotationEulerHint = (0, 1.5707963, 0)
+        }
+        prepend references = @GoblonV2.usda@
+    )
+    {
+        quatf xformOp:orient = (0.70710677, 0, 0.70710677, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-30.642826, -3.874302e-7, -7.450581e-9)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def RealityKitTimeline "Timeline"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Transform_By"
+            {
+                string actionKind = "moveBy"
+                int blendLayer = 300
+                double duration = 1
+                uniform token info:id = "3352FB7B-F48B-4C0A-BECA-E58BFB728743"
+                float3 position = (-2.1206574e-7, 0, 29.92609)
+                double startTime = 0.02494053911205074
+                rel target = </Root/GoblonV2>
+
+                def RealityKitStruct "timingFunction"
+                {
                 }
             }
         }

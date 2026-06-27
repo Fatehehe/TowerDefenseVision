@@ -1,0 +1,276 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.100.6)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def "Goblin_T_Pose_2" (
+        active = true
+        references = @TechArts/Meshs/Goblin_T-Pose-2.usdc@
+    )
+    {
+        quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
+        float3 xformOp:scale = (0.015, 0.015, 0.015)
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "_materials"
+        {
+            over "Goblin" (
+                references = @TechArts/Shader/PBR_Material.usda@</Root/DefaultMaterial>
+            )
+            {
+                asset inputs:AOTexture = None
+                asset inputs:BaseTexture = @TechArts/Textures/Goblin/orcaaa_Goblin_BaseColor.1001.png@
+                asset inputs:NormalTexture = @TechArts/Textures/Goblin/orcaaa_Goblin_Normal.1001.png@
+                float inputs:Roughness_Float = 1 (
+                    customData = {
+                        dictionary realitykit = {
+                            float2 positionInSubgraph = (-326.2021, 251.7427)
+                            int stackingOrderInSubgraph = 80
+                        }
+                    }
+                )
+                asset inputs:RoughnessTexture = @TechArts/Textures/Goblin/orcaaa_Goblin_Roughness.1001.png@
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+
+                over "Image_1"
+                {
+                    string inputs:filtertype
+                    float2 ui:nodegraph:node:pos = (-359.923, 133.94073)
+                    int ui:nodegraph:node:stackingOrder = 75
+                }
+
+                over "PreviewSurface"
+                {
+                    float inputs:clearcoat
+                    float inputs:clearcoatRoughness
+                    color3f inputs:emissiveColor.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/Image2D_1.outputs:out>
+                    float inputs:ior
+                    float inputs:occlusion
+                    float inputs:opacityThreshold
+                    float inputs:roughness.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/Multiply_1.outputs:out>
+                    float2 ui:nodegraph:node:pos = (86.17491, 802.0976)
+                    int ui:nodegraph:node:stackingOrder = 92
+                    string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["Advanced"]
+                }
+
+                def Shader "Multiply_1"
+                {
+                    uniform token info:id = "ND_multiply_float"
+                    float inputs:in1.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/Image_1.outputs:out>
+                    float inputs:in2.connect = </Root/Goblin_T_Pose_2/_materials/Goblin.inputs:Roughness_Float>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-185.67578, 199.96094)
+                    int ui:nodegraph:node:stackingOrder = 78
+                }
+
+                def Shader "ConstantImageFile"
+                {
+                    uniform token info:id = "ND_constant_filename"
+                    asset inputs:value = @TechArts/Textures/Goblin/orcaaa_Goblin_Emissive.1001.png@
+                    asset outputs:out
+                    float2 ui:nodegraph:node:pos = (-665.8633, 982.41016)
+                    int ui:nodegraph:node:stackingOrder = 93
+                }
+
+                def Shader "Image2D_1"
+                {
+                    uniform token info:id = "ND_RealityKitTexture2D_color3"
+                    float inputs:dynamic_min_lod_clamp
+                    prepend asset inputs:file.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/ConstantImageFile.outputs:out>
+                    bool inputs:no_flip_v = 1
+                    int2 inputs:offset
+                    color3f outputs:out
+                    float2 ui:nodegraph:node:pos = (-310.23587, 943.4445)
+                    int ui:nodegraph:node:stackingOrder = 95
+                }
+            }
+        }
+
+        def RealityKitComponent "AnimationLibrary"
+        {
+            uniform token info:id = "RealityKit.AnimationLibrary"
+
+            def RealityKitAnimationFile "Goblin_Attack_2"
+            {
+                uniform asset file = @TechArts/Animations/Goblin_Attack-2.usdc@
+                uniform bool looping = 1
+                uniform string name = "Goblin_Attack-2"
+            }
+
+            def RealityKitAnimationFile "Goblin_Walk_2"
+            {
+                uniform asset file = @TechArts/Animations/Goblin_Walk-2.usdc@
+                uniform bool looping = 1
+                uniform string name = "Goblin_Walk-2"
+            }
+        }
+
+        def RealityKitComponent "RCP_BehaviorsContainer"
+        {
+            rel behaviors = </Root/Goblin_T_Pose_2/OnAddedToScene>
+            uniform token info:id = "RCP.BehaviorsContainer"
+        }
+
+        def Preliminary_Behavior "OnAddedToScene"
+        {
+            rel actions = </Root/Goblin_T_Pose_2/OnAddedToScene/Action>
+            uniform bool exclusive
+            rel triggers = </Root/Goblin_T_Pose_2/OnAddedToScene/Trigger>
+
+            def Preliminary_Trigger "Trigger"
+            {
+                rel affectedObjects = </Root/Goblin_T_Pose_2>
+                token info:id = "SceneTransition"
+            }
+
+            def Preliminary_Action "Action"
+            {
+                rel affectedObjects = </Root>
+                rel animationLibraryKey = </Root/V2WalkAndHit>
+                rel animationLibraryKeyOverrideKey = </Root/Goblin_T_Pose_2/OnAddedToScene/Trigger>
+                token info:id = "PlayTimeline"
+                int loops = 0
+                int performCount = 1
+                token type = "serial"
+            }
+        }
+    }
+
+    def RealityKitComponent "AnimationLibrary"
+    {
+        uniform token info:id = "RealityKit.AnimationLibrary"
+
+        def RealityKitAnimationFile "Goblin_Walk_2"
+        {
+            uniform asset file = @TechArts/Animations/Goblin_Walk-2.usdc@
+            uniform bool looping = 1
+            uniform string name = "Goblin_Walk-2"
+        }
+
+        def RealityKitAnimationFile "Goblin_Attack_2"
+        {
+            uniform asset file = @TechArts/Animations/Goblin_Attack-2.usdc@
+            uniform string name = "Goblin_Attack-2"
+        }
+    }
+
+    def RealityKitComponent "AudioLibrary"
+    {
+        uniform token info:id = "RealityKit.AudioLibrary"
+
+        def RealityKitDict "resources"
+        {
+            string[] keys = ["YTMP3GG_YouTube_Running-F.mp3"]
+            rel values = </Root/YTMP3GG_YouTube_Running_F_mp3>
+        }
+    }
+
+    def RealityKitAudioFile "YTMP3GG_YouTube_Running_F_mp3"
+    {
+        uniform asset file = @TechArts/Audio/YTMP3GG_YouTube_Running-F.mp3@
+        uniform bool shouldLoop = 0
+    }
+
+    def RealityKitComponent "RCP_BehaviorsContainer"
+    {
+        rel behaviors = </Root/OnAddedToScene>
+        uniform token info:id = "RCP.BehaviorsContainer"
+    }
+
+    def Preliminary_Behavior "OnAddedToScene"
+    {
+        rel actions = </Root/OnAddedToScene/Action>
+        uniform bool exclusive
+        rel triggers = </Root/OnAddedToScene/Trigger>
+
+        def Preliminary_Trigger "Trigger"
+        {
+            rel affectedObjects = </Root>
+            token info:id = "SceneTransition"
+        }
+
+        def Preliminary_Action "Action"
+        {
+            rel affectedObjects = None
+            rel animationLibraryKeyOverrideKey = </Root/OnAddedToScene/Trigger>
+            token info:id = "PlayTimeline"
+            int loops = 0
+            int performCount = 1
+            token type = "serial"
+        }
+    }
+
+    def RealityKitTimeline "V2WalkAndHit"
+    {
+        reorder nameChildren = ["Track2", "Track3", "Track"]
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "Animation"
+            {
+                string actionKind = "animation"
+                string animation = "Goblin_Walk-2"
+                int blendLayer = 500
+                double duration = 2.9583332538604736
+                uniform token info:id = "8605F2BD-1BEA-4BEC-B0C5-8B9D7F7188EE"
+                double loopCount = 5.2
+                bool separateAnimatedValue = 1
+                double startTime = 0
+                rel target = </Root/Goblin_T_Pose_2>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
+        }
+
+        def RealityKitTrack "Track3"
+        {
+            reorder nameChildren = ["Animation", "Transform_By"]
+            def RealityKitAction "Animation"
+            {
+                string actionKind = "animation"
+                string animation = "Goblin_Attack-2"
+                int blendLayer = 500
+                double duration = 1.9583333730697632
+                uniform token info:id = "8094D0E5-964B-49CB-9B9D-C9733D785982"
+                double loopCount = 0
+                bool separateAnimatedValue = 1
+                double startTime = 14.925723440803383
+                rel target = </Root/Goblin_T_Pose_2>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
+        }
+
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Transform_By"
+            {
+                string actionKind = "moveBy"
+                int blendLayer = 300
+                double duration = 15
+                uniform token info:id = "14CB457D-1671-4C3F-8332-7566B00BF0BE"
+                float3 position = (0, 0, 29.9)
+                double startTime = 0.013253052918818786
+                rel target = </Root>
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "cubicBezier"
+                }
+            }
+        }
+    }
+}
+

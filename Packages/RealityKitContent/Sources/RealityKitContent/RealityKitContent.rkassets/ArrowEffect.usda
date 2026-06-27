@@ -1,0 +1,50 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.100.6)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Xform "ParticleEmitter"
+    {
+        def RealityKitComponent "VFXEmitter"
+        {
+            token info:id = "RealityKit.VFXEmitter"
+
+            def RealityKitStruct "currentState"
+            {
+                token birthDirection = "Local"
+                token emitterShape = "Point"
+                bool isLocal = 1
+                bool isLocalFields = 1
+                token spawnOccasion = "OnUpdate"
+
+                def RealityKitStruct "mainEmitter"
+                {
+                    float birthRate = 200
+                    float birthRateVariation = 50
+                    float4 endColorA = (0.39620644, 0.55033445, 0.9514107, 1)
+                    float particleAngle = 0.17453292
+                    float particleAngleVariation = 0.05235988
+                    double particleLifeSpan = 0.5
+                    float particleMass = 0
+                    float spreadingAngle = 0.17453292
+                    float4 startColorA = (0.6858951, 0.88103414, 0.7239903, 1)
+                    bool useEndColor = 1
+                    bool useEndColorRange = 0
+                    bool useStartColorRange = 0
+                }
+
+                def RealityKitStruct "spawnedEmitter"
+                {
+                }
+            }
+        }
+    }
+}
+
