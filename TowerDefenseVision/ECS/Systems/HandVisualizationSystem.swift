@@ -57,7 +57,6 @@ struct HandVisualizationSystem: System {
     private func updateJointRotations(for glove: ModelEntity, using handSkeleton: HandSkeleton) {
         let joints = handSkeleton.allJoints
         
-        // This assumes the joint order in the USD file matches the ARKit hand skeleton joint order.
         for (index, joint) in joints.enumerated() {
             let jointTransform = handSkeleton.joint(joint.name).parentFromJointTransform
             let rotation = simd_quatf(jointTransform)

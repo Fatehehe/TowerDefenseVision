@@ -15,7 +15,6 @@ public struct ArcherySystem: System {
     public init(scene: RealityKit.Scene) {}
     
     public func update(context: SceneUpdateContext) {
-//        guard GameStateTracker.isPlaying else { return }
         
         let service = HandTrackingService.shared
         guard let leftHand = service.latestLeftHand, let leftSkeleton = leftHand.handSkeleton, leftHand.isTracked,
@@ -23,11 +22,11 @@ public struct ArcherySystem: System {
             return
         }
         
-        let isLeftFist = BowHandPoseDetector.detect(handSkeleton: leftSkeleton)
-        let isRightFist = ArrowHandPoseDetector.detect(handSkeleton: rightSkeleton)
-        let isShooting = ShootHandPoseDetector.detect(handSkeleton: rightSkeleton)
+        let isBowPose = HandPoseDetector.detect(handSkeleton: leftSkeleton, thumb: false, index: false, mid: false, ring: false, little: false)
+        let isArrowPose = HandPoseDetector.detect(handSkeleton: rightSkeleton, thumb: false, index: true, mid: true, ring: true, little: true)
+        let isShootingPose = HandPoseDetector.detect(handSkeleton: rightSkeleton, thumb: false, index: false, mid: true, ring: true, little: true)
         
-        print("isLeftFist \(isLeftFist), isRightFist \(isRightFist), isShooting \(isShooting)")
+        print("isBowPose \(isBowPose), isArrowPose \(isArrowPose), isShootingPose \(isShootingPose)")
         
         let leftPos = leftHand.originFromAnchorTransform.columns.3
         let rightPos = rightHand.originFromAnchorTransform.columns.3
@@ -36,27 +35,19 @@ public struct ArcherySystem: System {
             simd_make_float3(rightPos.x, rightPos.y, rightPos.z)
         )
         
-//        print(
-//            context.scene.performQuery(
-//                EntityQuery(where: .has(ArrowComponent.self))
-//            )
-//        )
-        
         for entity in context.scene.performQuery(Self.query) {
             guard var playerComp = entity.components[ArcheryPlayerComponent.self],
                   let bow = playerComp.activeBow,
                   let arrow = playerComp.activeArrow else { continue }
             
-            // 1. Simpan state sebelum proses frame ini dimulai
             let previousState = playerComp.state
             
-            // 2. Evaluasi logika game
             switch playerComp.state {
             case .idle, .equipped:
-                bow.isEnabled = isLeftFist
-                arrow.isEnabled = isRightFist
+                bow.isEnabled = isBowPose
+                arrow.isEnabled = isArrowPose
                 
-                if isLeftFist && isRightFist {
+                if isBowPose && isArrowPose {
                     if playerComp.state != .equipped { playerComp.state = .equipped }
                     if handDistance < 0.15 { playerComp.state = .nocked }
                 } else {
@@ -64,14 +55,14 @@ public struct ArcherySystem: System {
                 }
                 
             case .nocked:
-                if !isRightFist || !isLeftFist {
+                if !isArrowPose || !isBowPose {
                     playerComp.state = .idle
                 } else if handDistance >= 0.15 {
                     playerComp.state = .drawn
                 }
                 
             case .drawn:
-                if isShooting {
+                if isShootingPose {
                     let worldTransform = arrow.transformMatrix(relativeTo: nil)
                     entity.addChild(arrow, preservingWorldTransform: true)
                     
@@ -96,13 +87,10 @@ public struct ArcherySystem: System {
                 }
             }
             
-            // 3. Terapkan komponen yang sudah di-update kembali ke entitas
             entity.components[ArcheryPlayerComponent.self] = playerComp
             
-            // 4. NOTIFICATION: Evaluasi apakah state berubah
-            // Jika berubah, delegasikan pengiriman notifikasi ke Main Actor agar thread-safe
             if playerComp.state != previousState {
-                let newState = playerComp.state // Tangkap variabel untuk menghindari data race
+                let newState = playerComp.state 
                 
                 Task { @MainActor in
                     NotificationCenter.default.post(

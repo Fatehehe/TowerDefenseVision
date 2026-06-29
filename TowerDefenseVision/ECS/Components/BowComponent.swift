@@ -8,6 +8,6 @@
 import RealityKit
 
 public struct BowComponent: Component {
-    public var tension: Float = 0.0 // Untuk mengukur tarikan tali nanti
+    public var tension: Float = 0.0
     public init() {}
 }

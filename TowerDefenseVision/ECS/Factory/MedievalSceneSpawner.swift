@@ -25,15 +25,7 @@ public struct MedievalSceneSpawner {
             }else{
                 print("no tower")
             }
-            
-//            if let blackHole = rootWorld.findEntity(named: "BlackHole") {
-//                var portalData = PortalComponent()
-//                portalData.spawnInterval = 3.0
-//                blackHole.components.set(portalData)
-//            }else{
-//                print("no blackhole")
-//            }
-            
+
             return rootWorld
             
         } catch {
@@ -44,11 +36,9 @@ public struct MedievalSceneSpawner {
     
     public static func spawnPortalAsync(named entityName: String = "BlackHole") async -> Entity? {
         do {
-            // 1. Ambil model portal dari RCP
             let portalEntity = try await Entity(named: entityName, in: realityKitContentBundle)
             let enemy = try await Entity(named: "GoblonV2", in: realityKitContentBundle)
             
-            // 2. Beri komponen Portal agar sistem mengenalinya
             var portalData = PortalComponent()
             portalData.spawnInterval = 3.0 // Atur jeda spawn awal
             portalData.enemy = enemy
@@ -57,7 +47,6 @@ public struct MedievalSceneSpawner {
             let portalScale: Float = 10.0
             portalEntity.transform.scale = SIMD3<Float>(repeating: portalScale)
         
-            // 3. Atur posisi portal (misalnya 15 meter di kiri pemain)
 //            rootWorld.position = SIMD3<Float>(12, 0, -2)
 //            rootWorld.position = SIMD3<Float>(10.5, 0, -6)
             portalEntity.position = SIMD3<Float>(-20, -5, -7)
