@@ -10,6 +10,7 @@ import Foundation
 
 public struct EnemySystem: System {
     static let query = EntityQuery(where: .has(EnemyComponent.self))
+    static let towerQuery = EntityQuery(where: .has(TowerComponent.self))
     static var lastEnemyCount: Int = -1
     
     public init(scene: RealityKit.Scene) {}

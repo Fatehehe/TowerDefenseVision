@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RealityKit
 
 @MainActor
 @Observable
@@ -32,17 +33,26 @@ class AppModel {
     var towerHp: Int = 100
     var towerMaxHp: Int = 100
     
+    var towerEntity: Entity?
+    
     func resetGame() {
         enemiesDefeated = 0
         arrowState = .idle
         currentGameState = .playing
-        
+            
         towerHp = 100
+        
+        if let entity = towerEntity, var towerComp = entity.components[TowerComponent.self] {
+            towerComp.hp = 100
+            entity.components.set(towerComp)
+        }
+        
         playGame()
     }
     
     func playGame() {
         GameStateTracker.isPlaying = true
+        GameStateTracker.towerHp = 100
     }
     
     func stopGame() {

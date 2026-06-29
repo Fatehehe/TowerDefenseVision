@@ -14,6 +14,8 @@ struct ImmersiveView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.openWindow) var openWindow
     
+    @State var towerEntity: Entity?
+    
     var body: some View {
         RealityView { content, attachments in
             
@@ -22,6 +24,9 @@ struct ImmersiveView: View {
                     var towerData = TowerComponent()
                     towerData.hp = 100
                     targetBullsEye.components.set(towerData)
+                    Task { @MainActor in
+                        model.towerEntity = targetBullsEye
+                    }
                 }
                 content.add(medievalWorld)
             }
@@ -73,7 +78,6 @@ struct ImmersiveView: View {
                 model.currentGameState = .won
             }
         }
-                
         .onReceive(NotificationCenter.default.publisher(for: .towerDestroyed)) { _ in
             model.currentGameState = .lost
             print("Tower Hancur ditangkap oleh ImmersiveView!")
