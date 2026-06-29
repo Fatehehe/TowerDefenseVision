@@ -13,20 +13,9 @@ import RealityKitContent
 struct ImmersiveView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.openWindow) var openWindow
-//    @Environment(GameCoordinator.self) var coordinator
-    
-//    @State private var viewModel = GameViewModel()
-//    @State private var updateSubscription: EventSubscription?
     
     var body: some View {
-        // Hapus blok 'update' jika tidak digunakan agar kode lebih bersih
         RealityView { content, attachments in
-            
-            // 1. Map & Tower
-            let worldAnchor = Entity()
-            worldAnchor.name = "WorldAnchor"
-            worldAnchor.components.set(GameStateComponent())
-            content.add(worldAnchor)
             
             if let medievalWorld = await MedievalSceneSpawner.spawnMedievalWorld(named: "MedievalScene") {
                 if let targetBullsEye = medievalWorld.findEntity(named: "Tower") {
@@ -36,22 +25,18 @@ struct ImmersiveView: View {
                 }
                 content.add(medievalWorld)
             }
-                    
-            // 2. Portal
+            
             if let portal = await MedievalSceneSpawner.spawnPortalAsync(){
                 content.add(portal)
             }
-                    
-            // 3. Tangan
+            
             let hands = await GloveEntitySpawner.spawnHandGlovesAsync()
             
             if(!hands.isEmpty){
                 for hand in hands {
                     content.add(hand)
                 }
-                        
-            // 4. Senjata
-            
+                
                 let rightHandAnchor = hands[0]
                 let leftHandAnchor = hands[1]
                 
@@ -60,66 +45,45 @@ struct ImmersiveView: View {
                 }
             }
             
-            // 🎯 5. BUAT ANCHOR KEPALA & TEMPELKAN HUD
             let headAnchor = AnchorEntity(.head)
             if let hudEntity = attachments.entity(for: "gameplay_hud") {
-                // Posisikan: x=0 (tengah), y=0.15 (agak ke atas mata), z=-0.6 (60 cm di depan wajah)
                 hudEntity.position = [0, 0.15, -0.6]
                 headAnchor.addChild(hudEntity)
             }
             content.add(headAnchor)
             
-            // 🎯 6. PROSES SELESAI, UBAH STATE KE TUTORIAL
-            // Gunakan Task dan @MainActor untuk standar keamanan Swift modern
-//            Task { @MainActor in
-            model.currentGameState = .tutorial
-//            }
-            
             Task {
                 try? await HandTrackingService.shared.start()
+                model.currentGameState = .tutorial
             }
             
         } attachments: {
-            // 🎯 7. DEKLARASIKAN HUD SEBAGAI ATTACHMENT
             Attachment(id: "gameplay_hud") {
-                // Render HUD kalau status game minimal sedang bermain
                 if model.currentGameState == .playing {
                     GameplayHUDView()
                 }
             }
         }
-//        .onDisappear {
-//            Task {
-//                await HandTrackingService.shared.stop()
-//            }
-//        }
-//        .upperLimbVisibility(.hidden)
-        // ❌ HAPUS blok .onAppear yang mengikat ArcherySystem dengan model
-        // ArcherySystem kini sepenuhnya mandiri menggunakan NotificationCenter
+        .upperLimbVisibility(.hidden)
         .onReceive(NotificationCenter.default.publisher(for: .enemyDefeated)) { _ in
-                    model.enemiesDefeated += 1
-                    print("Musuh mati: \(model.enemiesDefeated) / \(model.totalEnemiesToWin)")
+            model.enemiesDefeated += 1
+            print("Musuh mati: \(model.enemiesDefeated) / \(model.totalEnemiesToWin)")
                     
-                    if model.enemiesDefeated >= model.totalEnemiesToWin {
-                        model.currentGameState = .won
-                    }
-                }
+            if model.enemiesDefeated >= model.totalEnemiesToWin {
+                model.currentGameState = .won
+            }
+        }
                 
-                .onReceive(NotificationCenter.default.publisher(for: .towerDestroyed)) { _ in
-                    model.currentGameState = .lost
-                    print("Tower Hancur ditangkap oleh ImmersiveView!")
-                }
-                
-                // 🎯 PENTING: BUKA KEMBALI UI SAAT MENANG/KALAH
-                .onChange(of: model.currentGameState) { _, newState in
-                    if newState == .won || newState == .lost {
-                        // Panggil kembali ContentView yang tadi ditutup!
-                        model.stopGame()
-                        openWindow(id: "MainWindow")
-                    }
-                }
-                
-                
+        .onReceive(NotificationCenter.default.publisher(for: .towerDestroyed)) { _ in
+            model.currentGameState = .lost
+            print("Tower Hancur ditangkap oleh ImmersiveView!")
+        }
+        .onChange(of: model.currentGameState) { _, newState in
+            if newState == .won || newState == .lost {
+                model.stopGame()
+                openWindow(id: "MainWindow")
+            }
+        }
     }
 }
 
@@ -127,3 +91,118 @@ struct ImmersiveView: View {
     ImmersiveView()
         .environment(AppModel())
 }
+
+//import SwiftUI
+//import ILSHandTracking
+//import RealityKit
+//import RealityKitContent
+//import ARKit
+//
+//struct ImmersiveView: View {
+//    @Environment(AppModel.self) private var model
+//    @Environment(\.openWindow) var openWindow
+//    
+//    var body: some View {
+//        RealityView { content, attachments in
+//            
+//            let hands = HandEntitySpawner.spawnHands()
+//            var leftHandAnchor: Entity? = nil
+//            var rightHandAnchor: Entity? = nil
+//            for hand in hands {
+//                if hand.name == "LeftHandAnchor" {
+//                    hand.components.set(HandOverlayComponent(chirality: .left))
+//                    leftHandAnchor = hand
+//                } else if hand.name == "RightHandAnchor" {
+//                    hand.components.set(HandOverlayComponent(chirality: .right))
+//                    rightHandAnchor = hand
+//                }
+//                content.add(hand)
+//            }
+//            
+//            Task {
+//                
+//                    let leftGlove = await GloveEntitySpawner.spawnGlove(named: "LeftGlove")
+//                    let rightGlove = await GloveEntitySpawner.spawnGlove(named: "RightGlove")
+//                    
+//                    if let leftGlove, let rightGlove {
+//                        makeMaterialsOpaque(in: leftGlove)
+//                        makeMaterialsOpaque(in: rightGlove)
+//                        
+//                        if let leftAnchor = leftHandAnchor {
+//                            leftAnchor.addChild(leftGlove)
+//                            if var comp = leftAnchor.components[HandOverlayComponent.self] {
+//                                comp.gloveWrapper = leftGlove
+//                                comp.gloveModel = nil
+//                                leftAnchor.components.set(comp)
+//                            }
+//                        }
+//                        
+//                        if let rightAnchor = rightHandAnchor {
+//                            rightAnchor.addChild(rightGlove)
+//                            if var comp = rightAnchor.components[HandOverlayComponent.self] {
+//                                comp.gloveWrapper = rightGlove
+//                                comp.gloveModel = nil
+//                                rightAnchor.components.set(comp)
+//                            }
+//                        }
+//                    }
+//            }
+//            
+//        } attachments: {
+//            Attachment(id: "gameplay_hud") {
+//                if model.currentGameState == .playing {
+//                    GameplayHUDView()
+//                }
+//            }
+//        }
+//        .onReceive(NotificationCenter.default.publisher(for: .enemyDefeated)) { _ in
+//                    model.enemiesDefeated += 1
+//                    print("Musuh mati: \(model.enemiesDefeated) / \(model.totalEnemiesToWin)")
+//                    
+//                    if model.enemiesDefeated >= model.totalEnemiesToWin {
+//                        model.currentGameState = .won
+//                    }
+//                }
+//                
+//                .onReceive(NotificationCenter.default.publisher(for: .towerDestroyed)) { _ in
+//                    model.currentGameState = .lost
+//                    print("Tower Hancur ditangkap oleh ImmersiveView!")
+//                }
+//                .onChange(of: model.currentGameState) { _, newState in
+//                    if newState == .won || newState == .lost {
+//                        model.stopGame()
+//                        openWindow(id: "MainWindow")
+//                    }
+//                }
+//                .task {
+//                    try? await HandTrackingService.shared.start()
+//                }
+//                
+//                
+//    }
+//    
+//    @MainActor
+//    private func makeMaterialsOpaque(in entity: Entity) {
+//        if var modelComp = entity.components[ModelComponent.self] {
+//            modelComp.materials = modelComp.materials.map { material in
+//                if var pbr = material as? PhysicallyBasedMaterial {
+//                    pbr.blending = .opaque
+//                    return pbr
+//                } else if var unlit = material as? UnlitMaterial {
+//                    unlit.blending = .opaque
+//                    return unlit
+//                }
+//                return material
+//            }
+//            entity.components.set(modelComp)
+//        }
+//        for child in entity.children {
+//            makeMaterialsOpaque(in: child)
+//        }
+//    }
+//}
+//
+//#Preview(immersionStyle: .mixed) {
+//    ImmersiveView()
+//        .environment(AppModel())
+//}

@@ -36,29 +36,28 @@ struct TutorialView: View {
             .tabViewStyle(.page(indexDisplayMode: .always))
             .frame(height: 300)
             
-            // Navigasi Bawah
             HStack {
-                            if currentStep < totalSteps - 1 {
-                                Button("Next") {
-                                    withAnimation { currentStep += 1 }
-                                }
-                                .buttonStyle(.bordered)
-                            } else {
-                                Button(action: {
-                                    appModel.currentGameState = .playing
-                                    appModel.playGame()
-                                    // 🎯 2. Tutup window utama!
-                                    dismissWindow(id: "MainWindow")
-                                }) {
-                                    Text("Paham, Mari Mulai!")
-                                        .bold()
-                                        .padding(.horizontal, 30)
-                                }
-                                .buttonStyle(.borderedProminent)
-                                .tint(.green)
-                            }
+                if currentStep < totalSteps - 1 {
+                    Button("Next") {
+                        withAnimation { currentStep += 1 }
+                    }
+                    .buttonStyle(.bordered)
+                } else {
+                    Button(action: {
+                        appModel.currentGameState = .playing
+                        appModel.playGame()
+                        // 🎯 2. Tutup window utama!
+                        dismissWindow(id: "MainWindow")
+                    }) {
+                        Text("Paham, Mari Mulai!")
+                            .bold()
+                            .padding(.horizontal, 30)
                         }
-                        .padding(.bottom, 40)
+                        .buttonStyle(.borderedProminent)
+                        .tint(.green)
+                    }
+                }
+            .padding(.bottom, 40)
         }
         .frame(width: 600, height: 500)
     }

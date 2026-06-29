@@ -10,7 +10,6 @@ import RealityKit
 
 struct ContentView: View {
     @Environment(AppModel.self) var appModel
-//    @Environment(GameCoordinator.self) var coordinator
     
     var body: some View {
         Group {

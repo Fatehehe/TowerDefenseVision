@@ -22,10 +22,8 @@ struct StartScreenView: View {
                 .foregroundColor(.secondary)
             
             Button(action: {
-                // 1. Ubah UI ke mode LOADING
                 appModel.currentGameState = .loading
                 
-                // 2. Buka dunia 3D (proses berat dimulai)
                 Task {
                     await openImmersiveSpace(id: appModel.immersiveSpaceID)
                 }

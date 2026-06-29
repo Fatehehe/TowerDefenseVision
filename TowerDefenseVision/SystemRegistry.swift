@@ -13,12 +13,15 @@ public struct SystemRegistry {
     public static func registerAllSystems() {
         ILFeatureHandTrackingSetup.registerSystems()
         
-        HandVisualizationComponent.registerComponent()
+        HandOverlayComponent.registerComponent()
+        HandOverlaySystem.registerSystem()
+        
         HandVisualizationSystem.registerSystem()
+        HandVisualizationComponent.registerComponent()
         
         BowComponent.registerComponent()
         ArrowComponent.registerComponent()
-//        
+        
         ArcheryPlayerComponent.registerComponent()
         
         ArcherySystem.registerSystem()

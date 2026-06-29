@@ -19,6 +19,10 @@ public struct ArcheryPlayerComponent: Component {
     public var activeBow: Entity?
     public var activeArrow: Entity?
     
+    // 🎯 Titik tumpu yang akan di-update oleh matrix HandTrackingService
+    public var bowPivot: Entity?
+    public var arrowPivot: Entity?
+    
     public var arrowTemplate: Entity?
     public var rightHandAnchor: Entity?
     

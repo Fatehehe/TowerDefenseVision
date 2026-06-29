@@ -13,7 +13,6 @@ struct GameplayHUDView: View {
     var body: some View {
         HStack(spacing: 20) {
             
-            // 🎯 BAGIAN 1: STATUS PANAH
             HStack(spacing: 8) {
                 Image(systemName: "target")
                     .font(.title3)
@@ -33,12 +32,7 @@ struct GameplayHUDView: View {
             
             Divider().frame(height: 20)
                         
-                        // 💀 BAGIAN BARU: STATUS MUSUH (KILL COUNT)
             HStack(spacing: 8) {
-                Image(systemName: "skull.fill")
-                    .font(.title3)
-                    .foregroundColor(.orange)
-                        
                 Text("MUSUH :")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
@@ -49,14 +43,12 @@ struct GameplayHUDView: View {
                     .frame(minWidth: 60, alignment: .leading)
             }
             
-            Divider() // Garis pemisah yang cantik khas visionOS
+            Divider()
                 .frame(height: 20)
             
-            // 🏰 BAGIAN 2: STATUS HP MENARA
             HStack(spacing: 8) {
                 Image(systemName: "heart.fill")
                     .font(.title3)
-                    // Warna merah kalau HP mau habis, sebaliknya hijau/standar
                     .foregroundColor(appModel.towerHp <= 10 ? .red : .green)
                 
                 Text("HP TOWER :")
@@ -73,8 +65,6 @@ struct GameplayHUDView: View {
         .padding(.horizontal, 24)
         .padding(.vertical, 16)
         .glassBackgroundEffect(in: Capsule())
-        
-        // 🎯 TANGKAP EVENT STATUS PANAH
         .onReceive(NotificationCenter.default.publisher(for: .archeryStateDidChange)) { notification in
             if let newState = notification.object as? ArcheryState {
                 appModel.arrowState = newState
@@ -84,11 +74,8 @@ struct GameplayHUDView: View {
                 }
             }
         }
-        
-        // 🏰 TANGKAP EVENT HP MENARA BERKURANG
         .onReceive(NotificationCenter.default.publisher(for: .towerGetHit)) { notification in
             if let newHP = notification.object as? Int {
-                // Update nilai di AppModel (Otomatis akan memperbarui UI)
                 appModel.towerHp = newHP
             }
         }
