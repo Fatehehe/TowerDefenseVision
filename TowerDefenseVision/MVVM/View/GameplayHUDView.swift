@@ -33,6 +33,9 @@ struct GameplayHUDView: View {
             Divider().frame(height: 20)
                         
             HStack(spacing: 8) {
+                Image(systemName: "figure.boxing")
+                    .font(.title3)
+                
                 Text("MUSUH :")
                     .font(.subheadline)
                     .foregroundColor(.secondary)

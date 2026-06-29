@@ -12,7 +12,6 @@ public struct MedievalSceneSpawner {
     public static func spawnMedievalWorld(named sceneName: String = "MedievalScene") async -> Entity? {
         do {
             let rootWorld = try await Entity(named: sceneName, in: realityKitContentBundle)
-//            rootWorld.position = SIMD3<Float>(12, 0, -2)
             rootWorld.position = SIMD3<Float>(10.5, -5, -6)
             rootWorld.scale = SIMD3<Float>(repeating: 1.0)
             
@@ -40,15 +39,13 @@ public struct MedievalSceneSpawner {
             let enemy = try await Entity(named: "GoblonV2", in: realityKitContentBundle)
             
             var portalData = PortalComponent()
-            portalData.spawnInterval = 3.0 // Atur jeda spawn awal
+            portalData.spawnInterval = 3.0
             portalData.enemy = enemy
             portalEntity.components.set(portalData)
             
             let portalScale: Float = 10.0
             portalEntity.transform.scale = SIMD3<Float>(repeating: portalScale)
         
-//            rootWorld.position = SIMD3<Float>(12, 0, -2)
-//            rootWorld.position = SIMD3<Float>(10.5, 0, -6)
             portalEntity.position = SIMD3<Float>(-20, -5, -7)
             let portalAngle: Float = .pi / 2
             let portalAxis = SIMD3<Float>(0, 1, 0)
