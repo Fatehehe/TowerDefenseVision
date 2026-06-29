@@ -52,7 +52,6 @@ class AppModel {
     
     func playGame() {
         GameStateTracker.isPlaying = true
-        GameStateTracker.towerHp = 100
     }
     
     func stopGame() {

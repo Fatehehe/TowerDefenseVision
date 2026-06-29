@@ -35,6 +35,7 @@ struct ImmersiveView: View {
                 content.add(portal)
             }
             
+            //rawan crash
             let hands = await GloveEntitySpawner.spawnHandGlovesAsync()
             
             if(!hands.isEmpty){
@@ -49,6 +50,7 @@ struct ImmersiveView: View {
                     content.add(archeryManager)
                 }
             }
+            // sampe sini
             
             let headAnchor = AnchorEntity(.head)
             if let hudEntity = attachments.entity(for: "gameplay_hud") {
