@@ -44,16 +44,20 @@ struct ImmersiveView: View {
                     
             // 3. Tangan
             let hands = await GloveEntitySpawner.spawnHandGlovesAsync()
-            for hand in hands {
-                content.add(hand)
-            }
-                    
+            
+            if(!hands.isEmpty){
+                for hand in hands {
+                    content.add(hand)
+                }
+                        
             // 4. Senjata
-            let rightHandAnchor = hands[0]
-            let leftHandAnchor = hands[1]
-                    
-            if let archeryManager = await ArcherySpawner.spawnArcheryManager(leftHand: leftHandAnchor, rightHand: rightHandAnchor) {
-                content.add(archeryManager)
+            
+                let rightHandAnchor = hands[0]
+                let leftHandAnchor = hands[1]
+                
+                if let archeryManager = await ArcherySpawner.spawnArcheryManager(leftHand: leftHandAnchor, rightHand: rightHandAnchor) {
+                    content.add(archeryManager)
+                }
             }
             
             // 🎯 5. BUAT ANCHOR KEPALA & TEMPELKAN HUD
@@ -67,8 +71,12 @@ struct ImmersiveView: View {
             
             // 🎯 6. PROSES SELESAI, UBAH STATE KE TUTORIAL
             // Gunakan Task dan @MainActor untuk standar keamanan Swift modern
-            Task { @MainActor in
-                model.currentGameState = .tutorial
+//            Task { @MainActor in
+            model.currentGameState = .tutorial
+//            }
+            
+            Task {
+                try? await HandTrackingService.shared.start()
             }
             
         } attachments: {
@@ -80,11 +88,12 @@ struct ImmersiveView: View {
                 }
             }
         }
-        .task {
-            // Memulai pelacakan tangan secara asinkron
-            try? await HandTrackingService.shared.start()
-        }
-        .upperLimbVisibility(.hidden)
+//        .onDisappear {
+//            Task {
+//                await HandTrackingService.shared.stop()
+//            }
+//        }
+//        .upperLimbVisibility(.hidden)
         // ❌ HAPUS blok .onAppear yang mengikat ArcherySystem dengan model
         // ArcherySystem kini sepenuhnya mandiri menggunakan NotificationCenter
         .onReceive(NotificationCenter.default.publisher(for: .enemyDefeated)) { _ in

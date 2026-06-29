@@ -31,6 +31,24 @@ struct GameplayHUDView: View {
                     .frame(minWidth: 80, alignment: .leading)
             }
             
+            Divider().frame(height: 20)
+                        
+                        // 💀 BAGIAN BARU: STATUS MUSUH (KILL COUNT)
+            HStack(spacing: 8) {
+                Image(systemName: "skull.fill")
+                    .font(.title3)
+                    .foregroundColor(.orange)
+                        
+                Text("MUSUH :")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                            
+                Text("\(appModel.enemiesDefeated) / \(appModel.totalEnemiesToWin)")
+                    .font(.headline)
+                    .bold()
+                    .frame(minWidth: 60, alignment: .leading)
+            }
+            
             Divider() // Garis pemisah yang cantik khas visionOS
                 .frame(height: 20)
             

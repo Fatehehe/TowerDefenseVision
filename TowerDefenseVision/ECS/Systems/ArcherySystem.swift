@@ -27,12 +27,20 @@ public struct ArcherySystem: System {
         let isRightFist = ArrowHandPoseDetector.detect(handSkeleton: rightSkeleton)
         let isShooting = ShootHandPoseDetector.detect(handSkeleton: rightSkeleton)
         
+        print("isLeftFist \(isLeftFist), isRightFist \(isRightFist), isShooting \(isShooting)")
+        
         let leftPos = leftHand.originFromAnchorTransform.columns.3
         let rightPos = rightHand.originFromAnchorTransform.columns.3
         let handDistance = simd_distance(
             simd_make_float3(leftPos.x, leftPos.y, leftPos.z),
             simd_make_float3(rightPos.x, rightPos.y, rightPos.z)
         )
+        
+//        print(
+//            context.scene.performQuery(
+//                EntityQuery(where: .has(ArrowComponent.self))
+//            )
+//        )
         
         for entity in context.scene.performQuery(Self.query) {
             guard var playerComp = entity.components[ArcheryPlayerComponent.self],

@@ -27,7 +27,7 @@ class AppModel {
     var arrowState: ArcheryState = .idle
     
     var enemiesDefeated: Int = 0
-    var totalEnemiesToWin: Int = 3
+    var totalEnemiesToWin: Int = 5
     
     var towerHp: Int = 100
     var towerMaxHp: Int = 100
@@ -38,7 +38,6 @@ class AppModel {
         currentGameState = .playing
         
         towerHp = 100
-//        immersiveSpaceState = .closed
         playGame()
     }
     

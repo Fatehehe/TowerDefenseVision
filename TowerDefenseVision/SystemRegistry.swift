@@ -18,7 +18,7 @@ public struct SystemRegistry {
         
         BowComponent.registerComponent()
         ArrowComponent.registerComponent()
-        
+//        
         ArcheryPlayerComponent.registerComponent()
         
         ArcherySystem.registerSystem()

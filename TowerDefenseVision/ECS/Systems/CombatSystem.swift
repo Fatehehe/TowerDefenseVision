@@ -17,44 +17,34 @@ public class CombatSystem: System {
             let entityA = event.entityA
             let entityB = event.entityB
             
-            let hasArrowA = entityA.components.has(ArrowComponent.self)
-            let hasEnemyB = entityB.components.has(EnemyComponent.self)
+            // Cari mana panah, mana musuh
+            let arrow = entityA.components.has(ArrowComponent.self) ? entityA : (entityB.components.has(ArrowComponent.self) ? entityB : nil)
+            let enemy = entityA.components.has(EnemyComponent.self) ? entityA : (entityB.components.has(EnemyComponent.self) ? entityB : nil)
             
-            let hasArrowB = entityB.components.has(ArrowComponent.self)
-            let hasEnemyA = entityA.components.has(EnemyComponent.self)
+            // 🎯 Safety Check: Pastikan keduanya ada dan masih di scene
+            guard let hitArrow = arrow, let hitEnemy = enemy,
+                  hitEnemy.parent != nil else { return }
             
-            var arrow: Entity? = nil
-            var enemy: Entity? = nil
+            print("🎯 HEADSHOT! Panah mengenai musuh!")
             
-            if hasArrowA && hasEnemyB {
-                arrow = entityA
-                enemy = entityB
-            } else if hasArrowB && hasEnemyA {
-                arrow = entityB
-                enemy = entityA
-            }
+            // Hapus panah segera agar tidak menabrak musuh lain dalam frame yang sama
+            hitArrow.removeFromParent()
             
-            if let hitArrow = arrow, let hitEnemy = enemy {
-                print("🎯 HEADSHOT! Panah mengenai musuh!")
+            if var enemyComp = hitEnemy.components[EnemyComponent.self] {
+                enemyComp.hp -= 30
                 
-                if var enemyComp = hitEnemy.components[EnemyComponent.self] {
-                    enemyComp.hp -= 30
+                if enemyComp.hp <= 0 {
+                    // 🛡️ Bersihkan sebelum hapus
+                    hitEnemy.stopAllAnimations()
+                    hitEnemy.removeFromParent()
+                    print("Musuh Hancur!")
                     
-                    if enemyComp.hp <= 0 {
-                        hitEnemy.removeFromParent() // Hancurkan Musuh
-                        print("Musuh Hancur!")
-                        
-                        Task { @MainActor in
-                            NotificationCenter.default.post(
-                                name: .enemyDefeated,
-                                object: nil
-                            )
-                        }
-                    } else {
-                        hitEnemy.components.set(enemyComp)
+                    Task { @MainActor in
+                        NotificationCenter.default.post(name: .enemyDefeated, object: nil)
                     }
+                } else {
+                    hitEnemy.components.set(enemyComp)
                 }
-                hitArrow.removeFromParent()
             }
         }
     }

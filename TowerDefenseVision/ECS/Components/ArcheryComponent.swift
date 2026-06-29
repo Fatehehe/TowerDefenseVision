@@ -16,11 +16,11 @@ public enum ArcheryState: String {
 
 public struct ArcheryPlayerComponent: Component {
     public var state: ArcheryState = .idle
-    public weak var activeBow: Entity?
-    public weak var activeArrow: Entity?
+    public var activeBow: Entity?
+    public var activeArrow: Entity?
     
     public var arrowTemplate: Entity?
-    public weak var rightHandAnchor: Entity?
+    public var rightHandAnchor: Entity?
     
     public init() {}
 }
