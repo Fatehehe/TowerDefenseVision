@@ -8,10 +8,12 @@
 import RealityKit
 import ARKit
 
-struct HandVisualizationComponent: Component{
-    var modelEntity: ModelEntity
-        
-    init(modelEntity: ModelEntity) {
+public struct HandVisualizationComponent: Component {
+    public let chirality: HandAnchor.Chirality
+    public var modelEntity: ModelEntity
+    
+    public init(chirality: HandAnchor.Chirality, modelEntity: ModelEntity) {
+        self.chirality = chirality
         self.modelEntity = modelEntity
     }
 }

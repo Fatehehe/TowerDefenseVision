@@ -22,12 +22,12 @@ public struct GloveEntitySpawner {
         leftHand.components.set(ILHandTrackingComponent())
             
         if let rightModel = await spawnGlove(named: "RightGlove") {
-            rightHand.components.set(HandVisualizationComponent(modelEntity: rightModel))
+            rightHand.components.set(HandVisualizationComponent(chirality: .right, modelEntity: rightModel))
             rightHand.addChild(rightModel)
         }
         
         if let leftModel = await spawnGlove(named: "LeftGlove") {
-            leftHand.components.set(HandVisualizationComponent(modelEntity: leftModel))
+            leftHand.components.set(HandVisualizationComponent(chirality: .left, modelEntity: leftModel))
             leftHand.addChild(leftModel)
         }
 

@@ -12,9 +12,9 @@ struct TowerDefenseVisionApp: App {
 
     @State private var appModel = AppModel()
     
-    init() {
-        SystemRegistry.registerAllSystems()
-    }
+//    init() {
+//        SystemRegistry.registerAllSystems()
+//    }
 
     var body: some Scene {
         WindowGroup(id: "MainWindow") {
