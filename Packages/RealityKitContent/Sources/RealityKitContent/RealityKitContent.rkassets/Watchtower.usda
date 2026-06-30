@@ -45,7 +45,11 @@ def Xform "Root"
 
                 over "PreviewSurface"
                 {
+                    float inputs:clearcoat
+                    float inputs:clearcoatRoughness
                     color3f inputs:emissiveColor.connect = </Root/watchtower/_materials/Watchtower/Image_4.outputs:out>
+                    float inputs:ior
+                    float3 inputs:normal.connect = </Root/watchtower/_materials/Watchtower/NormalMapDecode.outputs:out>
                     float inputs:occlusion
                     float inputs:opacityThreshold
                     float2 ui:nodegraph:node:pos = (202.7231, 306.3916)
@@ -62,6 +66,22 @@ def Xform "Root"
                     color3f outputs:out
                     float2 ui:nodegraph:node:pos = (97.502655, 760.308)
                     int ui:nodegraph:node:stackingOrder = 77
+                }
+
+                over "Image"
+                {
+                    string inputs:filtertype
+                    float2 ui:nodegraph:node:pos = (-423.88507, 664.1382)
+                    int ui:nodegraph:node:stackingOrder = 79
+                }
+
+                def Shader "NormalMapDecode"
+                {
+                    uniform token info:id = "ND_normal_map_decode"
+                    float3 inputs:in.connect = </Root/watchtower/_materials/Watchtower/Image.outputs:out>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-155.64502, 592.99506)
+                    int ui:nodegraph:node:stackingOrder = 82
                 }
             }
         }

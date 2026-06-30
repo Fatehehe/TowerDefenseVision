@@ -10,7 +10,7 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["V2WalkAndHit", "SoundHit", "SoundWalk"]
+    reorder nameChildren = ["V2WalkAndHit", "SoundHit", "SoundWalk", "Goblin_Sound"]
     def "Goblin_T_Pose_2" (
         active = true
         references = @TechArts/Meshs/Goblin_T-Pose-2.usdc@
@@ -29,23 +29,46 @@ def Xform "Root"
             {
                 asset inputs:AOTexture = None
                 asset inputs:BaseTexture = @TechArts/Textures/Goblin/orcaaa_Goblin_BaseColor.1001.png@
+                float inputs:MetalStrenght (
+                    customData = {
+                        dictionary realitykit = {
+                            float2 positionInSubgraph = (-672.1319, 515.58105)
+                            int stackingOrderInSubgraph = 278
+                        }
+                    }
+                )
+                asset inputs:MetalTexture = None (
+                    customData = {
+                        dictionary realitykit = {
+                            float2 positionInSubgraph = (-990.5796, 330.4942)
+                            int stackingOrderInSubgraph = 348
+                        }
+                    }
+                )
                 asset inputs:NormalTexture = @TechArts/Textures/Goblin/orcaaa_Goblin_Normal.1001.png@ (
                     customData = {
                         dictionary realitykit = {
-                            float2 positionInSubgraph = (-676.08856, 651.0079)
-                            int stackingOrderInSubgraph = 96
+                            float2 positionInSubgraph = (-1220.6483, 689.0426)
+                            int stackingOrderInSubgraph = 350
                         }
                     }
                 )
-                float inputs:Roughness_Float = 1 (
+                float inputs:Roughness_Float = 1.2 (
                     customData = {
                         dictionary realitykit = {
-                            float2 positionInSubgraph = (-326.2021, 251.7427)
-                            int stackingOrderInSubgraph = 80
+                            float2 positionInSubgraph = (-247.11182, 311.30423)
+                            int stackingOrderInSubgraph = 289
                         }
                     }
                 )
-                asset inputs:RoughnessTexture = @TechArts/Textures/Goblin/orcaaa_Goblin_Roughness.1001.png@
+                asset inputs:RoughnessTexture = @TechArts/Textures/Goblin/orcaaa_Goblin_Roughness.1001.png@ (
+                    customData = {
+                        dictionary realitykit = {
+                            float2 positionInSubgraph = (-611.216, 108.70172)
+                            int stackingOrderInSubgraph = 290
+                        }
+                    }
+                )
                 token outputs:mtlx:surface
                 token outputs:realitykit:vertex
 
@@ -53,7 +76,7 @@ def Xform "Root"
                 {
                     string inputs:filtertype
                     float2 ui:nodegraph:node:pos = (-359.923, 133.94073)
-                    int ui:nodegraph:node:stackingOrder = 75
+                    int ui:nodegraph:node:stackingOrder = 291
                 }
 
                 over "PreviewSurface"
@@ -62,6 +85,8 @@ def Xform "Root"
                     float inputs:clearcoatRoughness
                     color3f inputs:emissiveColor.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/Image2D_1.outputs:out>
                     float inputs:ior
+                    float inputs:metallic.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/Min.outputs:out>
+                    float3 inputs:normal.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/NormalMapDecode.outputs:out>
                     float inputs:occlusion
                     float inputs:opacityThreshold
                     float inputs:roughness.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/Multiply_1.outputs:out>
@@ -77,7 +102,7 @@ def Xform "Root"
                     float inputs:in2.connect = </Root/Goblin_T_Pose_2/_materials/Goblin.inputs:Roughness_Float>
                     float outputs:out
                     float2 ui:nodegraph:node:pos = (-185.67578, 199.96094)
-                    int ui:nodegraph:node:stackingOrder = 78
+                    int ui:nodegraph:node:stackingOrder = 326
                 }
 
                 def Shader "ConstantImageFile"
@@ -96,9 +121,47 @@ def Xform "Root"
                     prepend asset inputs:file.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/ConstantImageFile.outputs:out>
                     bool inputs:no_flip_v = 1
                     int2 inputs:offset
+                    string inputs:u_wrap_mode
+                    string inputs:v_wrap_mode
                     color3f outputs:out
-                    float2 ui:nodegraph:node:pos = (-310.23587, 943.4445)
-                    int ui:nodegraph:node:stackingOrder = 95
+                    float2 ui:nodegraph:node:pos = (-345.57184, 1078.1523)
+                    int ui:nodegraph:node:stackingOrder = 300
+                }
+
+                over "Image" (
+                    active = false
+                )
+                {
+                    int ui:nodegraph:node:stackingOrder = 96
+                }
+
+                def Shader "Image_6"
+                {
+                    uniform token info:id = "ND_image_vector3"
+                    float3 inputs:default
+                    asset inputs:file.connect = </Root/Goblin_T_Pose_2/_materials/Goblin.inputs:NormalTexture>
+                    string inputs:filtertype = "linear"
+                    float2 inputs:texcoord
+                    string inputs:uaddressmode = "periodic"
+                    string inputs:vaddressmode = "periodic"
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-960.1487, 810.6528)
+                    int ui:nodegraph:node:stackingOrder = 342
+                }
+
+                def Shader "NormalMapDecode"
+                {
+                    uniform token info:id = "ND_normal_map_decode"
+                    float3 inputs:in.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/Image_6.outputs:out>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-714.79047, 798.0473)
+                    int ui:nodegraph:node:stackingOrder = 344
+                }
+
+                over "Image_2"
+                {
+                    float2 ui:nodegraph:node:pos = (-459.226, 361.36407)
+                    int ui:nodegraph:node:stackingOrder = 346
                 }
             }
         }
@@ -119,6 +182,13 @@ def Xform "Root"
                 uniform asset file = @TechArts/Animations/Goblin_Walk-2.usdc@
                 uniform bool looping = 1
                 uniform string name = "Goblin_Walk-2"
+            }
+
+            def RealityKitAnimationFile "Goblin_Walk_V2"
+            {
+                uniform asset file = @TechArts/Animations/Goblin_Walk_V2.usdc@
+                uniform bool looping = 1
+                uniform string name = "Goblin_Walk_V2"
             }
         }
 
@@ -158,11 +228,13 @@ def Xform "Root"
 
             def RealityKitDict "resources"
             {
-                string[] keys = ["YTMP3GG_YouTube_Running-F.mp3", "freesound_community-doorhit-98828.mp3", "414148_trimmed.mp3"]
+                string[] keys = ["YTMP3GG_YouTube_Running-F.mp3", "freesound_community-doorhit-98828.mp3", "414148_trimmed.mp3", "Goblin Sound.mp3", "Goblin Walk.mp3"]
                 rel values = [
                     </Root/YTMP3GG_YouTube_Running_F_mp32>,
                     </Root/freesound_community_doorhit_98828_mp32>,
                     </Root/_414148_trimmed_mp3>,
+                    </Root/Goblin_Sound_mp3>,
+                    </Root/Goblin_Walk_mp3>,
                 ]
             }
         }
@@ -179,7 +251,7 @@ def Xform "Root"
                 float3 extent = (230.36629, 68.92237, 162.75873)
                 float height = 68.92237
                 float radius = 115.18314
-                token shapeType = "Capsule"
+                token shapeType = "Box"
 
                 def RealityKitStruct "pose"
                 {
@@ -238,17 +310,17 @@ def Xform "Root"
 
     def RealityKitTimeline "V2WalkAndHit"
     {
-        reorder nameChildren = ["Track2", "Track3", "Track", "Track5"]
+        reorder nameChildren = ["Track2", "Track3", "Track", "Track5", "Track4", "Track6"]
         def RealityKitTrack "Track2"
         {
             def RealityKitAction "Animation"
             {
                 string actionKind = "animation"
-                string animation = "Goblin_Walk-2"
+                string animation = "Goblin_Walk_V2"
                 int blendLayer = 500
-                double duration = 2.9583332538604736
+                double duration = 1.9583333730697632
                 uniform token info:id = "8605F2BD-1BEA-4BEC-B0C5-8B9D7F7188EE"
-                double loopCount = 5.2
+                double loopCount = 7.7
                 bool separateAnimatedValue = 1
                 double startTime = 0
                 rel target = </Root/Goblin_T_Pose_2>
@@ -311,6 +383,34 @@ def Xform "Root"
                 double loopCount = 0
                 double startTime = 14.633034753618427
                 rel timeline = </Root/SoundHit>
+            }
+        }
+
+        def RealityKitTrack "Track4"
+        {
+            def RealityKitAction "Play_Timeline"
+            {
+                string actionKind = "timeline"
+                int blendLayer = 500
+                double duration = 1.9971539015096567
+                uniform token info:id = "8637D194-8CF9-4192-B477-AD5E83431384"
+                double loopCount = 7.5
+                double startTime = 0
+                rel timeline = </Root/SoundWalk>
+            }
+        }
+
+        def RealityKitTrack "Track6"
+        {
+            def RealityKitAction "Play_Timeline"
+            {
+                string actionKind = "timeline"
+                int blendLayer = 500
+                double duration = 13.054715638262657
+                uniform token info:id = "4E48E7E3-A783-458B-904C-CA9C60C9BC1D"
+                double loopCount = 0
+                double startTime = 0
+                rel timeline = </Root/Goblin_Sound>
             }
         }
     }
@@ -377,18 +477,95 @@ def Xform "Root"
 
     def RealityKitTimeline "SoundWalk"
     {
+        reorder nameChildren = ["Track", "Track3", "Track2"]
         def RealityKitTrack "Track"
         {
             def RealityKitAction "Play_Audio"
             {
                 string actionKind = "audio"
-                string audioResourceName = "YTMP3GG_YouTube_Running-F.mp3"
+                string audioResourceName = "Goblin Walk.mp3"
                 bool controlPlayback = 1
-                double duration = 4.911
+                double duration = 1
                 double gain = 0
                 uniform token info:id = "092DB67C-D938-4D35-B6E0-84CA44D04078"
                 double startTime = 0
                 rel target = </Root/Goblin_T_Pose_2>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
+        }
+
+        def RealityKitTrack "Track3"
+        {
+            def RealityKitAction "Play_Audio"
+            {
+                string actionKind = "audio"
+                string audioResourceName = "Goblin Walk.mp3"
+                bool controlPlayback = 1
+                double duration = 1
+                double gain = 0
+                uniform token info:id = "092DB67C-D938-4D35-B6E0-84CA44D04078"
+                double startTime = 0.9971539015096568
+                rel target = </Root/Goblin_T_Pose_2>
+                float2 ui:nodegraph:node:pos = (-375.72946, 761.90186)
+                int ui:nodegraph:node:stackingOrder = 1
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
+        }
+    }
+
+    def RealityKitAudioFile "Goblin_Sound_mp3"
+    {
+        uniform asset file = @TechArts/Audio/Goblin Sound.mp3@
+        uniform bool shouldLoop = 0
+    }
+
+    def RealityKitAudioFile "Goblin_Walk_mp3"
+    {
+        uniform asset file = @TechArts/Audio/Goblin Walk.mp3@
+        uniform bool shouldLoop = 0
+    }
+
+    def RealityKitTimeline "Goblin_Sound"
+    {
+        reorder nameChildren = ["Track", "Track2"]
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Play_Audio"
+            {
+                string actionKind = "audio"
+                string audioResourceName = "Goblin Sound.mp3"
+                bool controlPlayback = 1
+                double duration = 5.06775
+                double gain = -60
+                uniform token info:id = "F9AD7EE7-A6FC-415E-B9E9-B7C7639745EA"
+                double startTime = 0.007040334302325582
+                rel target = </Root/Goblin_T_Pose_2>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
+        }
+
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "Play_Audio"
+            {
+                string actionKind = "audio"
+                string audioResourceName = "Goblin Sound.mp3"
+                bool controlPlayback = 1
+                double duration = 5.06775
+                uniform token info:id = "F9AD7EE7-A6FC-415E-B9E9-B7C7639745EA"
+                double startTime = 7.9869656382626575
+                rel target = </Root/Goblin_T_Pose_2>
+                float2 ui:nodegraph:node:pos = (-375.72946, 761.90186)
+                int ui:nodegraph:node:stackingOrder = 1
 
                 def RealityKitStruct "handoffType"
                 {

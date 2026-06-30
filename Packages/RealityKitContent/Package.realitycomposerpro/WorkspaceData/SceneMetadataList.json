@@ -11,6 +11,48 @@
       }
     ]
   },
+  "1BABD3CF-9F3C-4F0E-A001-B1A94D0485D7" : {
+    "objectMetadataList" : [
+      [
+        "1BABD3CF-9F3C-4F0E-A001-B1A94D0485D7",
+        "Root"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "1BABD3CF-9F3C-4F0E-A001-B1A94D0485D7",
+        "Root",
+        "watchtower"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "1BABD3CF-9F3C-4F0E-A001-B1A94D0485D7",
+        "Root",
+        "watchtower",
+        "_materials"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "1BABD3CF-9F3C-4F0E-A001-B1A94D0485D7",
+        "Root",
+        "watchtower",
+        "_materials",
+        "Watchtower"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      }
+    ]
+  },
   "1C34E26C-E8F4-474F-BA98-22A5E82B183A" : {
     "objectMetadataList" : [
       [
@@ -88,7 +130,36 @@
       },
       [
         "1F5405BC-7DA0-43C6-8C2E-5D5B940F78CF",
+        "Root",
+        "BGMSound",
+        "Track"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "1F5405BC-7DA0-43C6-8C2E-5D5B940F78CF",
+        "Root",
+        "BGMSound"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "1F5405BC-7DA0-43C6-8C2E-5D5B940F78CF",
         "Root"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "1F5405BC-7DA0-43C6-8C2E-5D5B940F78CF",
+        "Root",
+        "Timeline",
+        "Track"
       ],
       {
         "isExpanded" : true,
@@ -710,6 +781,29 @@
       }
     ]
   },
+  "77C60DEE-948E-4B4B-B401-B949D314D5A6" : {
+    "objectMetadataList" : [
+      [
+        "77C60DEE-948E-4B4B-B401-B949D314D5A6",
+        "Root",
+        "Skydome",
+        "Skydome_MI",
+        "FadeColor"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "77C60DEE-948E-4B4B-B401-B949D314D5A6",
+        "Root"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      }
+    ]
+  },
   "7896D48D-7807-428A-9033-6C6630327151" : {
     "objectMetadataList" : [
       [
@@ -885,6 +979,27 @@
       }
     ]
   },
+  "896B8C10-C97B-4334-AB6A-76A9C7566BCF" : {
+    "objectMetadataList" : [
+      [
+        "896B8C10-C97B-4334-AB6A-76A9C7566BCF",
+        "root",
+        "_materials"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "896B8C10-C97B-4334-AB6A-76A9C7566BCF",
+        "root"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      }
+    ]
+  },
   "9603AE53-8861-4F2F-90ED-3E68989CFEC4" : {
     "objectMetadataList" : [
       [
@@ -911,7 +1026,36 @@
       [
         "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
         "Root",
-        "Floor2"
+        "BGMSound",
+        "Track"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
+        "Root",
+        "Timeline",
+        "Track"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
+        "Root",
+        "BGMSound"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
+        "Root",
+        "Environment"
       ],
       {
         "isExpanded" : true,
@@ -936,25 +1080,6 @@
       {
         "disallowsFraming" : true,
         "isExpanded" : false,
-        "isLocked" : false
-      },
-      [
-        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
-        "Root",
-        "Floor2",
-        "_materials"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
-        "Root",
-        "Environment"
-      ],
-      {
-        "isExpanded" : true,
         "isLocked" : false
       },
       [
@@ -988,16 +1113,30 @@
       }
     ]
   },
-  "A34C0C6D-0566-43A8-8AF8-ADC9DA45E3C8" : {
+  "A15F04F9-8F63-4030-A1B5-DBE9713BD6F3" : {
     "objectMetadataList" : [
       [
-        "A34C0C6D-0566-43A8-8AF8-ADC9DA45E3C8",
-        "ShaderTerrain"
+        "A15F04F9-8F63-4030-A1B5-DBE9713BD6F3",
+        "root"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "A15F04F9-8F63-4030-A1B5-DBE9713BD6F3",
+        "root",
+        "_materials"
       ],
       {
         "isExpanded" : true,
         "isLocked" : false
       }
+    ]
+  },
+  "A34C0C6D-0566-43A8-8AF8-ADC9DA45E3C8" : {
+    "objectMetadataList" : [
+
     ]
   },
   "AF09ED6F-1707-48FD-8720-65B998362C09" : {
@@ -1084,15 +1223,6 @@
         "B499CB33-6232-451E-A511-BBFB42E64D7D",
         "Root",
         "HouseMaterial"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "B499CB33-6232-451E-A511-BBFB42E64D7D",
-        "Root",
-        "ORM_Texture"
       ],
       {
         "isExpanded" : true,
@@ -1693,6 +1823,46 @@
       [
         "F9FC0E85-6FEA-42FC-93C1-C9FBCDB4AB1A",
         "Root",
+        "Goblin_T_Pose_2",
+        "_materials",
+        "Goblin"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "F9FC0E85-6FEA-42FC-93C1-C9FBCDB4AB1A",
+        "Root",
+        "V2WalkAndHit",
+        "Track4"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "F9FC0E85-6FEA-42FC-93C1-C9FBCDB4AB1A",
+        "Root",
+        "Goblin_Sound",
+        "Track"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "F9FC0E85-6FEA-42FC-93C1-C9FBCDB4AB1A",
+        "Root",
+        "Goblin_Sound"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "F9FC0E85-6FEA-42FC-93C1-C9FBCDB4AB1A",
+        "Root",
         "V2WalkAndHit",
         "Track2"
       ],
@@ -1705,6 +1875,36 @@
         "Root",
         "Goblin_T_Pose_2",
         "_materials"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "F9FC0E85-6FEA-42FC-93C1-C9FBCDB4AB1A",
+        "Root",
+        "Goblin_Sound",
+        "Track2"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "F9FC0E85-6FEA-42FC-93C1-C9FBCDB4AB1A",
+        "Root",
+        "V2WalkAndHit",
+        "Track6"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "F9FC0E85-6FEA-42FC-93C1-C9FBCDB4AB1A",
+        "Root",
+        "SoundWalk",
+        "Track3"
       ],
       {
         "isExpanded" : true,

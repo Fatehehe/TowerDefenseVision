@@ -10,12 +10,12 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["Floor", "Houses", "Tower", "Environment"]
+    reorder nameChildren = ["Floor", "Houses", "Tower", "Environment", "BGMSound"]
     def Scope "Environment" (
         active = true
     )
     {
-        reorder nameChildren = ["Floor", "Tower", "OrangeHouses", "BlueHouses", "PropsAdd", "Floor2", "Watchtower"]
+        reorder nameChildren = ["OrangeHouses_copy", "BlueHouses_copy", "Floor", "Tower", "PropsAdd", "Floor2", "Watchtower"]
         def "Floor" (
             references = @TechArts/Meshs/Floor.usdc@
         )
@@ -79,6 +79,47 @@ def Xform "Root"
                 {
                 }
             }
+
+            def RealityKitComponent "AudioLibrary"
+            {
+                uniform token info:id = "RealityKit.AudioLibrary"
+
+                def RealityKitDict "resources"
+                {
+                    string[] keys = ["Voice-of-Earth-chosic.com_.mp3"]
+                    rel values = </Root/Voice_of_Earth_chosic_com__mp3>
+                }
+            }
+
+            def RealityKitComponent "RCP_BehaviorsContainer"
+            {
+                rel behaviors = </Root/Environment/Floor/OnAddedToScene>
+                uniform token info:id = "RCP.BehaviorsContainer"
+            }
+
+            def Preliminary_Behavior "OnAddedToScene"
+            {
+                rel actions = </Root/Environment/Floor/OnAddedToScene/Action>
+                uniform bool exclusive
+                rel triggers = </Root/Environment/Floor/OnAddedToScene/Trigger>
+
+                def Preliminary_Trigger "Trigger"
+                {
+                    rel affectedObjects = </Root/Environment/Floor>
+                    token info:id = "SceneTransition"
+                }
+
+                def Preliminary_Action "Action"
+                {
+                    rel affectedObjects = </Root>
+                    rel animationLibraryKey = </Root/BGMSound>
+                    rel animationLibraryKeyOverrideKey = </Root/Environment/Floor/OnAddedToScene/Trigger>
+                    token info:id = "PlayTimeline"
+                    int loops = 0
+                    int performCount = 1
+                    token type = "serial"
+                }
+            }
         }
 
         def "Tower" (
@@ -137,28 +178,6 @@ def Xform "Root"
             }
         }
 
-        def "OrangeHouses" (
-            active = true
-            references = @TechArts/Meshs/OrangeHouses.usdc@
-        )
-        {
-            quatf xformOp:orient = (6.1232336e-17, 4.32978e-17, 0.70710677, 0.7071067)
-            float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
-            float3 xformOp:translate = (0, 0, 0)
-            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-        }
-
-        def "BlueHouses" (
-            active = true
-            references = @TechArts/Meshs/BlueHouses.usdc@
-        )
-        {
-            quatf xformOp:orient = (6.1232336e-17, 4.32978e-17, 0.70710677, 0.7071067)
-            float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
-            float3 xformOp:translate = (0, 0, 0)
-            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-        }
-
         def "PropsAdd" (
             active = true
             references = @TechArts/Meshs/PropsAdd.usdc@
@@ -196,17 +215,67 @@ def Xform "Root"
         def "Watchtower" (
             active = true
             customData = {
-                float3 rotationEulerHint = (0, -1.1519173, 0)
+                float3 rotationEulerHint = (0, -1.0745574, 0)
             }
             references = @Watchtower.usda@
         )
         {
             float2 ui:nodegraph:node:pos = (20, 20)
             int ui:nodegraph:node:stackingOrder = 1
-            quatf xformOp:orient = (0.83867055, 0, -0.54463905, 0)
+            quatf xformOp:orient = (0.85910463, 0, -0.5118, 0)
             float3 xformOp:scale = (1.5, 1.5, 1.5)
-            float3 xformOp:translate = (-5.110513, 2.9802322e-8, 9.277104)
+            float3 xformOp:translate = (-10.95446, -5.9604645e-7, 8.741249)
             uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def "OrangeHouses_copy" (
+            active = true
+            references = @TechArts/Meshs/OrangeHouses copy.usdc@
+        )
+        {
+            quatf xformOp:orient = (6.1232336e-17, 4.32978e-17, 0.70710677, 0.7071067)
+            float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def "BlueHouses_copy" (
+            active = true
+            references = @TechArts/Meshs/BlueHouses copy.usdc@
+        )
+        {
+            quatf xformOp:orient = (6.1232336e-17, 4.32978e-17, 0.70710677, 0.7071067)
+            float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+    }
+
+    def RealityKitAudioFile "Voice_of_Earth_chosic_com__mp3"
+    {
+        uniform asset file = @TechArts/Audio/Voice-of-Earth-chosic.com_.mp3@
+        uniform bool shouldLoop = 1
+    }
+
+    def RealityKitTimeline "BGMSound"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Play_Audio"
+            {
+                string actionKind = "audio"
+                string audioResourceName = "Voice-of-Earth-chosic.com_.mp3"
+                bool controlPlayback = 1
+                double duration = 139.389375
+                uniform token info:id = "BF98E885-239C-4AE5-A3F6-39202F169C50"
+                double loopCount = 0
+                double startTime = 0
+                rel target = </Root/Environment/Floor>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
         }
     }
 }
