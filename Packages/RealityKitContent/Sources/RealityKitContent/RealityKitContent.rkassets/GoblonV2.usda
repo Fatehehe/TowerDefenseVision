@@ -37,7 +37,7 @@ def Xform "Root"
                         }
                     }
                 )
-                asset inputs:MetalTexture (
+                asset inputs:MetalTexture = None (
                     customData = {
                         dictionary realitykit = {
                             float2 positionInSubgraph = (-990.5796, 330.4942)
@@ -53,7 +53,7 @@ def Xform "Root"
                         }
                     }
                 )
-                float inputs:Roughness_Float = 1 (
+                float inputs:Roughness_Float = 1.2 (
                     customData = {
                         dictionary realitykit = {
                             float2 positionInSubgraph = (-247.11182, 311.30423)
@@ -409,7 +409,7 @@ def Xform "Root"
                 double duration = 13.054715638262657
                 uniform token info:id = "4E48E7E3-A783-458B-904C-CA9C60C9BC1D"
                 double loopCount = 0
-                double startTime = 0.03428830668037269
+                double startTime = 0
                 rel timeline = </Root/Goblin_Sound>
             }
         }

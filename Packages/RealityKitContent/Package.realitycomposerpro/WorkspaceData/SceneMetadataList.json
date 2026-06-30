@@ -119,7 +119,52 @@
   },
   "1F5405BC-7DA0-43C6-8C2E-5D5B940F78CF" : {
     "objectMetadataList" : [
-
+      [
+        "1F5405BC-7DA0-43C6-8C2E-5D5B940F78CF",
+        "Root",
+        "Environment"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "1F5405BC-7DA0-43C6-8C2E-5D5B940F78CF",
+        "Root",
+        "BGMSound",
+        "Track"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "1F5405BC-7DA0-43C6-8C2E-5D5B940F78CF",
+        "Root",
+        "BGMSound"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "1F5405BC-7DA0-43C6-8C2E-5D5B940F78CF",
+        "Root"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "1F5405BC-7DA0-43C6-8C2E-5D5B940F78CF",
+        "Root",
+        "Timeline",
+        "Track"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      }
     ]
   },
   "1F56843E-062C-4AD1-B715-96535B1DFF88" : {
@@ -981,6 +1026,44 @@
       [
         "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
         "Root",
+        "BGMSound",
+        "Track"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
+        "Root",
+        "Timeline",
+        "Track"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
+        "Root",
+        "BGMSound"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
+        "Root",
+        "Environment"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
+        "Root",
         "SkyDome",
         "Grid"
       ],
@@ -997,25 +1080,6 @@
       {
         "disallowsFraming" : true,
         "isExpanded" : false,
-        "isLocked" : false
-      },
-      [
-        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
-        "Root",
-        "Environment",
-        "Tower"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
-        "Root",
-        "Environment"
-      ],
-      {
-        "isExpanded" : true,
         "isLocked" : false
       },
       [

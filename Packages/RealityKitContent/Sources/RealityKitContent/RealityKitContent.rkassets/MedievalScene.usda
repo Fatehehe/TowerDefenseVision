@@ -10,7 +10,7 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["Floor", "Houses", "Tower", "Environment"]
+    reorder nameChildren = ["Floor", "Houses", "Tower", "Environment", "BGMSound"]
     def Scope "Environment" (
         active = true
     )
@@ -218,6 +218,47 @@ def Xform "Root"
                     token outputs:realitykit:vertex
                 }
             }
+
+            def RealityKitComponent "AudioLibrary"
+            {
+                uniform token info:id = "RealityKit.AudioLibrary"
+
+                def RealityKitDict "resources"
+                {
+                    string[] keys = ["Voice-of-Earth-chosic.com_.mp3"]
+                    rel values = </Root/Voice_of_Earth_chosic_com__mp3>
+                }
+            }
+
+            def RealityKitComponent "RCP_BehaviorsContainer"
+            {
+                rel behaviors = </Root/Environment/Floor2/OnAddedToScene>
+                uniform token info:id = "RCP.BehaviorsContainer"
+            }
+
+            def Preliminary_Behavior "OnAddedToScene"
+            {
+                rel actions = </Root/Environment/Floor2/OnAddedToScene/Action>
+                uniform bool exclusive
+                rel triggers = </Root/Environment/Floor2/OnAddedToScene/Trigger>
+
+                def Preliminary_Trigger "Trigger"
+                {
+                    rel affectedObjects = </Root/Environment/Floor2>
+                    token info:id = "SceneTransition"
+                }
+
+                def Preliminary_Action "Action"
+                {
+                    rel affectedObjects = </Root>
+                    rel animationLibraryKey = </Root/BGMSound>
+                    rel animationLibraryKeyOverrideKey = </Root/Environment/Floor2/OnAddedToScene/Trigger>
+                    token info:id = "PlayTimeline"
+                    int loops = 0
+                    int performCount = 1
+                    token type = "serial"
+                }
+            }
         }
 
         def "Watchtower" (
@@ -234,6 +275,35 @@ def Xform "Root"
             float3 xformOp:scale = (1.5, 1.5, 1.5)
             float3 xformOp:translate = (-11.046367, 0, 5.5332937)
             uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+    }
+
+    def RealityKitAudioFile "Voice_of_Earth_chosic_com__mp3"
+    {
+        uniform asset file = @TechArts/Audio/Voice-of-Earth-chosic.com_.mp3@
+        uniform bool shouldLoop = 1
+    }
+
+    def RealityKitTimeline "BGMSound"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Play_Audio"
+            {
+                string actionKind = "audio"
+                string audioResourceName = "Voice-of-Earth-chosic.com_.mp3"
+                bool controlPlayback = 1
+                double duration = 139.389375
+                double gain = 0
+                uniform token info:id = "32384CE3-626F-4E57-A83E-0B1CCDA70EA2"
+                double loopCount = 0
+                double startTime = 0
+                rel target = </Root/Environment/Floor2>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
         }
     }
 }
