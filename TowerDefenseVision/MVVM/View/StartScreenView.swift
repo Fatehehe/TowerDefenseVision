@@ -22,11 +22,7 @@ struct StartScreenView: View {
                 .foregroundColor(.secondary)
             
             Button(action: {
-                appModel.currentGameState = .loading
-                
-                Task {
-                    await openImmersiveSpace(id: appModel.immersiveSpaceID)
-                }
+                appModel.currentGameState = .tutorial
             }) {
                 Text("Start Game")
                     .font(.title2)

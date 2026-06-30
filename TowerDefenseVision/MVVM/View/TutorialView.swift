@@ -10,6 +10,7 @@ import SwiftUI
 struct TutorialView: View {
     @Environment(AppModel.self) var appModel
     @Environment(\.dismissWindow) var dismissWindow
+    @Environment(\.openImmersiveSpace) var openImmersiveSpace
     
     @State private var currentStep = 0
     let totalSteps = 4
@@ -44,10 +45,11 @@ struct TutorialView: View {
                     .buttonStyle(.bordered)
                 } else {
                     Button(action: {
-                        appModel.currentGameState = .playing
+                        appModel.currentGameState = .loading
                         appModel.playGame()
-                        // 🎯 2. Tutup window utama!
-                        dismissWindow(id: "MainWindow")
+                        Task {
+                            await openImmersiveSpace(id: appModel.immersiveSpaceID)
+                        }
                     }) {
                         Text("Paham, Mari Mulai!")
                             .bold()

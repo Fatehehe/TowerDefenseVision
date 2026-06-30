@@ -16,10 +16,10 @@ struct ContentView: View {
             switch appModel.currentGameState {
             case .startScreen:
                 StartScreenView()
-            case .loading:
-                LoadingView()
             case .tutorial:
                 TutorialView()
+            case .loading:
+                LoadingView()
             case .playing:
                 Color.clear
             case .won:
@@ -28,6 +28,5 @@ struct ContentView: View {
                 GameResultView(isWin: false)
             }
         }
-        .animation(.easeInOut, value: appModel.currentGameState)
     }
 }

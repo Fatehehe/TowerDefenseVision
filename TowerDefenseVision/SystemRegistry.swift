@@ -16,16 +16,16 @@ public struct SystemRegistry {
 //        HandOverlayComponent.registerComponent()
 //        HandOverlaySystem.registerSystem()
         
-        HandVisualizationSystem.registerSystem()
-        HandVisualizationComponent.registerComponent()
+//        HandVisualizationSystem.registerSystem()
+//        HandVisualizationComponent.registerComponent()
         
-        BowComponent.registerComponent()
-        ArrowComponent.registerComponent()
+//        BowComponent.registerComponent()
+//        ArrowComponent.registerComponent()
         
-        ArcheryPlayerComponent.registerComponent()
+//        ArcheryPlayerComponent.registerComponent()
         
-        ArcherySystem.registerSystem()
-        ArrowSystem.registerSystem()
+//        ArcherySystem.registerSystem()
+//        ArrowSystem.registerSystem()
         
         TowerComponent.registerComponent()
         PortalComponent.registerComponent()
@@ -34,7 +34,7 @@ public struct SystemRegistry {
         PortalSystem.registerSystem()
         EnemySystem.registerSystem()
         
-        CombatSystem.registerSystem()
+//        CombatSystem.registerSystem()
     }
 }
 

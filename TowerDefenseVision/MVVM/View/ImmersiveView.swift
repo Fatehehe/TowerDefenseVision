@@ -13,6 +13,7 @@ import RealityKitContent
 struct ImmersiveView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.openWindow) var openWindow
+    @Environment(\.dismissWindow) var dismissWindow
     
     @State var towerEntity: Entity?
     
@@ -36,20 +37,22 @@ struct ImmersiveView: View {
             }
             
             //rawan crash
-            let hands = await GloveEntitySpawner.spawnHandGlovesAsync()
+//            let hands = await GloveEntitySpawner.spawnHandGlovesAsync()
+            let hands = HandEntitySpawner.spawnHands()
             
-            if(!hands.isEmpty){
+//            if(!hands.isEmpty){
                 for hand in hands {
+                    print("hand added to content \(hand.name)")
                     content.add(hand)
                 }
                 
-                let rightHandAnchor = hands[0]
-                let leftHandAnchor = hands[1]
-                
-                if let archeryManager = await ArcherySpawner.spawnArcheryManager(leftHand: leftHandAnchor, rightHand: rightHandAnchor) {
-                    content.add(archeryManager)
-                }
-            }
+//                let rightHandAnchor = hands[0]
+//                let leftHandAnchor = hands[1]
+//
+//                if let archeryManager = await ArcherySpawner.spawnArcheryManager(leftHand: leftHandAnchor, rightHand: rightHandAnchor) {
+//                    content.add(archeryManager)
+//                }
+//            }
             // sampe sini
             
             let headAnchor = AnchorEntity(.head)
@@ -59,16 +62,14 @@ struct ImmersiveView: View {
             }
             content.add(headAnchor)
             
-            Task {
-                try? await HandTrackingService.shared.start()
-                model.currentGameState = .tutorial
+            Task {@MainActor in
+                model.currentGameState = .playing
+                dismissWindow(id: "MainWindow")
             }
             
         } attachments: {
             Attachment(id: "gameplay_hud") {
-                if model.currentGameState == .playing {
                     GameplayHUDView()
-                }
             }
         }
         .upperLimbVisibility(.hidden)
@@ -89,6 +90,9 @@ struct ImmersiveView: View {
                 model.stopGame()
                 openWindow(id: "MainWindow")
             }
+        }
+        .task {
+            try? await HandTrackingService.shared.start()
         }
     }
 }
