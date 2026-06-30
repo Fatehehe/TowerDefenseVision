@@ -119,23 +119,7 @@
   },
   "1F5405BC-7DA0-43C6-8C2E-5D5B940F78CF" : {
     "objectMetadataList" : [
-      [
-        "1F5405BC-7DA0-43C6-8C2E-5D5B940F78CF",
-        "Root",
-        "Environment"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "1F5405BC-7DA0-43C6-8C2E-5D5B940F78CF",
-        "Root"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      }
+
     ]
   },
   "1F56843E-062C-4AD1-B715-96535B1DFF88" : {
@@ -756,6 +740,17 @@
     "objectMetadataList" : [
       [
         "77C60DEE-948E-4B4B-B401-B949D314D5A6",
+        "Root",
+        "Skydome",
+        "Skydome_MI",
+        "FadeColor"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "77C60DEE-948E-4B4B-B401-B949D314D5A6",
         "Root"
       ],
       {
@@ -986,15 +981,6 @@
       [
         "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
         "Root",
-        "Floor2"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
-        "Root",
         "SkyDome",
         "Grid"
       ],
@@ -1016,8 +1002,8 @@
       [
         "9903596C-A14D-4338-9C9D-6FD7AF1FB034",
         "Root",
-        "Floor2",
-        "_materials"
+        "Environment",
+        "Tower"
       ],
       {
         "isExpanded" : true,
@@ -1086,14 +1072,7 @@
   },
   "A34C0C6D-0566-43A8-8AF8-ADC9DA45E3C8" : {
     "objectMetadataList" : [
-      [
-        "A34C0C6D-0566-43A8-8AF8-ADC9DA45E3C8",
-        "ShaderTerrain"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      }
+
     ]
   },
   "AF09ED6F-1707-48FD-8720-65B998362C09" : {
@@ -1180,15 +1159,6 @@
         "B499CB33-6232-451E-A511-BBFB42E64D7D",
         "Root",
         "HouseMaterial"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "B499CB33-6232-451E-A511-BBFB42E64D7D",
-        "Root",
-        "ORM_Texture"
       ],
       {
         "isExpanded" : true,

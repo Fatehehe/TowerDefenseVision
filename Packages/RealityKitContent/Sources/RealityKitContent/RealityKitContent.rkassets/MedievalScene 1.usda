@@ -15,7 +15,7 @@ def Xform "Root"
         active = true
     )
     {
-        reorder nameChildren = ["Floor", "Tower", "OrangeHouses", "BlueHouses", "PropsAdd", "Floor2", "Watchtower"]
+        reorder nameChildren = ["OrangeHouses_copy", "BlueHouses_copy", "Floor", "Tower", "PropsAdd", "Floor2", "Watchtower"]
         def "Floor" (
             references = @TechArts/Meshs/Floor.usdc@
         )
@@ -186,28 +186,28 @@ def Xform "Root"
             float3 xformOp:translate = (-10.95446, -5.9604645e-7, 8.741249)
             uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
         }
-    }
 
-    def "OrangeHouses_copy" (
-        active = true
-        prepend references = @TechArts/Meshs/OrangeHouses copy.usdc@
-    )
-    {
-        quatf xformOp:orient = (4.3297803e-17, 4.3297803e-17, 0.70710677, 0.70710677)
-        float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (0, 0, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-    }
+        def "OrangeHouses_copy" (
+            active = true
+            references = @TechArts/Meshs/OrangeHouses copy.usdc@
+        )
+        {
+            quatf xformOp:orient = (6.1232336e-17, 4.32978e-17, 0.70710677, 0.7071067)
+            float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
 
-    def "BlueHouses_copy" (
-        active = true
-        prepend references = @TechArts/Meshs/BlueHouses copy.usdc@
-    )
-    {
-        quatf xformOp:orient = (4.3297803e-17, 4.3297803e-17, 0.70710677, 0.70710677)
-        float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (0, 0, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        def "BlueHouses_copy" (
+            active = true
+            references = @TechArts/Meshs/BlueHouses copy.usdc@
+        )
+        {
+            quatf xformOp:orient = (6.1232336e-17, 4.32978e-17, 0.70710677, 0.7071067)
+            float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
     }
 }
 
