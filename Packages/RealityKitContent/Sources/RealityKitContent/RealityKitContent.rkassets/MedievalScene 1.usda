@@ -137,28 +137,6 @@ def Xform "Root"
             }
         }
 
-        def "OrangeHouses" (
-            active = true
-            references = @TechArts/Meshs/OrangeHouses.usdc@
-        )
-        {
-            quatf xformOp:orient = (6.1232336e-17, 4.32978e-17, 0.70710677, 0.7071067)
-            float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
-            float3 xformOp:translate = (0, 0, 0)
-            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-        }
-
-        def "BlueHouses" (
-            active = true
-            references = @TechArts/Meshs/BlueHouses.usdc@
-        )
-        {
-            quatf xformOp:orient = (6.1232336e-17, 4.32978e-17, 0.70710677, 0.7071067)
-            float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
-            float3 xformOp:translate = (0, 0, 0)
-            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-        }
-
         def "PropsAdd" (
             active = true
             references = @TechArts/Meshs/PropsAdd.usdc@
@@ -196,18 +174,40 @@ def Xform "Root"
         def "Watchtower" (
             active = true
             customData = {
-                float3 rotationEulerHint = (0, -1.1519173, 0)
+                float3 rotationEulerHint = (0, -1.0745574, 0)
             }
             references = @Watchtower.usda@
         )
         {
             float2 ui:nodegraph:node:pos = (20, 20)
             int ui:nodegraph:node:stackingOrder = 1
-            quatf xformOp:orient = (0.83867055, 0, -0.54463905, 0)
+            quatf xformOp:orient = (0.85910463, 0, -0.5118, 0)
             float3 xformOp:scale = (1.5, 1.5, 1.5)
-            float3 xformOp:translate = (-5.110513, 2.9802322e-8, 9.277104)
+            float3 xformOp:translate = (-10.95446, -5.9604645e-7, 8.741249)
             uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
         }
+    }
+
+    def "OrangeHouses_copy" (
+        active = true
+        prepend references = @TechArts/Meshs/OrangeHouses copy.usdc@
+    )
+    {
+        quatf xformOp:orient = (4.3297803e-17, 4.3297803e-17, 0.70710677, 0.70710677)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def "BlueHouses_copy" (
+        active = true
+        prepend references = @TechArts/Meshs/BlueHouses copy.usdc@
+    )
+    {
+        quatf xformOp:orient = (4.3297803e-17, 4.3297803e-17, 0.70710677, 0.70710677)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }
 
