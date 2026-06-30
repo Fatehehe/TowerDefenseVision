@@ -16,37 +16,30 @@ struct HandVisualizationSystem: System {
     init(scene: RealityKit.Scene) {}
         
     func update(context: SceneUpdateContext) {
-        updateHandGestures(context: context)
-    }
-        
-    private func updateHandGestures(context: SceneUpdateContext) {
         let service = HandTrackingService.shared
             
         for entity in context.scene.performQuery(Self.query) {
             guard let visualComp = entity.components[HandVisualizationComponent.self] else { continue }
             let modelEntity = visualComp.modelEntity
+            
+            guard let leftHand = service.latestLeftHand, leftHand.isTracked else {return}
+            guard let rightHand = service.latestRightHand, rightHand.isTracked else {return}
                 
             if entity.name == "LeftHandAnchor" {
-                if let leftHand = service.latestLeftHand, let leftSkeleton = leftHand.handSkeleton {
+                if let leftSkeleton = leftHand.handSkeleton {
                     entity.isEnabled = leftHand.isTracked
-                    
-                    if leftHand.isTracked {
-                        entity.transform = Transform(matrix: leftHand.originFromAnchorTransform)
-                        updateJointRotations(for: modelEntity, using: leftSkeleton)
-                    }
+                    entity.transform = Transform(matrix: leftHand.originFromAnchorTransform)
+                    updateJointRotations(for: modelEntity, using: leftSkeleton)
                 } else {
                     entity.isEnabled = false
                 }
             }
             
             else if entity.name == "RightHandAnchor" {
-                if let rightHand = service.latestRightHand, let rightSkeleton = rightHand.handSkeleton {
+                if let rightSkeleton = rightHand.handSkeleton {
                     entity.isEnabled = rightHand.isTracked
-                    
-                    if rightHand.isTracked {
-                        entity.transform = Transform(matrix: rightHand.originFromAnchorTransform)
-                        updateJointRotations(for: modelEntity, using: rightSkeleton)
-                    }
+                    entity.transform = Transform(matrix: rightHand.originFromAnchorTransform)
+                    updateJointRotations(for: modelEntity, using: rightSkeleton)
                 } else {
                     entity.isEnabled = false
                 }
@@ -58,6 +51,8 @@ struct HandVisualizationSystem: System {
         let joints = handSkeleton.allJoints
         
         for (index, joint) in joints.enumerated() {
+            guard index < glove.jointTransforms.count else { break }
+            
             let jointTransform = handSkeleton.joint(joint.name).parentFromJointTransform
             let rotation = simd_quatf(jointTransform)
             

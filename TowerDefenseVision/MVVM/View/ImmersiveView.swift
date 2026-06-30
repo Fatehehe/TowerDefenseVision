@@ -37,8 +37,8 @@ struct ImmersiveView: View {
             }
             
             //rawan crash
-//            let hands = await GloveEntitySpawner.spawnHandGlovesAsync()
-            let hands = HandEntitySpawner.spawnHands()
+            let hands = await GloveEntitySpawner.spawnHandGlovesAsync()
+//            let hands = HandEntitySpawner.spawnHands()
             
 //            if(!hands.isEmpty){
                 for hand in hands {
@@ -46,12 +46,12 @@ struct ImmersiveView: View {
                     content.add(hand)
                 }
                 
-//                let rightHandAnchor = hands[0]
-//                let leftHandAnchor = hands[1]
-//
-//                if let archeryManager = await ArcherySpawner.spawnArcheryManager(leftHand: leftHandAnchor, rightHand: rightHandAnchor) {
-//                    content.add(archeryManager)
-//                }
+                let rightHandAnchor = hands[0]
+                let leftHandAnchor = hands[1]
+
+                if let archeryManager = await ArcherySpawner.spawnArcheryManager(leftHand: leftHandAnchor, rightHand: rightHandAnchor) {
+                    content.add(archeryManager)
+                }
 //            }
             // sampe sini
             

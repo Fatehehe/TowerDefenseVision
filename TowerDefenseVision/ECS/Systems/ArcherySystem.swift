@@ -16,20 +16,22 @@ public struct ArcherySystem: System {
     
     public func update(context: SceneUpdateContext) {
         
-        let service = HandTrackingService.shared
-        guard let leftHand = service.latestLeftHand, let leftSkeleton = leftHand.handSkeleton, leftHand.isTracked,
-              let rightHand = service.latestRightHand, let rightSkeleton = rightHand.handSkeleton, rightHand.isTracked else {
-            return
-        }
+        guard let leftHand = HandTrackingService.shared.latestLeftHand, leftHand.isTracked else {return}
+        guard let rightHand = HandTrackingService.shared.latestRightHand, rightHand.isTracked else {return}
+        
+        guard let leftSkeleton = leftHand.handSkeleton else {return}
+        guard let rightSkeleton = rightHand.handSkeleton else {return}
         
         let isBowPose = HandPoseDetector.detect(handSkeleton: leftSkeleton, thumb: false, index: false, mid: false, ring: false, little: false)
         let isArrowPose = HandPoseDetector.detect(handSkeleton: rightSkeleton, thumb: false, index: true, mid: true, ring: true, little: true)
         let isShootingPose = HandPoseDetector.detect(handSkeleton: rightSkeleton, thumb: false, index: false, mid: true, ring: true, little: true)
         
-        print("isBowPose \(isBowPose), isArrowPose \(isArrowPose), isShootingPose \(isShootingPose)")
+//        print("isBowPose \(isBowPose), isArrowPose \(isArrowPose), isShootingPose \(isShootingPose)")
+        
         
         let leftPos = leftHand.originFromAnchorTransform.columns.3
         let rightPos = rightHand.originFromAnchorTransform.columns.3
+        
         let handDistance = simd_distance(
             simd_make_float3(leftPos.x, leftPos.y, leftPos.z),
             simd_make_float3(rightPos.x, rightPos.y, rightPos.z)
