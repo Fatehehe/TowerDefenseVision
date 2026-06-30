@@ -1227,6 +1227,15 @@
       {
         "isExpanded" : true,
         "isLocked" : false
+      },
+      [
+        "B499CB33-6232-451E-A511-BBFB42E64D7D",
+        "Root",
+        "ORM_Texture"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
       }
     ]
   },

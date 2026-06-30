@@ -24,7 +24,8 @@ def Xform "Root"
         float inputs:MetalStrenght = 0 (
             customData = {
                 dictionary realitykit = {
-                    float2 positionInSubgraph = (-547.7846, 206.86542)
+                    float2 positionInSubgraph = (-580.13153, 204.96764)
+                    int stackingOrderInSubgraph = 38
                 }
             }
         )
@@ -49,14 +50,21 @@ def Xform "Root"
         def Shader "PreviewSurface"
         {
             uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+            float inputs:clearcoat
+            float inputs:clearcoatRoughness
             color3f inputs:diffuseColor.connect = </Root/ORM_Texture/Multiply.outputs:out>
+            color3f inputs:emissiveColor
+            float inputs:ior
             float inputs:metallic.connect = </Root/ORM_Texture/Min.outputs:out>
-            float3 inputs:normal.connect = </Root/ORM_Texture/Image.outputs:out>
+            float3 inputs:normal.connect = </Root/ORM_Texture/NormalMapDecode.outputs:out>
+            float inputs:occlusion
             float inputs:opacity
+            float inputs:opacityThreshold
             float inputs:roughness.connect = </Root/ORM_Texture/NodeGraph.outputs:Rough>
             token outputs:out
             float2 ui:nodegraph:node:pos = (93.5, 100.5)
             int ui:nodegraph:node:stackingOrder = 2
+            string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["Advanced"]
         }
 
         def Shader "Image2D"
@@ -153,9 +161,10 @@ def Xform "Root"
             uniform token info:id = "ND_image_vector3"
             float3 inputs:default
             asset inputs:file.connect = </Root/ORM_Texture.inputs:NormalTexture>
+            string inputs:filtertype
             float3 outputs:out
-            float2 ui:nodegraph:node:pos = (-292.2483, 425.18027)
-            int ui:nodegraph:node:stackingOrder = 12
+            float2 ui:nodegraph:node:pos = (-401.39594, 425.18027)
+            int ui:nodegraph:node:stackingOrder = 33
         }
 
         def Shader "Min"
@@ -166,6 +175,15 @@ def Xform "Root"
             float outputs:out
             float2 ui:nodegraph:node:pos = (-134.04881, 195.61841)
             int ui:nodegraph:node:stackingOrder = 31
+        }
+
+        def Shader "NormalMapDecode"
+        {
+            uniform token info:id = "ND_normal_map_decode"
+            float3 inputs:in.connect = </Root/ORM_Texture/Image.outputs:out>
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-143.79684, 395.47058)
+            int ui:nodegraph:node:stackingOrder = 36
         }
     }
 
