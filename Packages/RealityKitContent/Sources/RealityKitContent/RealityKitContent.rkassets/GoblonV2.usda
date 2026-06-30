@@ -251,7 +251,7 @@ def Xform "Root"
                 float3 extent = (230.36629, 68.92237, 162.75873)
                 float height = 68.92237
                 float radius = 115.18314
-                token shapeType = "Capsule"
+                token shapeType = "Box"
 
                 def RealityKitStruct "pose"
                 {
