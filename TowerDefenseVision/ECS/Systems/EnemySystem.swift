@@ -10,7 +10,6 @@ import Foundation
 
 public struct EnemySystem: System {
     static let query = EntityQuery(where: .has(EnemyComponent.self))
-    static let towerQuery = EntityQuery(where: .has(TowerComponent.self))
     static var lastEnemyCount: Int = -1
     
     public init(scene: RealityKit.Scene) {}
@@ -40,9 +39,7 @@ public struct EnemySystem: System {
             
             if distance <= 5.8 {
                 if currentTime - enemyComp.lastDamageTime >= enemyComp.damageInterval {
-                    
                     if var towerComp = tower.components[TowerComponent.self] {
-                        
                         towerComp.hp -= enemyComp.damageAmount
                         print("Menara diserang! Sisa HP: \(towerComp.hp)")
                         

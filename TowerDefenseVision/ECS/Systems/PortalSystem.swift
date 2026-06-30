@@ -45,7 +45,7 @@ public struct PortalSystem: System {
                     let spawnedEnemy = enemyTemplate.clone(recursive: true)
                     spawnedEnemy.name = "GoblinEnemy"
                     
-                    spawnedEnemy.generateCollisionShapes(recursive: true)
+//                    spawnedEnemy.generateCollisionShapes(recursive: true)
                     
                     let randomX = Float.random(in: -0.5...0.5)
                     let randomZ = Float.random(in: -0.5...0.5)
@@ -65,8 +65,9 @@ public struct PortalSystem: System {
                         spawnedEnemy.components.set(enemyComp)
                     }
                     
-                    entity.parent?.addChild(spawnedEnemy)
-        
+                    if let parent = entity.parent {
+                        parent.addChild(spawnedEnemy)
+                    }
                 }
                 
                 portalComp.spawnedCount += 1

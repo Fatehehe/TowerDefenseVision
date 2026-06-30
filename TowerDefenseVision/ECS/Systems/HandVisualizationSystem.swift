@@ -43,16 +43,16 @@ public struct HandVisualizationSystem: System {
             entity.transform = Transform(matrix: handAnchor.originFromAnchorTransform)
             
             // 4. Perbarui rotasi sendi (joints) ke ModelEntity
-//            updateJointRotations(for: modelEntity, using: skeleton)
+            updateJointRotations(for: modelEntity, using: skeleton)
             
 //            if let gloveModel = modelEntity {
-                let joints = skeleton.allJoints
-                for (index, joint) in joints.enumerated() {
-                    if index < modelEntity.jointTransforms.count {
-                        let jointTransform = skeleton.joint(joint.name).parentFromJointTransform
-                        modelEntity.jointTransforms[index].rotation = simd_quatf(jointTransform)
-                    }
-                }
+//                let joints = skeleton.allJoints
+//                for (index, joint) in joints.enumerated() {
+//                    if index < modelEntity.jointTransforms.count {
+//                        let jointTransform = skeleton.joint(joint.name).parentFromJointTransform
+//                        modelEntity.jointTransforms[index].rotation = simd_quatf(jointTransform)
+//                    }
+//                }
 //            }
         }
     }
@@ -72,7 +72,7 @@ public struct HandVisualizationSystem: System {
             let jointTransform = jointData.parentFromJointTransform
             
             // Optional: Tambahkan validasi jika kamu curiga data transform-nya rusak
-            // if jointTransform.columns.3.x.isNaN { continue }
+             if jointTransform.columns.3.x.isNaN { continue }
 
             glove.jointTransforms[index].rotation = simd_quatf(jointTransform)
         }
