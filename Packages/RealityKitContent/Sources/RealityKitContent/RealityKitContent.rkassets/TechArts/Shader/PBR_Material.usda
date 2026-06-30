@@ -10,7 +10,7 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["ORM_Texture", "DefaultMaterial", "UnlitMaterial"]
+    reorder nameChildren = ["ORM_Texture", "DefaultMaterial", "UnlitMaterial", "HouseMaterial"]
     def Material "ORM_Texture"
     {
         reorder nameChildren = ["PreviewSurface", "Image2D", "ConstantImageFile", "NodeGraph"]
@@ -345,6 +345,73 @@ def Xform "Root"
             color3f outputs:out
             float2 ui:nodegraph:node:pos = (-116.98362, 71.82049)
             int ui:nodegraph:node:stackingOrder = 2
+        }
+    }
+
+    def Material "HouseMaterial"
+    {
+        asset inputs:BaseColor = @@ (
+            customData = {
+                dictionary realitykit = {
+                    float2 positionInSubgraph = (-417.86285, -96.989716)
+                }
+            }
+        )
+        asset inputs:Normal = @@ (
+            customData = {
+                dictionary realitykit = {
+                    float2 positionInSubgraph = (-485.70642, 316.28494)
+                }
+            }
+        )
+        float inputs:Roughness = 0 (
+            customData = {
+                dictionary realitykit = {
+                    float2 positionInSubgraph = (-384.1913, 182.3881)
+                }
+            }
+        )
+        token outputs:mtlx:surface.connect = </Root/HouseMaterial/PreviewSurface.outputs:out>
+        token outputs:realitykit:vertex
+        float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (463.56296, 98.8695)
+        int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 4
+
+        def Shader "PreviewSurface"
+        {
+            uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+            color3f inputs:diffuseColor.connect = </Root/HouseMaterial/Image2D.outputs:out>
+            float inputs:metallic
+            float3 inputs:normal.connect = </Root/HouseMaterial/Image.outputs:out>
+            float inputs:opacity
+            float inputs:roughness.connect = </Root/HouseMaterial.inputs:Roughness>
+            token outputs:out
+            float2 ui:nodegraph:node:pos = (121.319145, 187.15134)
+            int ui:nodegraph:node:stackingOrder = 6
+        }
+
+        def Shader "Image2D"
+        {
+            uniform token info:id = "ND_RealityKitTexture2D_color3"
+            float inputs:bias
+            float inputs:dynamic_min_lod_clamp
+            asset inputs:file.connect = </Root/HouseMaterial.inputs:BaseColor>
+            bool inputs:no_flip_v = 1
+            int2 inputs:offset
+            string inputs:u_wrap_mode
+            color3f outputs:out
+            float2 ui:nodegraph:node:pos = (-120.23045, 38.726513)
+            int ui:nodegraph:node:stackingOrder = 1
+        }
+
+        def Shader "Image"
+        {
+            uniform token info:id = "ND_image_vector3"
+            float3 inputs:default
+            asset inputs:file.connect = </Root/HouseMaterial.inputs:Normal>
+            float2 inputs:texcoord
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-213.19153, 335.62952)
+            int ui:nodegraph:node:stackingOrder = 8
         }
     }
 }

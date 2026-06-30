@@ -10,6 +10,7 @@
 
 def Xform "Root"
 {
+    reorder nameChildren = ["V2WalkAndHit", "SoundHit", "SoundWalk"]
     def "Goblin_T_Pose_2" (
         active = true
         references = @TechArts/Meshs/Goblin_T-Pose-2.usdc@
@@ -28,7 +29,14 @@ def Xform "Root"
             {
                 asset inputs:AOTexture = None
                 asset inputs:BaseTexture = @TechArts/Textures/Goblin/orcaaa_Goblin_BaseColor.1001.png@
-                asset inputs:NormalTexture = @TechArts/Textures/Goblin/orcaaa_Goblin_Normal.1001.png@
+                asset inputs:NormalTexture = @TechArts/Textures/Goblin/orcaaa_Goblin_Normal.1001.png@ (
+                    customData = {
+                        dictionary realitykit = {
+                            float2 positionInSubgraph = (-676.08856, 651.0079)
+                            int stackingOrderInSubgraph = 96
+                        }
+                    }
+                )
                 float inputs:Roughness_Float = 1 (
                     customData = {
                         dictionary realitykit = {
@@ -143,6 +151,42 @@ def Xform "Root"
                 token type = "serial"
             }
         }
+
+        def RealityKitComponent "AudioLibrary"
+        {
+            uniform token info:id = "RealityKit.AudioLibrary"
+
+            def RealityKitDict "resources"
+            {
+                string[] keys = ["YTMP3GG_YouTube_Running-F.mp3", "freesound_community-doorhit-98828.mp3", "414148_trimmed.mp3"]
+                rel values = [
+                    </Root/YTMP3GG_YouTube_Running_F_mp32>,
+                    </Root/freesound_community_doorhit_98828_mp32>,
+                    </Root/_414148_trimmed_mp3>,
+                ]
+            }
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (230.36629, 68.92237, 162.75873)
+                float height = 68.92237
+                float radius = 115.18314
+                token shapeType = "Capsule"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (-0.0000076293945, -0.83927536, 81.07698)
+                }
+            }
+        }
     }
 
     def RealityKitComponent "AnimationLibrary"
@@ -161,23 +205,6 @@ def Xform "Root"
             uniform asset file = @TechArts/Animations/Goblin_Attack-2.usdc@
             uniform string name = "Goblin_Attack-2"
         }
-    }
-
-    def RealityKitComponent "AudioLibrary"
-    {
-        uniform token info:id = "RealityKit.AudioLibrary"
-
-        def RealityKitDict "resources"
-        {
-            string[] keys = ["YTMP3GG_YouTube_Running-F.mp3"]
-            rel values = </Root/YTMP3GG_YouTube_Running_F_mp3>
-        }
-    }
-
-    def RealityKitAudioFile "YTMP3GG_YouTube_Running_F_mp3"
-    {
-        uniform asset file = @TechArts/Audio/YTMP3GG_YouTube_Running-F.mp3@
-        uniform bool shouldLoop = 0
     }
 
     def RealityKitComponent "RCP_BehaviorsContainer"
@@ -211,7 +238,7 @@ def Xform "Root"
 
     def RealityKitTimeline "V2WalkAndHit"
     {
-        reorder nameChildren = ["Track2", "Track3", "Track"]
+        reorder nameChildren = ["Track2", "Track3", "Track", "Track5"]
         def RealityKitTrack "Track2"
         {
             def RealityKitAction "Animation"
@@ -234,7 +261,7 @@ def Xform "Root"
 
         def RealityKitTrack "Track3"
         {
-            reorder nameChildren = ["Animation", "Transform_By"]
+            reorder nameChildren = ["Animation", "Play_Audio2"]
             def RealityKitAction "Animation"
             {
                 string actionKind = "animation"
@@ -262,12 +289,109 @@ def Xform "Root"
                 double duration = 15
                 uniform token info:id = "14CB457D-1671-4C3F-8332-7566B00BF0BE"
                 float3 position = (0, 0, 29.9)
-                double startTime = 0.013253052918818786
+                double startTime = 0
                 rel target = </Root>
 
                 def RealityKitStruct "timingFunction"
                 {
                     token type = "cubicBezier"
+                }
+            }
+        }
+
+        def RealityKitTrack "Track5"
+        {
+            reorder nameChildren = ["Play_Timeline", "Play_Audio2"]
+            def RealityKitAction "Play_Timeline"
+            {
+                string actionKind = "timeline"
+                int blendLayer = 500
+                double duration = 4.127829827540247
+                uniform token info:id = "40C7CE19-9FC7-4422-B83C-6201C5E82272"
+                double loopCount = 0
+                double startTime = 14.633034753618427
+                rel timeline = </Root/SoundHit>
+            }
+        }
+    }
+
+    def RealityKitAudioFile "YTMP3GG_YouTube_Running_F_mp32"
+    {
+        uniform asset file = @TechArts/Audio/YTMP3GG_YouTube_Running-F.mp3@
+        uniform bool shouldLoop = 1
+    }
+
+    def RealityKitAudioFile "freesound_community_doorhit_98828_mp32"
+    {
+        uniform asset file = @TechArts/Audio/freesound_community-doorhit-98828.mp3@
+        uniform bool shouldLoop = 1
+    }
+
+    def RealityKitTimeline "SoundHit"
+    {
+        reorder nameChildren = ["Track", "Track2"]
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Play_Audio"
+            {
+                string actionKind = "audio"
+                string audioResourceName = "414148_trimmed.mp3"
+                bool controlPlayback = 1
+                double duration = 2
+                uniform token info:id = "B207FEE3-EB58-4A4B-ACFE-212749DDA4A4"
+                double startTime = 0.28912276781364427
+                rel target = </Root/Goblin_T_Pose_2>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
+        }
+
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "Play_Audio"
+            {
+                string actionKind = "audio"
+                string audioResourceName = "414148_trimmed.mp3"
+                bool controlPlayback = 1
+                double duration = 1.8
+                uniform token info:id = "B207FEE3-EB58-4A4B-ACFE-212749DDA4A4"
+                double startTime = 2.327829827540247
+                rel target = </Root/Goblin_T_Pose_2>
+                float2 ui:nodegraph:node:pos = (20, 20)
+                int ui:nodegraph:node:stackingOrder = 1
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
+        }
+    }
+
+    def RealityKitAudioFile "_414148_trimmed_mp3"
+    {
+        uniform asset file = @TechArts/Audio/414148_trimmed.mp3@
+        uniform bool shouldLoop = 0
+    }
+
+    def RealityKitTimeline "SoundWalk"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Play_Audio"
+            {
+                string actionKind = "audio"
+                string audioResourceName = "YTMP3GG_YouTube_Running-F.mp3"
+                bool controlPlayback = 1
+                double duration = 4.911
+                double gain = 0
+                uniform token info:id = "092DB67C-D938-4D35-B6E0-84CA44D04078"
+                double startTime = 0
+                rel target = </Root/Goblin_T_Pose_2>
+
+                def RealityKitStruct "handoffType"
+                {
                 }
             }
         }
