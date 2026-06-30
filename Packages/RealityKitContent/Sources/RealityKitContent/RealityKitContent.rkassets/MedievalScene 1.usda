@@ -1,0 +1,213 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.100.6)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    reorder nameChildren = ["Floor", "Houses", "Tower", "Environment"]
+    def Scope "Environment" (
+        active = true
+    )
+    {
+        reorder nameChildren = ["Floor", "Tower", "OrangeHouses", "BlueHouses", "PropsAdd", "Floor2", "Watchtower"]
+        def "Floor" (
+            references = @TechArts/Meshs/Floor.usdc@
+        )
+        {
+            quatf xformOp:orient = (6.1232336e-17, 4.32978e-17, 0.70710677, 0.7071067)
+            float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            over "_materials"
+            {
+                over "Ground" (
+                    references = @TechArts/Shader/PBR_Material.usda@</Root/UnlitMaterial>
+                )
+                {
+                    asset inputs:BakedTexture = @TechArts/Textures/EnviTextures/Env_Grass_Diffuse.png@ (
+                        customData = {
+                            dictionary realitykit = {
+                                float2 positionInSubgraph = (-968.70966, 128.24625)
+                                int stackingOrderInSubgraph = 13
+                            }
+                        }
+                    )
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                    token outputs:surface.connect = </Root/_materials/Ground/Principled_BSDF.outputs:surface>
+                    float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (-180.04507, 209.94101)
+                    int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 13
+
+                    over "Image2D"
+                    {
+                        float2 ui:nodegraph:node:pos = (-714.97546, 211.39203)
+                        int ui:nodegraph:node:stackingOrder = 13
+                    }
+
+                    over "UnlitSurface"
+                    {
+                        float2 ui:nodegraph:node:pos = (-479.40335, 296.92105)
+                        int ui:nodegraph:node:stackingOrder = 13
+                    }
+                }
+            }
+
+            over "Ground_001" (
+                active = false
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Environment/Floor/_materials/Ground> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+
+                over "Plane_003"
+                {
+                }
+            }
+
+            over "Ground"
+            {
+                over "Plane_005"
+                {
+                }
+            }
+        }
+
+        def "Tower" (
+            active = true
+            references = @TechArts/Meshs/Tower.usdc@
+        )
+        {
+            quatf xformOp:orient = (6.1232336e-17, 4.32978e-17, 0.70710677, 0.7071067)
+            float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            over "_materials"
+            {
+                over "MAIN"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                }
+
+                over "ROOFM" (
+                    references = @TechArts/Meshs/Tower.usdc@</root/_materials/ROOFM>
+                )
+                {
+                }
+            }
+
+            over "Tower" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = None (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+
+                over "Plane_453"
+                {
+                    over "MAIN" (
+                        prepend apiSchemas = ["MaterialBindingAPI"]
+                    )
+                    {
+                        rel material:binding = </Root/Environment/Houses/_materials/MAIN> (
+                            bindMaterialAs = "weakerThanDescendants"
+                        )
+                    }
+
+                    over "ROOFM" (
+                        prepend apiSchemas = ["MaterialBindingAPI"]
+                    )
+                    {
+                        rel material:binding = </Root/Environment/Houses/_materials/ROOFM> (
+                            bindMaterialAs = "weakerThanDescendants"
+                        )
+                    }
+                }
+            }
+        }
+
+        def "OrangeHouses" (
+            active = true
+            references = @TechArts/Meshs/OrangeHouses.usdc@
+        )
+        {
+            quatf xformOp:orient = (6.1232336e-17, 4.32978e-17, 0.70710677, 0.7071067)
+            float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def "BlueHouses" (
+            active = true
+            references = @TechArts/Meshs/BlueHouses.usdc@
+        )
+        {
+            quatf xformOp:orient = (6.1232336e-17, 4.32978e-17, 0.70710677, 0.7071067)
+            float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def "PropsAdd" (
+            active = true
+            references = @TechArts/Meshs/PropsAdd.usdc@
+        )
+        {
+            quatf xformOp:orient = (6.1232336e-17, 4.32978e-17, 0.70710677, 0.7071067)
+            float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def "Floor2" (
+            active = true
+            references = @TechArts/Meshs/Floor2.usdc@
+        )
+        {
+            quatf xformOp:orient = (6.123235e-17, 4.329782e-17, 0.70710677, 0.7071068)
+            float3 xformOp:scale = (1.2, 1.2, 1.2)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            over "_materials"
+            {
+                over "Ground" (
+                    references = @TechArts/Shader/PBR_Material.usda@</Root/UnlitMaterial>
+                )
+                {
+                    asset inputs:BakedTexture = @TechArts/Textures/EnviTextures/Env_Grass_Diffuse.png@
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                }
+            }
+        }
+
+        def "Watchtower" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, -1.1519173, 0)
+            }
+            references = @Watchtower.usda@
+        )
+        {
+            float2 ui:nodegraph:node:pos = (20, 20)
+            int ui:nodegraph:node:stackingOrder = 1
+            quatf xformOp:orient = (0.83867055, 0, -0.54463905, 0)
+            float3 xformOp:scale = (1.5, 1.5, 1.5)
+            float3 xformOp:translate = (-5.110513, 2.9802322e-8, 9.277104)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+    }
+}
+

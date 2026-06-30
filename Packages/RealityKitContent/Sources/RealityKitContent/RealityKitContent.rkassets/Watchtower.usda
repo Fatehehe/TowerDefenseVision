@@ -22,10 +22,47 @@ def Xform "Root"
 
         over "_materials"
         {
-            over "Watchtower"
+            over "Watchtower" (
+                references = @TechArts/Shader/PBR_Material.usda@</Root/DefaultMaterial>
+            )
             {
+                asset inputs:AOTexture = None
+                asset inputs:BaseTexture = @TechArts/Textures/WatchTower/tower_optimyze2_DefaultMaterial_BaseColor.png@
+                asset inputs:Emissive = @TechArts/Textures/WatchTower/tower_optimyze2_DefaultMaterial_Emissive.png@ (
+                    customData = {
+                        dictionary realitykit = {
+                            float2 positionInSubgraph = (-220.7343, 884.9934)
+                            int stackingOrderInSubgraph = 79
+                        }
+                    }
+                )
+                float inputs:MetalStrenght = 0
+                asset inputs:MetalTexture = @TechArts/Textures/WatchTower/tower_optimyze2_DefaultMaterial_Metallic.png@
+                asset inputs:NormalTexture = @TechArts/Textures/WatchTower/tower_optimyze2_DefaultMaterial_Normal.png@
+                asset inputs:RoughnessTexture = @TechArts/Textures/WatchTower/tower_optimyze2_DefaultMaterial_Roughness.png@
                 token outputs:mtlx:surface
                 token outputs:realitykit:vertex
+
+                over "PreviewSurface"
+                {
+                    color3f inputs:emissiveColor.connect = </Root/watchtower/_materials/Watchtower/Image_4.outputs:out>
+                    float inputs:occlusion
+                    float inputs:opacityThreshold
+                    float2 ui:nodegraph:node:pos = (202.7231, 306.3916)
+                    int ui:nodegraph:node:stackingOrder = 76
+                    string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["Advanced"]
+                }
+
+                def Shader "Image_4"
+                {
+                    uniform token info:id = "ND_image_color3"
+                    color3f inputs:default
+                    asset inputs:file.connect = </Root/watchtower/_materials/Watchtower.inputs:Emissive>
+                    float2 inputs:texcoord
+                    color3f outputs:out
+                    float2 ui:nodegraph:node:pos = (97.502655, 760.308)
+                    int ui:nodegraph:node:stackingOrder = 77
+                }
             }
         }
     }
