@@ -16,6 +16,7 @@ def Xform "Root"
         references = @TechArts/Meshs/Goblin_T-Pose-2.usdc@
     )
     {
+        reorder nameChildren = ["Cube", "char_grp", "_materials", "AnimationLibrary", "RCP_BehaviorsContainer", "OnAddedToScene", "AudioLibrary", "Collider"]
         quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
         float3 xformOp:scale = (0.015, 0.015, 0.015)
         float3 xformOp:translate = (0, 0, 0)
@@ -24,12 +25,19 @@ def Xform "Root"
         over "_materials"
         {
             over "Goblin" (
-                references = @TechArts/Shader/PBR_Material.usda@</Root/DefaultMaterial>
+                references = @TechArts/Shader/PBR_Material.usda@</Root/ORM_Texture>
             )
             {
-                asset inputs:AOTexture = None
-                asset inputs:BaseTexture = @TechArts/Textures/Goblin/orcaaa_Goblin_BaseColor.1001.png@
-                float inputs:MetalStrenght (
+                asset inputs:BaseTexture = @TechArts/Textures/Normal Goblin/orcaaa_Goblin_BaseColor.1001.png@
+                asset inputs:EmissiveTexture = @TechArts/Textures/Normal Goblin/orcaaa_Goblin_Emissive.1001.png@ (
+                    customData = {
+                        dictionary realitykit = {
+                            float2 positionInSubgraph = (-599.8247, 622.33453)
+                            int stackingOrderInSubgraph = 366
+                        }
+                    }
+                )
+                float inputs:MetalStrenght = 1 (
                     customData = {
                         dictionary realitykit = {
                             float2 positionInSubgraph = (-672.1319, 515.58105)
@@ -37,15 +45,7 @@ def Xform "Root"
                         }
                     }
                 )
-                asset inputs:MetalTexture = None (
-                    customData = {
-                        dictionary realitykit = {
-                            float2 positionInSubgraph = (-990.5796, 330.4942)
-                            int stackingOrderInSubgraph = 348
-                        }
-                    }
-                )
-                asset inputs:NormalTexture = @TechArts/Textures/Goblin/orcaaa_Goblin_Normal.1001.png@ (
+                asset inputs:NormalTexture = @TechArts/Textures/Normal Goblin/orcaaa_Goblin_Normal.1001.png@ (
                     customData = {
                         dictionary realitykit = {
                             float2 positionInSubgraph = (-1220.6483, 689.0426)
@@ -53,24 +53,19 @@ def Xform "Root"
                         }
                     }
                 )
-                float inputs:Roughness_Float = 1.2 (
+                asset inputs:ORMTexture = @TechArts/Textures/Normal Goblin/orcaaa_Goblin_ORM.1001.png@
+                float inputs:Roughness_Float = 2 (
                     customData = {
                         dictionary realitykit = {
-                            float2 positionInSubgraph = (-247.11182, 311.30423)
-                            int stackingOrderInSubgraph = 289
-                        }
-                    }
-                )
-                asset inputs:RoughnessTexture = @TechArts/Textures/Goblin/orcaaa_Goblin_Roughness.1001.png@ (
-                    customData = {
-                        dictionary realitykit = {
-                            float2 positionInSubgraph = (-611.216, 108.70172)
-                            int stackingOrderInSubgraph = 290
+                            float2 positionInSubgraph = (-590.83167, 276.5855)
+                            int stackingOrderInSubgraph = 357
                         }
                     }
                 )
                 token outputs:mtlx:surface
                 token outputs:realitykit:vertex
+                float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (533.96246, 230.21913)
+                int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 361
 
                 over "Image_1"
                 {
@@ -90,42 +85,33 @@ def Xform "Root"
                     float inputs:occlusion
                     float inputs:opacityThreshold
                     float inputs:roughness.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/Multiply_1.outputs:out>
-                    float2 ui:nodegraph:node:pos = (86.17491, 802.0976)
-                    int ui:nodegraph:node:stackingOrder = 92
+                    float2 ui:nodegraph:node:pos = (120.6131, 339.2577)
+                    int ui:nodegraph:node:stackingOrder = 359
                     string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["Advanced"]
                 }
 
                 def Shader "Multiply_1"
                 {
                     uniform token info:id = "ND_multiply_float"
-                    float inputs:in1.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/Image_1.outputs:out>
+                    float inputs:in1.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/NodeGraph.outputs:Rough>
                     float inputs:in2.connect = </Root/Goblin_T_Pose_2/_materials/Goblin.inputs:Roughness_Float>
                     float outputs:out
-                    float2 ui:nodegraph:node:pos = (-185.67578, 199.96094)
-                    int ui:nodegraph:node:stackingOrder = 326
-                }
-
-                def Shader "ConstantImageFile"
-                {
-                    uniform token info:id = "ND_constant_filename"
-                    asset inputs:value = @TechArts/Textures/Goblin/orcaaa_Goblin_Emissive.1001.png@
-                    asset outputs:out
-                    float2 ui:nodegraph:node:pos = (-665.8633, 982.41016)
-                    int ui:nodegraph:node:stackingOrder = 93
+                    float2 ui:nodegraph:node:pos = (-150.9672, 190.48149)
+                    int ui:nodegraph:node:stackingOrder = 355
                 }
 
                 def Shader "Image2D_1"
                 {
                     uniform token info:id = "ND_RealityKitTexture2D_color3"
                     float inputs:dynamic_min_lod_clamp
-                    prepend asset inputs:file.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/ConstantImageFile.outputs:out>
+                    asset inputs:file.connect = </Root/Goblin_T_Pose_2/_materials/Goblin.inputs:EmissiveTexture>
                     bool inputs:no_flip_v = 1
                     int2 inputs:offset
                     string inputs:u_wrap_mode
                     string inputs:v_wrap_mode
                     color3f outputs:out
-                    float2 ui:nodegraph:node:pos = (-345.57184, 1078.1523)
-                    int ui:nodegraph:node:stackingOrder = 300
+                    float2 ui:nodegraph:node:pos = (-260.91113, 745.6842)
+                    int ui:nodegraph:node:stackingOrder = 364
                 }
 
                 over "Image" (
@@ -162,6 +148,20 @@ def Xform "Root"
                 {
                     float2 ui:nodegraph:node:pos = (-459.226, 361.36407)
                     int ui:nodegraph:node:stackingOrder = 346
+                }
+
+                over "Min"
+                {
+                    float inputs:in1.connect = </Root/Goblin_T_Pose_2/_materials/Goblin/NodeGraph.outputs:Metal>
+                    float inputs:in2.connect = </Root/Goblin_T_Pose_2/_materials/Goblin.inputs:MetalStrenght>
+                    float2 ui:nodegraph:node:pos = (-121.85893, 104.13495)
+                    int ui:nodegraph:node:stackingOrder = 351
+                }
+
+                over "NodeGraph"
+                {
+                    float2 ui:nodegraph:node:pos = (-324.91562, 65.02614)
+                    int ui:nodegraph:node:stackingOrder = 348
                 }
             }
         }
@@ -236,27 +236,6 @@ def Xform "Root"
                     </Root/Goblin_Sound_mp3>,
                     </Root/Goblin_Walk_mp3>,
                 ]
-            }
-        }
-
-        def RealityKitComponent "Collider"
-        {
-            uint group = 1
-            uniform token info:id = "RealityKit.Collider"
-            uint mask = 4294967295
-            token type = "Default"
-
-            def RealityKitStruct "Shape"
-            {
-                float3 extent = (230.36629, 68.92237, 162.75873)
-                float height = 68.92237
-                float radius = 115.18314
-                token shapeType = "Box"
-
-                def RealityKitStruct "pose"
-                {
-                    float3 position = (-0.0000076293945, -0.83927536, 81.07698)
-                }
             }
         }
     }
