@@ -18,10 +18,10 @@ public struct MedievalSceneSpawner {
             print("[MedievalSceneSpawner] Sukses memuat dunia: \(sceneName)")
             
             if let targetBullsEye = rootWorld.findEntity(named: "Tower") {
-                var towerData = TowerComponent()
-                towerData.hp = 100
-                targetBullsEye.components.set(towerData)
-            }else{
+                print("[MedievalSceneSpawner] Tower entity found: \(targetBullsEye.name)")
+                // TowerComponent is set by ImmersiveView after this returns.
+                // Setting it here too would overwrite the value set by the caller.
+            } else {
                 print("no tower")
             }
 
@@ -40,8 +40,15 @@ public struct MedievalSceneSpawner {
             
             var portalData = PortalComponent()
             portalData.spawnInterval = 3.0
-            portalData.enemy = enemy
             portalEntity.components.set(portalData)
+            
+            // Add the enemy template to the scene graph as a hidden child.
+            // This ensures RealityKit's NetworkAssetManager fully loads all its
+            // internal assets before we ever call .clone(recursive: true).
+            // We give it a stable name so PortalSystem can find it via findEntity(named:).
+            enemy.name = "EnemyTemplate"
+            enemy.isEnabled = false
+            portalEntity.addChild(enemy)
             
             let portalScale: Float = 10.0
             portalEntity.transform.scale = SIMD3<Float>(repeating: portalScale)

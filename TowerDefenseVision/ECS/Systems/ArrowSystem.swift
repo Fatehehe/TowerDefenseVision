@@ -14,6 +14,7 @@ public struct ArrowSystem: System {
     
     public func update(context: SceneUpdateContext) {
         let deltaTime = Float(context.deltaTime)
+        var toRemove: [Entity] = []
         
         for entity in context.scene.performQuery(Self.query) {
             guard let arrowComp = entity.components[ArrowComponent.self] else { continue }
@@ -26,10 +27,15 @@ public struct ArrowSystem: System {
                 let maxDistance: Float = 20.0
                 
                 if distance > maxDistance {
-                    entity.removeFromParent()
+                    toRemove.append(entity)
                     print("[ArrowSystem] Panah meleset terlalu jauh (> 20 meter) dan telah dihancurkan!")
                 }
             }
+        }
+        
+        // Remove AFTER the query loop to avoid iterator invalidation crashes
+        for entity in toRemove {
+            entity.removeFromParent()
         }
     }
 }

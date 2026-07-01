@@ -9,39 +9,61 @@ import RealityKit
 import Foundation
 import Combine
 
-public class CombatSystem: System {
-    private var collisionSub: (any Cancellable)?
+public struct CombatSystem: System {
+    static let arrowQuery = EntityQuery(where: .has(ArrowComponent.self))
+    static let enemyQuery = EntityQuery(where: .has(EnemyComponent.self))
     
-    public required init(scene: RealityKit.Scene) {
-        collisionSub = scene.subscribe(to: CollisionEvents.Began.self) { event in
-            let entityA = event.entityA
-            let entityB = event.entityB
+    public init(scene: RealityKit.Scene) {}
+    
+    public func update(context: SceneUpdateContext) {
+        let flyingArrows = context.scene.performQuery(Self.arrowQuery)
+            .filter { $0.components[ArrowComponent.self]?.isFlying == true }
+        
+        guard !flyingArrows.isEmpty else { return }
+        
+        var arrowsToRemove: [Entity] = []
+        var enemiesToRemove: [Entity] = []
+        
+        for enemy in context.scene.performQuery(Self.enemyQuery) {
+            // Protect against checking already-killed enemies or processed arrows
+            if enemiesToRemove.contains(enemy) { continue }
             
-            let arrow = entityA.components.has(ArrowComponent.self) ? entityA : (entityB.components.has(ArrowComponent.self) ? entityB : nil)
-            let enemy = entityA.components.has(EnemyComponent.self) ? entityA : (entityB.components.has(EnemyComponent.self) ? entityB : nil)
-            
-            guard let hitArrow = arrow, let hitEnemy = enemy,
-                  hitEnemy.parent != nil else { return }
-            
-            print("🎯 HEADSHOT! Panah mengenai musuh!")
-            
-            hitArrow.removeFromParent()
-            
-            if var enemyComp = hitEnemy.components[EnemyComponent.self] {
-                enemyComp.hp -= 30
+            for arrow in flyingArrows {
+                if arrowsToRemove.contains(arrow) { continue }
                 
-                if enemyComp.hp <= 0 {
-                    hitEnemy.stopAllAnimations()
-                    hitEnemy.removeFromParent()
-                    print("Musuh Hancur!")
+                let enemyPos = enemy.position(relativeTo: nil)
+                let arrowPos = arrow.position(relativeTo: nil)
+                
+                // If arrow is within 0.3 meters of enemy
+                if simd_distance(enemyPos, arrowPos) < 0.3 {
+                    print("🎯 HEADSHOT! Panah mengenai musuh!")
+                    arrowsToRemove.append(arrow)
                     
-                    Task { @MainActor in
-                        NotificationCenter.default.post(name: .enemyDefeated, object: nil)
+                    // Safe guard — a freshly-spawned enemy may not have its
+                    // EnemyComponent set yet if the Task hasn't flushed.
+                    guard var enemyComp = enemy.components[EnemyComponent.self] else { continue }
+                    enemyComp.hp -= 30
+                    
+                    if enemyComp.hp <= 0 {
+                        print("Musuh Hancur!")
+                        enemy.stopAllAnimations()
+                        enemiesToRemove.append(enemy)
+                        
+                        // We track enemiesDefeated safely via GameStateTracker
+                        GameStateTracker.enemiesDefeated += 1
+                    } else {
+                        enemy.components.set(enemyComp)
                     }
-                } else {
-                    hitEnemy.components.set(enemyComp)
                 }
             }
+        }
+        
+        // Remove entities safely at the end of the update loop
+        for arrow in arrowsToRemove {
+            arrow.removeFromParent()
+        }
+        for enemy in enemiesToRemove {
+            enemy.removeFromParent()
         }
     }
 }

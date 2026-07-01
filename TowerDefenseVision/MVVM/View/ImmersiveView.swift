@@ -38,21 +38,30 @@ struct ImmersiveView: View {
             
             //rawan crash
             let hands = await GloveEntitySpawner.spawnHandGlovesAsync()
-//            let hands = HandEntitySpawner.spawnHands()
+            // let hands = HandEntitySpawner.spawnHands()
             
-//            if(!hands.isEmpty){
-                for hand in hands {
-                    print("hand added to content \(hand.name)")
-                    content.add(hand)
-                }
-                
-                let rightHandAnchor = hands[0]
-                let leftHandAnchor = hands[1]
+            for hand in hands {
+                print("hand added to content \(hand.name)")
+                content.add(hand)
+            }
+            
+            // Use named lookups — safer than hardcoded indices which crash if a glove fails to load.
+            // GloveEntitySpawner returns [rightHand, leftHand] at index 0 and 1 respectively.
+            guard let rightHandAnchor = hands.first(where: { $0.name == "RightHandAnchor" }),
+                  let leftHandAnchor  = hands.first(where: { $0.name == "LeftHandAnchor" }) else {
+                print("[ImmersiveView] ⚠️ Hand anchors not found — skipping archery setup.")
+                return
+            }
 
-                if let archeryManager = await ArcherySpawner.spawnArcheryManager(leftHand: leftHandAnchor, rightHand: rightHandAnchor) {
-                    content.add(archeryManager)
-                }
-//            }
+            // Add ILHandAnchorComponent to both hand anchors.
+            // ILHandTrackingUpdateSystem will populate these each frame with the
+            // latest HandAnchor data — the correct thread-safe ECS pattern.
+            rightHandAnchor.components.set(ILHandAnchorComponent())
+            leftHandAnchor.components.set(ILHandAnchorComponent())
+
+            if let archeryManager = await ArcherySpawner.spawnArcheryManager(leftHand: leftHandAnchor, rightHand: rightHandAnchor) {
+                content.add(archeryManager)
+            }
             // sampe sini
             
             let headAnchor = AnchorEntity(.head)
@@ -61,6 +70,40 @@ struct ImmersiveView: View {
                 headAnchor.addChild(hudEntity)
             }
             content.add(headAnchor)
+            
+            // FlappyVision style ECS-to-SwiftUI Data Sync
+            let _ = content.subscribe(to: SceneEvents.Update.self) { event in
+                // Sync Tower HP
+                if let tower = model.towerEntity, let towerComp = tower.components[TowerComponent.self] {
+                    if model.towerHp != towerComp.hp {
+                        model.towerHp = towerComp.hp
+                        if model.towerHp <= 0 {
+                            model.currentGameState = .lost
+                            print("Tower Hancur ditangkap oleh SceneEvents.Update!")
+                        }
+                    }
+                }
+                
+                // Sync Enemies Defeated
+                if model.enemiesDefeated != GameStateTracker.enemiesDefeated {
+                    model.enemiesDefeated = GameStateTracker.enemiesDefeated
+                    print("Musuh mati: \(model.enemiesDefeated) / \(model.totalEnemiesToWin)")
+                    if model.enemiesDefeated >= model.totalEnemiesToWin {
+                        model.currentGameState = .won
+                    }
+                }
+                
+                // Sync Archery State
+                if let archeryManager = event.scene.findEntity(named: "ArcheryManager"),
+                   let archeryComp = archeryManager.components[ArcheryPlayerComponent.self] {
+                    if model.arrowState != archeryComp.state {
+                        model.arrowState = archeryComp.state
+                        if model.immersiveSpaceState != .open {
+                            model.immersiveSpaceState = .open
+                        }
+                    }
+                }
+            }
             
             Task {@MainActor in
                 model.currentGameState = .playing
@@ -73,18 +116,6 @@ struct ImmersiveView: View {
             }
         }
         .upperLimbVisibility(.hidden)
-        .onReceive(NotificationCenter.default.publisher(for: .enemyDefeated)) { _ in
-            model.enemiesDefeated += 1
-            print("Musuh mati: \(model.enemiesDefeated) / \(model.totalEnemiesToWin)")
-                    
-            if model.enemiesDefeated >= model.totalEnemiesToWin {
-                model.currentGameState = .won
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .towerDestroyed)) { _ in
-            model.currentGameState = .lost
-            print("Tower Hancur ditangkap oleh ImmersiveView!")
-        }
         .onChange(of: model.currentGameState) { _, newState in
             if newState == .won || newState == .lost {
                 model.stopGame()

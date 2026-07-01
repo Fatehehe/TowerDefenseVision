@@ -68,19 +68,5 @@ struct GameplayHUDView: View {
         .padding(.horizontal, 24)
         .padding(.vertical, 16)
         .glassBackgroundEffect(in: Capsule())
-        .onReceive(NotificationCenter.default.publisher(for: .archeryStateDidChange)) { notification in
-            if let newState = notification.object as? ArcheryState {
-                appModel.arrowState = newState
-                
-                if appModel.immersiveSpaceState != .open {
-                    appModel.immersiveSpaceState = .open
-                }
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .towerGetHit)) { notification in
-            if let newHP = notification.object as? Int {
-                appModel.towerHp = newHP
-            }
-        }
     }
 }

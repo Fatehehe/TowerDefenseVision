@@ -19,7 +19,9 @@ public struct EnemySystem: System {
         guard GameStateTracker.isPlaying else {
             let enemies = context.scene.performQuery(Self.query)
             if Self.lastEnemyCount != 0 {
-                enemies.forEach { $0.removeFromParent() }
+                // Collect first, then remove — never modify scene while iterating a query
+                let toRemove = enemies.map { $0 }
+                toRemove.forEach { $0.removeFromParent() }
                 Self.lastEnemyCount = 0
             }
             return
@@ -30,6 +32,9 @@ public struct EnemySystem: System {
         
         let currentEnemyCount = enemies.reduce(0) { count, _ in count + 1 }
         Self.lastEnemyCount = currentEnemyCount
+        
+        var enemiesToRemove: [Entity] = []
+        var gameOver = false
         
         for entity in enemies {
             guard var enemyComp = entity.components[EnemyComponent.self],
@@ -48,17 +53,9 @@ public struct EnemySystem: System {
                         
                         tower.components.set(towerComp)
                         
-                        let hp = towerComp.hp
-                        Task { @MainActor in
-                            NotificationCenter.default.post(name: .towerGetHit, object: hp)
-                        }
-                        
                         if towerComp.hp <= 0 {
-                            Task { @MainActor in
-                                NotificationCenter.default.post(name: .towerDestroyed, object: nil)
-                            }
-                            context.scene.performQuery(Self.query).forEach { $0.removeFromParent() }
-                            return
+                            // Mark all enemies for removal — do NOT call removeFromParent inside loop
+                            gameOver = true
                         }
                     }
                     
@@ -66,6 +63,11 @@ public struct EnemySystem: System {
                     entity.components.set(enemyComp)
                 }
             }
+        }
+        
+        // Remove AFTER all iterations to avoid iterator invalidation crashes
+        if gameOver {
+            context.scene.performQuery(Self.query).map { $0 }.forEach { $0.removeFromParent() }
         }
     }
 }

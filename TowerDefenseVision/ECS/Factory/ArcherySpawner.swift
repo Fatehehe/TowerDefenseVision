@@ -48,12 +48,25 @@ public struct ArcherySpawner {
             let arrowShape = ShapeResource.generateBox(size: [0.05, 0.05, 0.5])
             arrow.components.set(CollisionComponent(shapes: [arrowShape]))
             
-            playerComp.rightHandAnchor = rightHand
+            let clonedArrow = try await Entity(named: "Arrow", in: realityKitContentBundle)
+            clonedArrow.transform.scale = SIMD3<Float>(repeating: arrowScale)
+            clonedArrow.transform.translation = SIMD3<Float>(arrowOffsetX, arrowOffsetY, arrowOffsetZ)
+            clonedArrow.transform.rotation = simd_quatf(angle: arrowAngle, axis: arrowAxis)
+            clonedArrow.components.set(ArrowComponent())
+            let arrowShapeTemplate = ShapeResource.generateBox(size: [0.05, 0.05, 0.5])
+            clonedArrow.components.set(CollisionComponent(shapes: [arrowShapeTemplate]))
             
-            playerComp.arrowTemplate = arrow.clone(recursive: true)
+            playerComp.rightHandAnchor = rightHand
+            playerComp.arrowTemplate = clonedArrow
             
             bow.isEnabled = false
             arrow.isEnabled = false
+            
+            // CRITICAL: Add the arrow template to the scene graph as a hidden child.
+            // RealityKit requires templates to be in the scene before clone() is called —
+            // otherwise NetworkAssetManager crashes with EXC_BREAKPOINT.
+            clonedArrow.isEnabled = false
+            manager.addChild(clonedArrow)
             
             leftHand.addChild(bow)
             rightHand.addChild(arrow)

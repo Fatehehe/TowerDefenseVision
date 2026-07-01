@@ -6,7 +6,7 @@
 //
 
 import ARKit
-import ILSHandTracking
+@preconcurrency import ILSHandTracking
 
 enum HandPoseDetector {
     static func detect(handSkeleton: HandSkeleton, thumb: Bool, index: Bool, mid: Bool, ring: Bool, little: Bool) -> Bool{

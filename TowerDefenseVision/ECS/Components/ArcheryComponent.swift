@@ -25,6 +25,7 @@ public struct ArcheryPlayerComponent: Component {
     
     public var arrowTemplate: Entity?
     public var rightHandAnchor: Entity?
+    public var needsNewArrow: Bool = false
     
     public init() {}
 }

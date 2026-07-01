@@ -8,37 +8,34 @@
 import RealityKit
 import ARKit
 import SwiftUI
-import ILSHandTracking
+@preconcurrency import ILSHandTracking
 
 struct HandVisualizationSystem: System {
-    static let query = EntityQuery(where: .has(HandVisualizationComponent.self))
+    static let query = EntityQuery(where: .has(HandVisualizationComponent.self) && .has(ILHandAnchorComponent.self))
         
     init(scene: RealityKit.Scene) {}
         
     func update(context: SceneUpdateContext) {
-        let service = HandTrackingService.shared
-            
         for entity in context.scene.performQuery(Self.query) {
-            guard let visualComp = entity.components[HandVisualizationComponent.self] else { continue }
+            guard let visualComp = entity.components[HandVisualizationComponent.self],
+                  let anchorComp = entity.components[ILHandAnchorComponent.self] else { continue }
+                  
             let modelEntity = visualComp.modelEntity
-            
-            guard let leftHand = service.latestLeftHand, leftHand.isTracked else {return}
-            guard let rightHand = service.latestRightHand, rightHand.isTracked else {return}
-                
+
             if entity.name == "LeftHandAnchor" {
-                if let leftSkeleton = leftHand.handSkeleton {
-                    entity.isEnabled = leftHand.isTracked
-                    entity.transform = Transform(matrix: leftHand.originFromAnchorTransform)
+                // Read from ILHandAnchorComponent (thread-safe, written once per frame by ILHandTrackingUpdateSystem)
+                if let hand = anchorComp.leftHand, hand.isTracked, let leftSkeleton = hand.handSkeleton {
+                    entity.isEnabled = true
+                    entity.transform = Transform(matrix: hand.originFromAnchorTransform)
                     updateJointRotations(for: modelEntity, using: leftSkeleton)
                 } else {
                     entity.isEnabled = false
                 }
             }
-            
             else if entity.name == "RightHandAnchor" {
-                if let rightSkeleton = rightHand.handSkeleton {
-                    entity.isEnabled = rightHand.isTracked
-                    entity.transform = Transform(matrix: rightHand.originFromAnchorTransform)
+                if let hand = anchorComp.rightHand, hand.isTracked, let rightSkeleton = hand.handSkeleton {
+                    entity.isEnabled = true
+                    entity.transform = Transform(matrix: hand.originFromAnchorTransform)
                     updateJointRotations(for: modelEntity, using: rightSkeleton)
                 } else {
                     entity.isEnabled = false
@@ -49,15 +46,27 @@ struct HandVisualizationSystem: System {
     
     private func updateJointRotations(for glove: ModelEntity, using handSkeleton: HandSkeleton) {
         let joints = handSkeleton.allJoints
+        var transforms = glove.jointTransforms
         
         for (index, joint) in joints.enumerated() {
-            guard index < glove.jointTransforms.count else { break }
+            guard index < transforms.count else { break }
+            guard joint.isTracked else { continue }
             
             let jointTransform = handSkeleton.joint(joint.name).parentFromJointTransform
-            let rotation = simd_quatf(jointTransform)
             
-            glove.jointTransforms[index].rotation = rotation
+            // Protect against NaN matrices
+            guard !jointTransform.columns.0.x.isNaN else { continue }
+            
+            // Protect against zero-scale matrices which cause simd_quatf to trap with EXC_BREAKPOINT!
+            let col0 = jointTransform.columns.0
+            let scaleSq = col0.x*col0.x + col0.y*col0.y + col0.z*col0.z
+            guard scaleSq > 0.0001 else { continue }
+            
+            let rotation = simd_quatf(jointTransform)
+            transforms[index].rotation = rotation
         }
+        
+        glove.jointTransforms = transforms
     }
 }
 
@@ -108,12 +117,21 @@ public class HandOverlaySystem: System {
             // Update joint rotations inside the ModelEntity using ARKit hand skeleton's index order
             if let gloveModel = overlay.gloveModel {
                 let joints = skeleton.allJoints
+                var transforms = gloveModel.jointTransforms
                 for (index, joint) in joints.enumerated() {
-                    if index < gloveModel.jointTransforms.count {
+                    if index < transforms.count {
+                        guard joint.isTracked else { continue }
                         let jointTransform = skeleton.joint(joint.name).parentFromJointTransform
-                        gloveModel.jointTransforms[index].rotation = simd_quatf(jointTransform)
+                        guard !jointTransform.columns.0.x.isNaN else { continue }
+                        
+                        let col0 = jointTransform.columns.0
+                        let scaleSq = col0.x*col0.x + col0.y*col0.y + col0.z*col0.z
+                        guard scaleSq > 0.0001 else { continue }
+                        
+                        transforms[index].rotation = simd_quatf(jointTransform)
                     }
                 }
+                gloveModel.jointTransforms = transforms
             }
 
             entity.components[HandOverlayComponent.self] = overlay

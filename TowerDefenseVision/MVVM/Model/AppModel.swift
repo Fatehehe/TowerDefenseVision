@@ -37,6 +37,7 @@ class AppModel {
     
     func resetGame() {
         enemiesDefeated = 0
+        GameStateTracker.enemiesDefeated = 0
         arrowState = .idle
         currentGameState = .playing
             

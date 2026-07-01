@@ -12,6 +12,7 @@ import ILSHandTracking
 public struct SystemRegistry {
     public static func registerAllSystems() {
         ILFeatureHandTrackingSetup.registerSystems()
+        ILHandAnchorComponent.registerComponent()
         
 //        HandOverlayComponent.registerComponent()
 //        HandOverlaySystem.registerSystem()
@@ -34,7 +35,7 @@ public struct SystemRegistry {
         PortalSystem.registerSystem()
         EnemySystem.registerSystem()
         
-//        CombatSystem.registerSystem()
+        CombatSystem.registerSystem()
     }
 }
 

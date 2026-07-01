@@ -41,37 +41,48 @@ public struct PortalSystem: System {
             if currentTime - portalComp.lastSpawnTime >= portalComp.spawnInterval {
                 print("[PortalSystem] Spawn Musuh ke-\(portalComp.spawnedCount + 1) via Timeline!")
                 
-                if let enemyTemplate = portalComp.enemy {
-                    let spawnedEnemy = enemyTemplate.clone(recursive: true)
+                // The template is a hidden child of the portal entity.
+                // It is already registered in the RealityKit scene graph so all
+                // NetworkAssetManager dependencies are fully resolved.
+                guard let templateEntity = entity.findEntity(named: "EnemyTemplate") else {
+                    print("[PortalSystem] ⚠️ EnemyTemplate not found — skipping spawn.")
+                    continue
+                }
+                
+                // Capture all values from the ECS context BEFORE entering the Task.
+                // Accessing RealityKit entities inside an async Task after the update
+                // frame ends is unsafe (use-after-free).
+                let randomX = Float.random(in: -0.5...0.5)
+                let randomZ = Float.random(in: -0.5...0.5)
+                let basePosition = entity.position(relativeTo: nil)
+                let randomizedSpawnPosition = basePosition + SIMD3<Float>(randomX, 0, randomZ)
+                let towerEntity = activeTower
+                let parentEntity = entity.parent
+                
+                // Clone on MainActor. The template is in the scene graph,
+                // so clone() is safe and fast — no asset loading occurs.
+                Task { @MainActor in
+                    let spawnedEnemy = templateEntity.clone(recursive: true)
                     spawnedEnemy.name = "GoblinEnemy"
+                    spawnedEnemy.isEnabled = true
                     
-                    spawnedEnemy.generateCollisionShapes(recursive: true)
-                    
-                    let randomX = Float.random(in: -0.5...0.5)
-                    let randomZ = Float.random(in: -0.5...0.5)
-                    let basePosition = entity.position(relativeTo: nil)
-                    let randomizedSpawnPosition = basePosition + SIMD3<Float>(randomX, 0, randomZ)
-                                        
                     spawnedEnemy.setPosition(randomizedSpawnPosition, relativeTo: nil)
-                                
+                    
                     let rotationAngle: Float = .pi / 2
                     let rotationAxis = SIMD3<Float>(0, 1, 0)
-                    
                     spawnedEnemy.transform.rotation *= simd_quatf(angle: rotationAngle, axis: rotationAxis)
 
-                    if let towerEntity = activeTower {
+                    if let tower = towerEntity {
                         var enemyComp = EnemyComponent()
-                        enemyComp.targetTower = towerEntity
+                        enemyComp.targetTower = tower
                         spawnedEnemy.components.set(enemyComp)
                     }
                     
-                    entity.parent?.addChild(spawnedEnemy)
-        
+                    parentEntity?.addChild(spawnedEnemy)
                 }
                 
                 portalComp.spawnedCount += 1
                 portalComp.lastSpawnTime = currentTime
-                
                 portalComp.spawnInterval = TimeInterval.random(in: 5.0...10.0)
                 entity.components.set(portalComp)
             }
