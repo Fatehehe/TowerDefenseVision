@@ -551,6 +551,27 @@
       }
     ]
   },
+  "600A117B-78B4-48A7-A712-A054A37222F8" : {
+    "objectMetadataList" : [
+      [
+        "600A117B-78B4-48A7-A712-A054A37222F8",
+        "Root"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "600A117B-78B4-48A7-A712-A054A37222F8",
+        "Root",
+        "Material"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      }
+    ]
+  },
   "6097A49B-47A8-42BF-84F8-BD797A97910F" : {
     "objectMetadataList" : [
       [
@@ -891,6 +912,27 @@
       }
     ]
   },
+  "7B301293-5C97-4F19-87F1-87413140548B" : {
+    "objectMetadataList" : [
+      [
+        "7B301293-5C97-4F19-87F1-87413140548B",
+        "root",
+        "_materials"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "7B301293-5C97-4F19-87F1-87413140548B",
+        "root"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      }
+    ]
+  },
   "7D464209-5B6E-40FD-B67C-86E1005C04A9" : {
     "objectMetadataList" : [
       [
@@ -984,6 +1026,27 @@
         "Root",
         "RunToTowerAndAttack",
         "Track"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      }
+    ]
+  },
+  "850B0D1F-09C3-4689-A2D6-D16881AB586F" : {
+    "objectMetadataList" : [
+      [
+        "850B0D1F-09C3-4689-A2D6-D16881AB586F",
+        "root",
+        "_materials"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "850B0D1F-09C3-4689-A2D6-D16881AB586F",
+        "root"
       ],
       {
         "isExpanded" : true,
@@ -1149,6 +1212,18 @@
   "A34C0C6D-0566-43A8-8AF8-ADC9DA45E3C8" : {
     "objectMetadataList" : [
 
+    ]
+  },
+  "A36010A8-D1EA-41E8-B6B9-4E79D04BF494" : {
+    "objectMetadataList" : [
+      [
+        "A36010A8-D1EA-41E8-B6B9-4E79D04BF494",
+        "Root"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      }
     ]
   },
   "A5B57D4D-C1E9-4FD8-A92C-731EDA2EE2C9" : {
