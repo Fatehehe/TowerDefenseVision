@@ -11,27 +11,31 @@ import ILSHandTracking
 
 public struct SystemRegistry {
     public static func registerAllSystems() {
+        //aman
         ILFeatureHandTrackingSetup.registerSystems()
         
+        //aman
         HandVisualizationSystem.registerSystem()
         HandVisualizationComponent.registerComponent()
         
-        BowComponent.registerComponent()
-        ArrowComponent.registerComponent()
-        
-        ArcheryPlayerComponent.registerComponent()
-        
-        ArcherySystem.registerSystem()
-        ArrowSystem.registerSystem()
-        
+        //aman
         TowerComponent.registerComponent()
-        PortalComponent.registerComponent()
-        EnemyComponent.registerComponent()
+//        PortalComponent.registerComponent()
+//        EnemyComponent.registerComponent()
         
-        PortalSystem.registerSystem()
-        EnemySystem.registerSystem()
+        //aman
+//        PortalSystem.registerSystem()
+//        EnemySystem.registerSystem()
         
-        CombatSystem.registerSystem()
+//        BowComponent.registerComponent()
+//        ArrowComponent.registerComponent()
+        
+//        ArcheryPlayerComponent.registerComponent()
+        
+//        ArcherySystem.registerSystem()
+//        ArrowSystem.registerSystem()
+        
+//        CombatSystem.registerSystem()
     }
 }
 

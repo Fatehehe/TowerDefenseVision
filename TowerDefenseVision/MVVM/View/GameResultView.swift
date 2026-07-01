@@ -26,7 +26,7 @@ struct GameResultView: View {
             Button(action: {
                 Task {
                     appModel.resetGame()
-                    dismissWindow(id: "MainWindow")
+                    dismissWindow(id: appModel.windowId)
                 }
             }) {
                 Text("Main Lagi")

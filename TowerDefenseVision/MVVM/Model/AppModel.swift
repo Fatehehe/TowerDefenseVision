@@ -12,6 +12,7 @@ import RealityKit
 @Observable
 class AppModel {
     let immersiveSpaceID = "ImmersiveSpace"
+    let windowId = "MainWindow"
     
     enum GameState {
         case startScreen, loading, tutorial, playing
