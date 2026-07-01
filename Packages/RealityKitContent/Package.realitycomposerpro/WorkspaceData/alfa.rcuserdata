@@ -1,5 +1,5 @@
 {
-  "advancedEditorSelectedIdentifier" : "ShaderGraphEditorPluginID",
+  "advancedEditorSelectedIdentifier" : "ProjectBrowser",
   "openSceneRelativePaths" : [
     "Immersive.usda",
     "MedievalScene.usda",
@@ -8,7 +8,9 @@
     "MedievalScene 1.usda",
     "FullImmersive2.usda",
     "GoblonV2.usda",
-    "Watchtower.usda"
+    "Watchtower.usda",
+    "RightGlove.usda",
+    "LeftGlove.usda"
   ],
   "recentIdentifiers" : {
     "1C34E26C-E8F4-474F-BA98-22A5E82B183A" : [
@@ -2786,6 +2788,30 @@
         ]
       }
     ],
+    "A5B57D4D-C1E9-4FD8-A92C-731EDA2EE2C9" : [
+      {
+        "date" : 804584041.065898,
+        "title" : "Untitled",
+        "transform" : [
+          0.8809998,
+          6.2491234e-11,
+          0.4731165,
+          0,
+          0.31091592,
+          0.7537462,
+          -0.5789629,
+          0,
+          -0.35660976,
+          0.6571657,
+          0.66405034,
+          0,
+          -0.074880175,
+          0.13799028,
+          0.1394359,
+          1
+        ]
+      }
+    ],
     "AF09ED6F-1707-48FD-8720-65B998362C09" : [
       {
         "date" : 804486328.089579,
@@ -4530,6 +4556,28 @@
     ],
     "F9FC0E85-6FEA-42FC-93C1-C9FBCDB4AB1A" : [
       {
+        "date" : 804583881.795804,
+        "title" : "Untitled",
+        "transform" : [
+          0.8593207,
+          3.205921e-08,
+          -0.5114371,
+          0,
+          -0.07353023,
+          0.98961085,
+          -0.123546235,
+          0,
+          0.5061235,
+          0.14377135,
+          0.8503934,
+          0,
+          2.452766,
+          3.1617832,
+          -0.30116946,
+          1
+        ]
+      },
+      {
         "date" : 804491914.013088,
         "title" : "Untitled",
         "transform" : [
@@ -4726,28 +4774,6 @@
           1.7835954,
           1
         ]
-      },
-      {
-        "date" : 804488132.625431,
-        "title" : "Untitled",
-        "transform" : [
-          -0.29266688,
-          3.511677e-08,
-          0.9562145,
-          0,
-          0.6598404,
-          0.723757,
-          0.20195632,
-          0,
-          -0.692067,
-          0.6900546,
-          -0.21182019,
-          0,
-          -1.6829466,
-          1.808624,
-          -0.20225698,
-          1
-        ]
       }
     ]
   },
@@ -4759,5 +4785,5 @@
       1
     ]
   },
-  "selectedSceneRelativePath" : "GoblonV2.usda"
+  "selectedSceneRelativePath" : "LeftGlove.usda"
 }
