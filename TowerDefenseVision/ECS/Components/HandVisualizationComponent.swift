@@ -10,10 +10,9 @@ import ARKit
 
 public struct HandVisualizationComponent: Component {
     public let chirality: HandAnchor.Chirality
-    public var modelEntity: ModelEntity
     
-    public init(chirality: HandAnchor.Chirality, modelEntity: ModelEntity) {
+    // Hanya simpan chirality, tidak ada Entity!
+    public init(chirality: HandAnchor.Chirality) {
         self.chirality = chirality
-        self.modelEntity = modelEntity
     }
 }

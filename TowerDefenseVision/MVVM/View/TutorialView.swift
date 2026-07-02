@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TutorialView: View {
-    @Environment(AppModel.self) var appModel
+    @Environment(AppState.self) var appState
     @Environment(\.dismissWindow) var dismissWindow
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     
@@ -45,10 +45,10 @@ struct TutorialView: View {
                     .buttonStyle(.bordered)
                 } else {
                     Button(action: {
-                        appModel.currentGameState = .loading
-                        appModel.playGame()
+                        appState.gameCurrentState = .loading
+//                        appModel.playGame()
                         Task {
-                            await openImmersiveSpace(id: appModel.immersiveSpaceID)
+                            await openImmersiveSpace(id: appState.immersiveSpaceID)
                         }
                     }) {
                         Text("Paham, Mari Mulai!")

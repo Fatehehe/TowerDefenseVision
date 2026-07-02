@@ -9,17 +9,17 @@ import SwiftUI
 
 @main
 struct TowerDefenseVisionApp: App {
-    @State private var appModel = AppModel()
+    @State private var appState = AppState()
 
     var body: some Scene {
         WindowGroup(id: "MainWindow") {
             ContentView()
-                .environment(appModel)
+                .environment(appState)
         }
 
-        ImmersiveSpace(id: appModel.immersiveSpaceID) {
+        ImmersiveSpace(id: appState.immersiveSpaceID) {
             ImmersiveView()
-                .environment(appModel)
+                .environment(appState)
         }
         .immersionStyle(selection: .constant(.mixed), in: .mixed)
      }

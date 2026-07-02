@@ -7,7 +7,6 @@
 
 import RealityKit
 import Foundation
-internal import UIKit
 
 public struct PortalSystem: System {
     static let portalQuery = EntityQuery(where: .has(PortalComponent.self))

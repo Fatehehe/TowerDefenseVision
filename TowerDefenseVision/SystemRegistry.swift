@@ -15,11 +15,11 @@ public struct SystemRegistry {
         ILFeatureHandTrackingSetup.registerSystems()
         
         //aman
-        HandVisualizationSystem.registerSystem()
         HandVisualizationComponent.registerComponent()
+        HandVisualizationSystem.registerSystem()
         
         //aman
-        TowerComponent.registerComponent()
+//        TowerComponent.registerComponent()
 //        PortalComponent.registerComponent()
 //        EnemyComponent.registerComponent()
         

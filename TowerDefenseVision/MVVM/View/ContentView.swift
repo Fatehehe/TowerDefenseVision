@@ -9,11 +9,11 @@ import SwiftUI
 import RealityKit
 
 struct ContentView: View {
-    @Environment(AppModel.self) var appModel
+    @Environment(AppState.self) var appState
     
     var body: some View {
         Group {
-            switch appModel.currentGameState {
+            switch appState.gameCurrentState {
             case .startScreen:
                 StartScreenView()
             case .tutorial:
@@ -21,7 +21,7 @@ struct ContentView: View {
             case .loading:
                 LoadingView()
             case .playing:
-                Color.clear
+                EmptyView()
             case .won:
                 GameResultView(isWin: true)
             case .lost:

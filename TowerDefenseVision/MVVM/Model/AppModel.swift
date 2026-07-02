@@ -59,3 +59,13 @@ class AppModel {
         GameStateTracker.isPlaying = false
     }
 }
+
+@MainActor
+@Observable
+class GameplayModel {
+    let immersiveSpaceID = "ImmersiveSpace"
+    enum ImmersiveSpaceState {
+        case closed, inTransition, open
+    }
+    var immersiveSpaceState = ImmersiveSpaceState.closed
+}

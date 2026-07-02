@@ -1,5 +1,5 @@
 //
-//  HandEntitySpawner.swift
+//  GloveEntitySpawner.swift
 //  TowerDefenseVision
 //
 //  Created by Fatakhillah Khaqo on 23/06/26.
@@ -7,11 +7,11 @@
 
 import RealityKit
 import ILSHandTracking
+import RealityKitContent
 import Foundation
 import ARKit
 
 public struct GloveEntitySpawner {
-    
     public static func spawnHandGlovesAsync() async -> [Entity] {
         let rightHand = Entity()
         rightHand.name = "RightHandAnchor"
@@ -22,39 +22,25 @@ public struct GloveEntitySpawner {
         leftHand.components.set(ILHandTrackingComponent())
             
         if let rightModel = await spawnGlove(named: "RightGlove") {
-            rightHand.components.set(HandVisualizationComponent(chirality: .right, modelEntity: rightModel))
+            // 🔥 Cukup set chirality saja
+            rightHand.components.set(HandVisualizationComponent(chirality: .right))
             rightHand.addChild(rightModel)
         }
         
         if let leftModel = await spawnGlove(named: "LeftGlove") {
-            leftHand.components.set(HandVisualizationComponent(chirality: .left, modelEntity: leftModel))
+            // 🔥 Cukup set chirality saja
+            leftHand.components.set(HandVisualizationComponent(chirality: .left))
             leftHand.addChild(leftModel)
         }
-
         return [rightHand, leftHand]
     }
     
-    public static func spawnGlove(named name: String) async -> ModelEntity? {
-        if let url = Bundle.main.url(forResource: name, withExtension: "usdz") {
-            do {
-                let glove = try await ModelEntity(contentsOf: url)
-                let gloveJointCount = glove.jointNames.count
-                let expectedJointCount = HandSkeleton.JointName.allCases.count
-
-                guard gloveJointCount == expectedJointCount else {
-                    print("""
-                        Joint count mismatch: USD model (\(name)) has \(gloveJointCount) joints, \
-                        but ARKit hand skeleton has \(expectedJointCount) joints.
-                        """)
-                    return nil
-                }
-                
-                return glove
-            } catch {
-                print("Failed to load \(name): \(error.localizedDescription).")
-            }
-        } else {
-            print("Glove model not found in bundle: \(name).")
+    public static func spawnGlove(named name: String) async -> Entity? {
+        do {
+            let glove = try await Entity(named: name, in: realityKitContentBundle)
+            return glove
+        } catch {
+            print("[GloveEntitySpawner] Failed to load glove: \(error)")
         }
         return nil
     }

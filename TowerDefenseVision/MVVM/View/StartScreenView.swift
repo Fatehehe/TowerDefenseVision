@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StartScreenView: View {
-    @Environment(AppModel.self) var appModel
+    @Environment(AppState.self) var appState
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     
     var body: some View {
@@ -22,7 +22,7 @@ struct StartScreenView: View {
                 .foregroundColor(.secondary)
             
             Button(action: {
-                appModel.currentGameState = .tutorial
+                appState.gameCurrentState = .tutorial
             }) {
                 Text("Start Game")
                     .font(.title2)

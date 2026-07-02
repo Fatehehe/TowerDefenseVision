@@ -8,89 +8,32 @@
 import SwiftUI
 import ILSHandTracking
 import RealityKit
-import RealityKitContent
 
 struct ImmersiveView: View {
-    @Environment(AppModel.self) private var model
-    @Environment(\.openWindow) var openWindow
+    @Environment(AppState.self) var appState
     @Environment(\.dismissWindow) var dismissWindow
     
-    @State var towerEntity: Entity?
-    
     var body: some View {
-        RealityView { content, attachments in
+        RealityView { content in
             SystemRegistry.registerAllSystems()
-            
-            if let medievalWorld = await MedievalSceneSpawner.spawnMedievalWorld(named: "MedievalScene") {
-                if let targetBullsEye = medievalWorld.findEntity(named: "Tower") {
-                    var towerData = TowerComponent()
-                    towerData.hp = 100
-                    targetBullsEye.components.set(towerData)
-                    model.towerEntity = targetBullsEye
-                }
-                content.add(medievalWorld)
-            }
-            
-//            if let portal = await MedievalSceneSpawner.spawnPortalAsync(){
-//                content.add(portal)
-//            }
-            
+        
             let hands = await GloveEntitySpawner.spawnHandGlovesAsync()
 
             for hand in hands {
-                print("hand added to content \(hand.name)")
                 content.add(hand)
             }
-                
-//            let rightHandAnchor = hands[0]
-//            let leftHandAnchor = hands[1]
+            
+            appState.gameCurrentState = .playing
+//            dismissWindow(id: appState.windowGroupID)
+        }
 
-//            if let archeryManager = await ArcherySpawner.spawnArcheryManager(leftHand: leftHandAnchor, rightHand: rightHandAnchor) {
-//                content.add(archeryManager)
-//            }
-            
-            let handAnchor = Entity()
-            handAnchor.components.set(ILHandAnchorComponent())
-            content.add(handAnchor)
-            
-            let headAnchor = AnchorEntity(.head)
-            if let hudEntity = attachments.entity(for: "gameplay_hud") {
-                hudEntity.position = [0, 0.15, -0.6]
-                headAnchor.addChild(hudEntity)
-            }
-            content.add(headAnchor)
-            
-//            Task {@MainActor in
-            model.currentGameState = .playing
-            dismissWindow(id: "MainWindow")
-//            }
-            
-        } attachments: {
-            Attachment(id: "gameplay_hud") {
-                    GameplayHUDView()
-            }
-        }
         .upperLimbVisibility(.hidden)
-        .onReceive(NotificationCenter.default.publisher(for: .enemyDefeated)) { _ in
-            model.enemiesDefeated += 1
-            print("Musuh mati: \(model.enemiesDefeated) / \(model.totalEnemiesToWin)")
-                    
-            if model.enemiesDefeated >= model.totalEnemiesToWin {
-                model.currentGameState = .won
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .towerDestroyed)) { _ in
-            model.currentGameState = .lost
-            print("Tower Hancur ditangkap oleh ImmersiveView!")
-        }
-        .onChange(of: model.currentGameState) { _, newState in
-            if newState == .won || newState == .lost {
-                model.stopGame()
-                openWindow(id: "MainWindow")
-            }
-        }
         .task {
-            try? await HandTrackingService.shared.start()
+            do{
+                try await HandTrackingService.shared.start()
+            }catch{
+                print("ada error \(error.localizedDescription)")
+            }
         }
     }
 }
@@ -99,3 +42,77 @@ struct ImmersiveView: View {
     ImmersiveView()
         .environment(AppModel())
 }
+
+//struct ImmersiveView: View {
+//    @Environment(AppState.self) var appState
+//    
+//    var body: some View {
+//        RealityView { content in
+//            SystemRegistry.registerAllSystems()
+//        
+////            let hands = await GloveEntitySpawner.spawnHandGlovesAsync()
+////
+////            for hand in hands {
+////                content.add(hand)
+////            }
+//            
+//            let hands = HandEntitySpawner.spawnHands()
+//            var leftHandAnchor: Entity? = nil
+//            var rightHandAnchor: Entity? = nil
+//            for hand in hands {
+//                if hand.name == "LeftHandAnchor" {
+//                    hand.components.set(HandVisualizationComponent(chirality: .left))
+//                    leftHandAnchor = hand
+//                } else if hand.name == "RightHandAnchor" {
+//                    hand.components.set(HandVisualizationComponent(chirality: .right))
+//                    rightHandAnchor = hand
+//                }
+//                content.add(hand)
+//            }
+//            
+//            Task {
+//                do {
+//                    let leftGlove = try await Entity(named: "LeftGlove", in: realityKitContentBundle)
+//                    let rightGlove = try await Entity(named: "RightGlove", in: realityKitContentBundle)
+//                    
+//                    if let leftAnchor = leftHandAnchor {
+//                        leftAnchor.addChild(leftGlove)
+//                        if var comp = leftAnchor.components[HandVisualizationComponent.self] {
+//                            comp.gloveWrapper = leftGlove
+//                            comp.gloveModel = nil
+//                            leftAnchor.components.set(comp)
+//                        }
+//                    }
+//                    
+//                    if let rightAnchor = rightHandAnchor {
+//                        rightAnchor.addChild(rightGlove)
+//                        if var comp = rightAnchor.components[HandVisualizationComponent.self] {
+//                            comp.gloveWrapper = rightGlove
+//                            comp.gloveModel = nil
+//                            rightAnchor.components.set(comp)
+//                        }
+//                    }
+//                    print("[ImmersiveView] Glove entities loaded directly from RealityKitContent bundle!")
+//                } catch {
+//                    print("[ImmersiveView] Failed to load glove entities: \(error)")
+//                }
+//            }
+//            
+//            appState.gameCurrentState = .playing
+//        }
+//
+//        .upperLimbVisibility(.hidden)
+//        .task {
+//            do{
+//                try await HandTrackingService.shared.start()
+//            }catch{
+//                print("ada error \(error.localizedDescription)")
+//            }
+//        }
+//    }
+//}
+//
+//#Preview(immersionStyle: .mixed) {
+//    ImmersiveView()
+//        .environment(AppModel())
+//}
