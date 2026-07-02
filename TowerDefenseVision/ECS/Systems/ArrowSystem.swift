@@ -9,7 +9,13 @@ import RealityKit
 
 public struct ArrowSystem: System {
     static let query = EntityQuery(where: .has(ArrowComponent.self))
-    
+
+    // ArcherySystem may reparent an arrow into "flying" state this same frame;
+    // must not move/query arrow entities concurrently with that reparenting.
+    public static var dependencies: [SystemDependency] {
+        [.after(ArcherySystem.self)]
+    }
+
     public init(scene: RealityKit.Scene) {}
     
     public func update(context: SceneUpdateContext) {

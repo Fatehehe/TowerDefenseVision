@@ -11,7 +11,13 @@ import Combine
 
 public class CombatSystem: System {
     private var collisionSub: (any Cancellable)?
-    
+
+    // Runs after arrow positions are updated for the frame, keeping collision
+    // handling consistent with the rest of the simulation order.
+    public static var dependencies: [SystemDependency] {
+        [.after(ArrowSystem.self)]
+    }
+
     public required init(scene: RealityKit.Scene) {
         // Berlangganan event tabrakan
         collisionSub = scene.subscribe(to: CollisionEvents.Began.self) { event in

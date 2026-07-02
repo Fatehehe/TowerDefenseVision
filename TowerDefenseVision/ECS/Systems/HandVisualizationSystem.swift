@@ -12,7 +12,15 @@ import ILSHandTracking
 
 public struct HandVisualizationSystem: System {
     public static let query = EntityQuery(where: .has(HandVisualizationComponent.self))
-        
+
+    // Without this, RealityKit has no ordering guarantee between systems and
+    // may run them concurrently. This system writes transform/isEnabled on the
+    // glove anchor entities every frame, and ArcherySystem reparents children
+    // of those same entities — running both at once corrupts the scene graph.
+    public static var dependencies: [SystemDependency] {
+        [.after(ILHandTrackingUpdateSystem.self)]
+    }
+
     public init(scene: RealityKit.Scene) {}
         
     public func update(context: SceneUpdateContext) {

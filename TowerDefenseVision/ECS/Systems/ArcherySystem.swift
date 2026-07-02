@@ -14,8 +14,16 @@ public struct ArcherySystem: System {
     static let playerQuery = EntityQuery(where: .has(ArcheryPlayerComponent.self))
     static let anchorQuery = EntityQuery(where: .has(ILHandAnchorComponent.self))
     
+    // Must run after hand tracking data is written and after glove transforms
+    // are updated, since this system reparents the bow/arrow entities that
+    // hang off the glove anchor entities — doing that concurrently with
+    // HandVisualizationSystem writing those same entities' transforms is unsafe.
+    public static var dependencies: [SystemDependency] {
+        [.after(ILHandTrackingUpdateSystem.self), .after(HandVisualizationSystem.self)]
+    }
+
     public init(scene: RealityKit.Scene) {}
-    
+
     public func update(context: SceneUpdateContext) {
             
             // ==========================================
