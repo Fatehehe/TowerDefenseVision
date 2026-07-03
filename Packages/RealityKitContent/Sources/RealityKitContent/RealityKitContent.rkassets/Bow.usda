@@ -1,0 +1,76 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.100.6)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    reorder nameChildren = ["Bow", "Mat_Bow"]
+    def "Bow" (
+        active = true
+        references = @TechArts/Meshs/Bow.usdc@
+    )
+    {
+        quatf xformOp:orient = (4.3297803e-17, 4.3297803e-17, 0.70710677, 0.70710677)
+        float3 xformOp:scale = (0.5, 0.5, 0.5)
+        float3 xformOp:translate = (-0.152447, -0.48281664, 2.7008355e-8)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "_materials"
+        {
+            over "bow" (
+                references = @TechArts/Shader/PBR_Material.usda@</Root/DefaultMaterial>
+            )
+            {
+                asset inputs:AOTexture = None
+                asset inputs:BaseTexture = @TechArts/Textures/BowTextures/bow_albedo.jpeg@ (
+                    customData = {
+                        dictionary realitykit = {
+                            float2 positionInSubgraph = (-599.04816, -68.82435)
+                            int stackingOrderInSubgraph = 33
+                        }
+                    }
+                )
+                float inputs:MetalStrenght = 0.5
+                asset inputs:MetalTexture = @TechArts/Textures/BowTextures/bow_metallic.jpeg@
+                asset inputs:NormalTexture = @TechArts/Textures/BowTextures/bow_normal.png@
+                asset inputs:RoughnessTexture = @TechArts/Textures/BowTextures/bow_roughness.jpeg@
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
+
+                over "NodeGraph"
+                {
+                    float2 ui:nodegraph:node:pos = (-367.08527, 84.533936)
+                    int ui:nodegraph:node:stackingOrder = 34
+                }
+
+                over "Image2D"
+                {
+                    int ui:nodegraph:node:stackingOrder = 74
+                }
+            }
+
+            over "ironpart" (
+                references = @TechArts/Shader/PBR_Material.usda@</Root/DefaultMaterial>
+            )
+            {
+                asset inputs:AOTexture = None
+                asset inputs:BaseTexture = @TechArts/Textures/BowTextures/ironpart_albedo.jpeg@
+                float inputs:MetalStrenght = 0.5
+                asset inputs:MetalTexture = @TechArts/Textures/BowTextures/ironpart_metallic.jpeg@
+                asset inputs:NormalTexture = @TechArts/Textures/BowTextures/ironpart_normal.png@
+                asset inputs:RoughnessTexture = @TechArts/Textures/BowTextures/ironpart_roughness.jpeg@
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
+            }
+        }
+    }
+}
+

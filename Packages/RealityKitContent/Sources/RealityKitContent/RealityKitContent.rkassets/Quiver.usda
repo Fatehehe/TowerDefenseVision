@@ -1,0 +1,41 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.100.6)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def "Quiver" (
+        active = true
+        references = @TechArts/Meshs/Quiver.usdc@
+    )
+    {
+        quatf xformOp:orient = (4.3297803e-17, 4.3297803e-17, 0.70710677, 0.70710677)
+        float3 xformOp:scale = (0.5, 0.5, 0.5)
+        float3 xformOp:translate = (0.7321328, -2.3283064e-9, 9.406358e-8)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "_materials"
+        {
+            over "quiver" (
+                references = @TechArts/Shader/PBR_Material.usda@</Root/DefaultMaterial>
+            )
+            {
+                asset inputs:AOTexture = None
+                asset inputs:BaseTexture = @TechArts/Textures/BowTextures/quiver_albedo.jpeg@
+                float inputs:MetalStrenght = 0.2
+                asset inputs:MetalTexture = @TechArts/Textures/BowTextures/quiver_metallic.jpeg@
+                asset inputs:NormalTexture = @TechArts/Textures/BowTextures/quiver_normal.png@
+                asset inputs:RoughnessTexture = @TechArts/Textures/BowTextures/quiver_roughness.jpeg@
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+            }
+        }
+    }
+}
+

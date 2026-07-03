@@ -1,0 +1,273 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.100.6)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def "Goblin_T_pose" (
+        active = true
+        references = @TechArts/Meshs/Goblin_T-pose.usdc@
+    )
+    {
+        quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
+        float3 xformOp:scale = (1.5, 1.5, 1.5)
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "AnimationLibrary"
+        {
+            uniform token info:id = "RealityKit.AnimationLibrary"
+
+            def RealityKitAnimationFile "Goblin_Idle"
+            {
+                uniform asset file = @TechArts/Animations/Goblin_Idle.usdc@
+                uniform string name = "Goblin_Idle"
+            }
+
+            def RealityKitAnimationFile "Goblin_Hit_1"
+            {
+                uniform asset file = @TechArts/Animations/Goblin_Hit_1.usdc@
+                uniform string name = "Goblin_Hit_1"
+            }
+
+            def RealityKitAnimationFile "Goblin_Walk"
+            {
+                uniform asset file = @TechArts/Animations/Goblin_Walk.usdc@
+                uniform string name = "Goblin_Walk"
+            }
+
+            def RealityKitAnimationFile "Goblin_Attack"
+            {
+                uniform asset file = @TechArts/Animations/Goblin_Attack.usdc@
+                uniform bool looping = 1
+                uniform string name = "Goblin_Attack"
+            }
+
+            def RealityKitAnimationFile "Goblin_Run"
+            {
+                uniform asset file = @TechArts/Animations/Goblin_Run.usdc@
+                uniform bool looping = 1
+                uniform string name = "Goblin_Run"
+            }
+
+            def RealityKitAnimationFile "Goblin_Hit_2"
+            {
+                uniform asset file = @TechArts/Animations/Goblin_Hit_2.usdc@
+                uniform string name = "Goblin_Hit_2"
+            }
+        }
+
+        over "_materials"
+        {
+            over "Material_Pbr" (
+                references = @TechArts/Shader/PBR_Material.usda@</Root/DefaultMaterial>
+            )
+            {
+                asset inputs:BaseTexture = @TechArts/Textures/Goblin/Material_Pbr_Diffuse.png@
+                asset inputs:NormalTexture = @TechArts/Textures/Goblin/Material_Pbr_Normal.png@
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+            }
+        }
+
+        over "Light" (
+            active = false
+        )
+        {
+        }
+
+        over "env_light" (
+            active = false
+        )
+        {
+        }
+
+        def RealityKitComponent "RCP_BehaviorsContainer"
+        {
+            rel behaviors = </Root/Goblin_T_pose/OnAddedToScene>
+            uniform token info:id = "RCP.BehaviorsContainer"
+        }
+
+        def Preliminary_Behavior "OnAddedToScene"
+        {
+            rel actions = </Root/Goblin_T_pose/OnAddedToScene/Action>
+            uniform bool exclusive
+            rel triggers = </Root/Goblin_T_pose/OnAddedToScene/Trigger>
+
+            def Preliminary_Trigger "Trigger"
+            {
+                rel affectedObjects = </Root/Goblin_T_pose>
+                token info:id = "SceneTransition"
+            }
+
+            def Preliminary_Action "Action"
+            {
+                rel affectedObjects = </Root>
+                rel animationLibraryKey = </Root/RunToTowerAndAttack>
+                rel animationLibraryKeyOverrideKey = </Root/Goblin_T_pose/OnAddedToScene/Trigger>
+                token info:id = "PlayTimeline"
+                int loops = 0
+                int performCount = 1
+                token type = "serial"
+            }
+        }
+    }
+
+    def RealityKitComponent "AnimationLibrary"
+    {
+        token info:id = "RealityKit.AnimationLibrary"
+
+        def RealityKitAnimationFile "Goblin_Hit_2"
+        {
+            uniform asset file = @TechArts/Animations/Goblin_Hit_2.usdc@
+            uniform string name = "Goblin_Hit_2"
+        }
+
+        def RealityKitAnimationFile "Goblin_Hit_1"
+        {
+            uniform asset file = @TechArts/Animations/Goblin_Hit_1.usdc@
+            uniform string name = "Goblin_Hit_1"
+        }
+
+        def RealityKitAnimationFile "Goblin_Run"
+        {
+            uniform asset file = @TechArts/Animations/Goblin_Run.usdc@
+            uniform string name = "Goblin_Run"
+        }
+
+        def RealityKitAnimationFile "Goblin_Idle"
+        {
+            uniform asset file = @TechArts/Animations/Goblin_Idle.usdc@
+            uniform string name = "Goblin_Idle"
+        }
+
+        def RealityKitAnimationFile "Goblin_Attack"
+        {
+            uniform asset file = @TechArts/Animations/Goblin_Attack.usdc@
+            uniform bool looping = 1
+            uniform string name = "Goblin_Attack"
+        }
+
+        def RealityKitAnimationFile "Goblin_Walk"
+        {
+            uniform asset file = @TechArts/Animations/Goblin_Walk.usdc@
+            uniform string name = "Goblin_Walk"
+        }
+    }
+
+    def RealityKitTimeline "RunToTowerAndAttack"
+    {
+        reorder nameChildren = ["Track", "Track2", "Track3"]
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Animation"
+            {
+                string actionKind = "animation"
+                string animation = "Goblin_Run"
+                int blendLayer = 500
+                double duration = 1.0499999523162842
+                uniform token info:id = "6141F4E3-B42B-48A1-A4CF-36CA677BC29E"
+                double loopCount = 8
+                bool separateAnimatedValue = 1
+                double startTime = 0
+                rel target = </Root/Goblin_T_pose>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
+        }
+
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "Transform_To"
+            {
+                string actionKind = "moveTo"
+                int blendLayer = 300
+                double duration = 8
+                uniform token info:id = "80AD0BC7-E6A6-41F2-9707-0B05A9A53DDE"
+                float3 position = (0, 0, 0)
+                quatf rotation = (0.70710677, -0.7071067, 0, 0)
+                float3 scale = (2.4999998, 2.4999998, 2.4999998)
+                double startTime = 0
+                rel target = </Root/Goblin_T_pose>
+
+                def RealityKitStruct "transformMode"
+                {
+                    rel referenceEntity = </Root>
+                    token type = "parent"
+                }
+
+                def RealityKitStruct "timingFunction"
+                {
+                }
+            }
+        }
+
+        def RealityKitTrack "Track3"
+        {
+            reorder nameChildren = ["Animation", "Play_Audio2222"]
+            def RealityKitAction "Animation"
+            {
+                string actionKind = "animation"
+                string animation = "Goblin_Attack"
+                int blendLayer = 500
+                double duration = 0.949999988079071
+                uniform token info:id = "A08731FF-06FD-4263-A4DC-7E7BE27B7DD6"
+                double loopCount = 0
+                bool separateAnimatedValue = 1
+                double startTime = 7.9916144363351105
+                rel target = </Root/Goblin_T_pose>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
+
+            def RealityKitAction "Play_Audio2222"
+            {
+                string actionKind = "audio"
+                string audioResourceName = "YTMP3GG_YouTube_Running-F.mp3"
+                bool controlPlayback = 1
+                double duration = 4.911
+                uniform token info:id = "B73D51F9-5457-4FB3-89F6-8A4A782E714D"
+                double loopCount = 1.65
+                double startTime = 0
+                rel target = </Root>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
+        }
+    }
+
+    def RealityKitComponent "SpatialAudio"
+    {
+        uniform token info:id = "RealityKit.SpatialAudio"
+    }
+
+    def RealityKitComponent "AudioLibrary"
+    {
+        uniform token info:id = "RealityKit.AudioLibrary"
+
+        def RealityKitDict "resources"
+        {
+            string[] keys = ["YTMP3GG_YouTube_Running-F.mp3"]
+            rel values = </Root/YTMP3GG_YouTube_Running_F_mp3>
+        }
+    }
+
+    def RealityKitAudioFile "YTMP3GG_YouTube_Running_F_mp3"
+    {
+        uniform asset file = @TechArts/Audio/YTMP3GG_YouTube_Running-F.mp3@
+        uniform bool shouldLoop = 1
+    }
+}
+

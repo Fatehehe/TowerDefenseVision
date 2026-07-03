@@ -1,0 +1,90 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.100.6)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def "watchtower" (
+        active = true
+        prepend references = @TechArts/Meshs/watchtower.usdc@
+    )
+    {
+        quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "_materials"
+        {
+            over "Watchtower" (
+                references = @TechArts/Shader/PBR_Material.usda@</Root/DefaultMaterial>
+            )
+            {
+                asset inputs:AOTexture = None
+                asset inputs:BaseTexture = @TechArts/Textures/WatchTower/tower_optimyze2_DefaultMaterial_BaseColor.png@
+                asset inputs:Emissive = @TechArts/Textures/WatchTower/tower_optimyze2_DefaultMaterial_Emissive.png@ (
+                    customData = {
+                        dictionary realitykit = {
+                            float2 positionInSubgraph = (-220.7343, 884.9934)
+                            int stackingOrderInSubgraph = 79
+                        }
+                    }
+                )
+                float inputs:MetalStrenght = 0
+                asset inputs:MetalTexture = @TechArts/Textures/WatchTower/tower_optimyze2_DefaultMaterial_Metallic.png@
+                asset inputs:NormalTexture = @TechArts/Textures/WatchTower/tower_optimyze2_DefaultMaterial_Normal.png@
+                asset inputs:RoughnessTexture = @TechArts/Textures/WatchTower/tower_optimyze2_DefaultMaterial_Roughness.png@
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+
+                over "PreviewSurface"
+                {
+                    float inputs:clearcoat
+                    float inputs:clearcoatRoughness
+                    color3f inputs:emissiveColor.connect = </Root/watchtower/_materials/Watchtower/Image_4.outputs:out>
+                    float inputs:ior
+                    float3 inputs:normal.connect = </Root/watchtower/_materials/Watchtower/NormalMapDecode.outputs:out>
+                    float inputs:occlusion
+                    float inputs:opacityThreshold
+                    float2 ui:nodegraph:node:pos = (202.7231, 306.3916)
+                    int ui:nodegraph:node:stackingOrder = 76
+                    string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["Advanced"]
+                }
+
+                def Shader "Image_4"
+                {
+                    uniform token info:id = "ND_image_color3"
+                    color3f inputs:default
+                    asset inputs:file.connect = </Root/watchtower/_materials/Watchtower.inputs:Emissive>
+                    float2 inputs:texcoord
+                    color3f outputs:out
+                    float2 ui:nodegraph:node:pos = (97.502655, 760.308)
+                    int ui:nodegraph:node:stackingOrder = 77
+                }
+
+                over "Image"
+                {
+                    string inputs:filtertype
+                    float2 ui:nodegraph:node:pos = (-423.88507, 664.1382)
+                    int ui:nodegraph:node:stackingOrder = 79
+                }
+
+                def Shader "NormalMapDecode"
+                {
+                    uniform token info:id = "ND_normal_map_decode"
+                    float3 inputs:in.connect = </Root/watchtower/_materials/Watchtower/Image.outputs:out>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-155.64502, 592.99506)
+                    int ui:nodegraph:node:stackingOrder = 82
+                }
+            }
+        }
+    }
+}
+
